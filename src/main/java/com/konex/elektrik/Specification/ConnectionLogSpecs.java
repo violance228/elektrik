@@ -41,7 +41,7 @@ public class ConnectionLogSpecs implements Specification<ConnectionLog> {
     public static Specification<ConnectionLog> connectionLogSpecsByFilter(ConnectionLogFilter connectionLogFilter) {
         System.out.println("**************************** orderSpecByFilter **************************** " + connectionLogFilter);
         return (root, query, cb) -> {
-            //Constructing list of parameters
+            //Constructing list of parameter
             List<Predicate> predicates = new ArrayList<Predicate>();
             Predicate predicate = null;
             SingularAttribute attribute = null;
