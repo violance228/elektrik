@@ -5,5 +5,3 @@ package com.konex.elektrik.Repository;///*
 // */
 //
 //package com.konex.elektrik.Repository;
-
-
