@@ -61,9 +61,7 @@ public class UserSpec implements Specification<User> {
                 if (predicate != null) {
                     predicates.add(predicate);
                 }
-            }
-//            userService.findUserBySurname(userFilter.getUserSurname()).getId().toString();
-            if(userFilter.getUserName() != null) {
+            } if(userFilter.getUserName() != null) {
                 System.out.println("**********************************orderSpecGetSubdivisionId----------"+ userFilter.getUserName());
                 attribute = User_.username;
                 String search = null;
