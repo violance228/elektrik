@@ -5,9 +5,5 @@ package com.konex.elektrik.Repository;///*
 // */
 //
 //package com.konex.elektrik.Repository;
-//
-//import com.konex.elektrik.Entity.Amount;
-//import com.konex.elektrik.Entity.Subdivision;
-//import org.springframework.data.jpa.repository.JpaRepository;
-//
+
 
