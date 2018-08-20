@@ -25,7 +25,7 @@ public class UserSpec implements Specification<User> {
 
     /**
      * Returns Predicates and Criterias for Order filtering
-     *
+    
      * @param userFilter object of OrderFilter class
      * @return Spec for Order
      */
