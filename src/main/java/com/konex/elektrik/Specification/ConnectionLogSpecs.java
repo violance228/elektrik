@@ -48,16 +48,6 @@ public class ConnectionLogSpecs implements Specification<ConnectionLog> {
             String param;
             String day, month, year;
 
-//            if (connectionLogFilter.getUserUsername() != null) {
-//                attribute = ConnectionLog_.users;
-//                String search = null;
-//                connectionLogFilter.setUserUsername();
-////                search =
-//                predicate = SpecsMethods.getSpecForText(attribute, search, root, cb);
-//                if (predicate != null) {
-//                    predicates.add(predicate);
-//                }
-//            }
 
             System.out.println("------------------------------------------------------\npredicates_cnt: " + predicates.size());
             return cb.and(predicates.toArray(new Predicate[]{}));
