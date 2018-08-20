@@ -4,4 +4,4 @@ package com.konex.elektrik.Repository;///*
 // * @All rights reserved
 // */
 //
-//package com.konex.elektrik.Repository;
+//package com.konex.elektrik
