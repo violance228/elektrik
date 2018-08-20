@@ -50,9 +50,7 @@ public class UserSpec implements Specification<User> {
                 if (predicate != null) {
                     predicates.add(predicate);
                 }
-            }
-
-            if (userFilter.getUserSurname() != null) {
+            } if (userFilter.getUserSurname() != null) {
                 System.out.println("**********************************orderSpecGetSubdivisionId-----------"+ userFilter.getUserSurname());
                 attribute = User_.surname;
                 String search = null;
