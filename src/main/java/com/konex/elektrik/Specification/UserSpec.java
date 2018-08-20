@@ -70,16 +70,6 @@ public class UserSpec implements Specification<User> {
                 }
             }
 
-//            if (userFilter.getRolesId() != null) {
-//                attribute = User_.;
-//                String search = null;
-//                search = userFilter.getRolesId();
-//                predicate = SpecsMethods.getSpecForNumbers(attribute, search, root, cb);
-//                if (predicate != null) {
-//                    predicates.add(predicate);
-//                }
-//            }
-
             System.out.println("------------------------------------------------------\npredicates_cnt: " + predicates.size());
             return cb.and(predicates.toArray(new Predicate[]{}));
         };
