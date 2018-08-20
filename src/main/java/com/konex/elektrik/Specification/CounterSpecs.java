@@ -36,16 +36,6 @@ public class CounterSpecs implements Specification<Counter> {
             String param;
             String day, month, year;
 
-//            if (counterFilter.getManufacturerId() != null) {
-//                System.out.println("********************************** counterSpecGetManufacturerId"+ counterFilter.getManufacturerId());
-//                attribute = Counter_.manufacturers;
-//                String search = null;
-//                search = counterFilter.getManufacturerId();
-//                predicate = SpecsMethods.getSpecForNumbers(attribute, search, root, cb);
-//                if (predicate != null) {
-//                    predicates.add(predicate);
-//                }
-//            }
             if (counterFilter.getSubdivisionId() != null) {
                 System.out.println("********************************** counterSpecGetSubdivisionId"+ counterFilter.getSubdivisionId());
                 attribute = Counter_.subdivisions;
