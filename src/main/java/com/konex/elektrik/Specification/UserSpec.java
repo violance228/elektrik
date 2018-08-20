@@ -14,9 +14,8 @@ import java.util.List;
 
 public class UserSpec implements Specification<User> {
 
-    public UserSpec() {
-    }
-
+    public UserSpec() {} 
+    
     @Autowired
     private static UserService userService;
 
