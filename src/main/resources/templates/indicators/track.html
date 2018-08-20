@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/header :: head">
+</head>
+<body th:onload="'chartDiagram(' + ${dataFirstYear} + ',' + ${dataSecondYear} + ',' + ${dataThirdYear} + ',' + ${dataFourthYear} + ')'">
+<script type="text/javascript" th:src="@{'/js/Chart.min.js'}"></script>
+<div class="wrapper container">
+    <div th:replace="/fragments/top :: top"></div>
+    <div class="heading">
+        <h2 th:text="${h1name}"></h2>
+    </div>
+    <section class="col-md-17">
+        <div class="table-responsive">
+            <form th:action="@{'/indicator/track'}" method="post">
+                <table class="table table-hover table-condensed table-bordered">
+                    <tr>
+                        <td>
+                            <select name="counterId">
+                                <option th:text="${counter.number}"
+                                th:value="${counter.id}"></option>
+                            </select>
+                        </td>
+                        <td>
+                            <select name="firstYear">
+                                <option th:value="0"></option>
+                                <option th:text="${dateFirstYear}" th:value="${dateFirstYear}" selected="true"></option>
+                                <option th:each="year : ${years}" th:text="${year}" th:value="${year}"></option>
+                            </select>
+                            <select name="secondYear">
+                                <option th:value="0"></option>
+                                <option th:text="${dateSecondYear}" th:value="${dateSecondYear}" selected="true"></option>
+                                <option th:each="year : ${years}" th:text="${year}" th:value="${year}"></option>
+                            </select>
+                            <select name="thirdYear">
+                                <option th:value="0"></option>
+                                <option th:text="${dateThirdYear}" th:value="${dateThirdYear}" selected="true"></option>
+                                <option th:each="year : ${years}" th:text="${year}" th:value="${year}"></option>
+                            </select>
+                            <select name="fourthYear">
+                                <option th:value="0"></option>
+                                <option th:text="${dateFourthYear}" th:value="${dateFourthYear}" selected="true"></option>
+                                <option th:each="year : ${years}" th:text="${year}" th:value="${year}"></option>
+                            </select>
+                        </td>
+                        <td><input type="submit"/></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div>
+            <div class="divTable redTable">
+                <div class="divTableHeading">
+                    <div class="divTableRow">
+                        <div class="divTableHead">Рік</div>
+                        <div class="divTableHead">1</div>
+                        <div class="divTableHead">2</div>
+                        <div class="divTableHead">3</div>
+                        <div class="divTableHead">4</div>
+                        <div class="divTableHead">5</div>
+                        <div class="divTableHead">6</div>
+                        <div class="divTableHead">7</div>
+                        <div class="divTableHead">8</div>
+                        <div class="divTableHead">9</div>
+                        <div class="divTableHead">10</div>
+                        <div class="divTableHead">11</div>
+                        <div class="divTableHead">12</div>
+                    </div>
+                </div>
+                <div class="divTableBody">
+                    <div class="divTableRow">
+                        <div th:text="${dateFirstYear}" class="divTableCell"></div>
+                        <div th:each="dataFirst : ${dataFirstYear}" th:text="${dataFirst}" class="divTableCell"></div>
+                    </div>
+                    <div class="divTableRow">
+                        <div th:text="${dateSecondYear}" class="divTableCell"></div>
+                        <div th:each="dataSecond : ${dataSecondYear}" th:text="${dataSecond}" class="divTableCell"></div>
+                    </div>
+                    <div class="divTableRow" >
+                        <div th:text="${dateThirdYear}" class="divTableCell"></div>
+                        <div th:each="dataThird : ${dataThirdYear}" th:text="${dataThird}" class="divTableCell"></div>
+                    </div>
+                    <div class="divTableRow">
+                        <div th:text="${dateFourthYear}" class="divTableCell"></div>
+                        <div th:each="dataFourth : ${dataFourthYear}" th:text="${dataFourth}" class="divTableCell"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <canvas id="line-chart" width="800" height="400"></canvas>
+    </section>
+</div>
+<div th:replace="/fragments/footer :: footer"></div>
+<script th:inline="javascript">
+    // var a = ;
+    // var b = [0, 10, 10, 100, 50, 60, 80, 90, 20];
+    // chartDiagram(["0s", "10s", "20s", "30s", "40s", "50s", "60s"], [0, 1, 10, 2 , 100]);
+
+    function chartDiagram(data1, data2, data3, data4) {
+        /*<![CDATA[*/
+        var date = [[${dateFirstYear}]];
+        console.log(date);
+        new Chart(document.getElementById("line-chart"), {
+            type: 'line',
+            data: {
+                labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+                datasets: [{
+                    data: data1,
+                    label: "Показники лічильника - " + [[${dateFirstYear}]],
+                    borderColor: "#3e95cd",
+                    fill: false
+                }, {
+                        data: data2,
+                        label: "Показники лічильника - " + [[${dateSecondYear}]],
+                        borderColor: "#232323",
+                        fill: false
+                    }, {
+                        data: data3,
+                        label: "Показники лічильника - " + [[${dateThirdYear}]],
+                        borderColor: "#99ff00",
+                        fill: false
+                    },{
+                        data: data4,
+                        label: "Показники лічильника - " + [[${dateFourthYear}]],
+                        borderColor: "#0000cc",
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'Показники кВт/год'
+                }
+            }
+        });
+        /*]]>*/
+        // }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/header :: head">
+</head>
+<body>
+<div class="wrapper container">
+    <div th:replace="/fragments/top :: top"></div>
+    <div class="heading">
+        <h2 th:text="${h1name}"></h2>
+    </div>
+    <!--<div th:replace="/fragments/leftnavbar :: left_panel"></div>-->
+    <section class="col-md-17">
+        <!--<div class="divTable redTable table-responsive table table-hover table-condensed table-bordered">-->
+            <!--<div class="divTableHeading">-->
+                <!--<div class="divTableRow">-->
+                    <!--<div class="divTableHead">Id</div>-->
+                    <!--<div class="divTableHead">Назва</div>-->
+                    <!--<div class="divTableHead">Адреса</div>-->
+                    <!--<div class="divTableHead">Телефон</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="divTableBody">-->
+                <!--<div class="divTableRow">-->
+                    <!--<div th:text="${subdivision.id}" class="divTableCell">cell1_1</div>-->
+                    <!--<div th:text="${subdivision.name}" class="divTableCell">cell2_1</div>-->
+                    <!--<div th:text="${subdivision.address}" class="divTableCell">cell3_1</div>-->
+                    <!--<div th:text="${subdivision.telephone}" class="divTableCell">cell4_1</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <div class="table-responsive">
+            <table class="table table-hover table-condensed table-bordered">
+                <tr>
+                    <label>
+                        <td>id:</td>
+                        <td th:text="${subdivision.id}"></td>
+                    </label>
+                </tr>
+
+                <tr>
+                    <label>
+                        <td>Назва відділу:</td>
+                        <td>
+                            <span th:text="${subdivision.typeSubdivisions?.type}"></span>
+                            <span th:if="${subdivision.name != null }">
+                                <span th:if="${subdivision.name != 9999}" th:text="'- ' + ${subdivision.name}"></span>
+                            </span>
+                            <span th:if="${subdivision.cities?.id != 1}"
+                                  th:text="'- ' + ${subdivision.cities?.city}">
+                            </span>
+                        </td>
+                    </label>
+                </tr>
+
+                <tr>
+                    <label>
+                        <td>Адреса:</td>
+                        <td th:text="${subdivision.cities.city + ' ' + subdivision.address}"></td>
+                    </label>
+                </tr>
+
+                <tr>
+                    <label>
+                        <td>Телефон:</td>
+                        <td th:text="${subdivision.telephone}"></td>
+                    </label>
+                </tr>
+                <tr>
+                    <td><a class="btn btn-link btn-sm" th:href="@{'/stuff/trackAllStuffBySubdivision/'+ ${subdivision.id}}">Матеріальні цінності для відділу</a></td>
+                    <td><a class="btn btn-link btn-sm" th:href="@{'/admin/subdivision/edit/'+ ${subdivision.id}}">Редагувати</a></td>
+                </tr>
+            </table>
+        </div>
+    </section>
+</div>
+<div th:replace="/fragments/footer :: footer"></div>
+</body>
+</html>

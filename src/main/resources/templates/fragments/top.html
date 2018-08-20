@@ -1,0 +1,90 @@
+<top>
+    <header>
+        <!--<form name="search" action="#" method="get" class="form-inline form-search pull-right">-->
+            <!--<div class="input-group">-->
+                <!--<label class="sr-only" for="searchInput">Search</label>-->
+                <!--<input class="form-control" id="searchInput" type="text" name="search" placeholder="Search"/>-->
+                <!--<div class="input-group-btn">-->
+                    <!--<button type="submit" class="btn btn-primary">GO</button>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</form>-->
+    </header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle Navigation">
+
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div id="links">
+                <ul class="navbar-nav mr-auto">
+                    <li sec:authorize="hasRole('ROLE_ADMIN')" th:each="buttons : ${buttons}" class="nav-item active dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" th:text="${buttons.name}" th:href="'/index/class/' + ${buttons.engName}"></a>
+                        <ul class="dropdown-menu">
+                            <li th:each="button : ${button}">
+                                <span th:if="${buttons.id == button.parentId}">
+                                    <a class="dropdown-item" th:href="@{${button.url}}" th:text="${button.name}">Windows</a>
+                                </span>
+                            </li>
+                        </ul>
+                    </li>
+                    <li sec:authorize="hasRole('ROLE_CHEF')" th:each="buttons : ${buttons}" class="nav-item active dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" th:text="${buttons.name}" th:href="'/index/class/' + ${buttons.engName}"></a>
+                        <ul class="dropdown-menu">
+                            <li th:each="button : ${button}">
+                                <span th:if="${buttons.id == button.parentId}">
+                                    <a class="dropdown-item" th:href="@{${button.url}}" th:text="${button.name}">Windows</a>
+                                </span>
+                            </li>
+                        </ul>
+                    </li>
+                    <li sec:authorize="hasRole('ROLE_USER')" th:each="buttons : ${buttons}" class="nav-item active dropdown">
+                        <span th:if="${buttons.id == 2 || buttons.id == 26}">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" th:text="${buttons.name}" th:href="'/index/class/' + ${buttons.engName}"></a>
+                            <ul class="dropdown-menu">
+                                <li th:each="button : ${button}">
+                                    <span th:if="${buttons.id == button.parentId &amp;&amp; button.id != 25}">
+                                        <a class="dropdown-item" th:href="@{${button.url}}" th:text="${button.name}">Windows</a>
+                                    </span>
+                                </li>
+                            </ul>
+                        </span>
+                    </li>
+                    <li sec:authorize="hasRole('ROLE_REGULAR')" th:each="buttons : ${buttons}" class="nav-item active dropdown">
+                        <span>
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" th:text="${buttons.name}" th:href="'/index/class/' + ${buttons.engName}"></a>
+                            <ul class="dropdown-menu">
+                                <li th:each="button : ${button}">
+                                    <span th:if="${buttons.id == button.parentId &amp;&amp; button.id != 19 &amp;&amp; button.id != 33 &amp;&amp; button.id != 39 &amp;&amp; button.id != 24}">
+                                        <a class="dropdown-item" th:href="@{${button.url}}" th:text="${button.name}">Windows</a>
+                                    </span>
+                                </li>
+                            </ul>
+                        </span>
+                    </li>
+                    <li>
+                        <div class="btn-group" >
+                            <button type="button" class="btn btn-link">
+                                <a th:href="@{'/user/personalInform'}" style="color: white;" th:text="${userLogo}">
+                                </a>
+                            </button>
+                            <button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" th:href="@{'/user/edit'}">Редагувати данні</a>
+                                <a th:href="@{/user/logout}" class="btn btn-primary dropdown-item">Вихід</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" th:href="@{'/order/trackOrdersSubmByMe'}">Замовлення подані мною</a>
+                                <a class="dropdown-item" th:href="@{'/order/trackOrdersSubmForMyDivision'}">Замовлення для мого ввідділу</a>
+                                <a class="dropdown-item" th:href="@{'/assignment/trackAssignmentsForMySubdivision'}">Відрядження для мого відділу</a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</top>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/header :: head">
+</head>
+<body>
+<div class="wrapper container">
+    <div th:replace="/fragments/top :: top"></div>
+    <div class="heading">
+        <h2 th:text="${h1name}"></h2>
+    </div>
+        <!--<div th:replace="/fragments/leftnavbar :: left_panel"></div>-->
+        <section class="col-md-17">
+            <!--<div class="table-responsive">-->
+                <!--<table class="table table-hover table-condensed table-bordered">-->
+                    <!--<tr >-->
+                        <!--<th>Коментар</th>-->
+                        <!--<th>Подав користувач</th>-->
+                        <!--<th>Для відділу</th>-->
+                    <!--</tr>-->
+                    <!--<tr th:each="assignment : ${assignments}">-->
+                        <!--<td th:text="${assignment.comment}">APPTEXT</td>-->
+                        <!--<td th:text="${assignment.users?.username}">DATE</td>-->
+                        <!--<td th:text="${assignment.subdivisions?.name}">SUBDIVISION</td>-->
+                    <!--</tr>-->
+                <!--</table>-->
+            <!--</div>-->
+       <!---->
+        <div class="divTable redTable table-responsive ">
+            <div class="divTableHeading">
+                <div class="divTableRow">
+                    <div class="divTableHead">Коментар</div>
+                    <div class="divTableHead">Подав користувач</div>
+                    <div class="divTableHead">Для відділу</div>
+                </div>
+            </div>
+            <div class="divTableBody">
+                <div class="divTableRow" th:each="assignment : ${assignments}">
+                    <div th:text="${assignment.comment}" class="divTableCell">cell2_1</div>
+                    <div th:text="${assignment.users?.username}" class="divTableCell">cell3_1</div>
+                    <div th:text="${assignment.subdivisions?.name}" class="divTableCell">cell4_1</div>
+                </div>
+            </div>
+        </div>
+        </section>
+</div>
+<div th:replace="/fragments/footer :: footer"></div>
+</body>
+</html>

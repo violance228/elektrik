@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/header :: head">
+</head>
+<body>
+<div class="wrapper container">
+    <div th:replace="/fragments/top :: top"></div>
+    <div class="heading">
+        <h2 th:text="${h1name}"></h2>
+    </div>
+        <div th:replace="/fragments/leftnavbar :: left_panel"></div>
+        <section class="col-md-17">
+            <div class="table-responsive">
+            <table class="table table-hover table-condensed table-bordered">
+            <form th:action="@{'/counter/trackAll'}" method="post">
+                    <td>Тип лічильника</td>
+                    <td><select name="counterType">
+                            <option value=""></option>
+                            <option value="Вода гаряча">Вода(гаряча)</option>
+                            <option value="Вода холодна">Вода(холодна)</option>
+                            <option value="Газ">Газ</option>
+                            <option value="Електрика">Електрика</option>
+                        </select>
+                    </td>
+                <!--<td>Виробники</td>-->
+                <!--<td>-->
+                    <!--<select name ="manufacturerId">-->
+                    <!--<option value=""></option>-->
+                    <!--<option-->
+                            <!--th:each="manufacturer : ${manufacturers}"-->
+                            <!--th:text="${manufacturer.name}"-->
+                            <!--th:value="${manufacturer.id}">-->
+                    <!--</option>-->
+                    <!--</select>-->
+                <!--</td>-->
+                <td>Відділ</td>
+                <td>
+                    <select name ="subdivisionId">
+                        <option value=""></option>
+                        <option th:each="subdivision : ${subdivisions}" th:value="${subdivision.id}">
+                            <span th:text="${subdivision.typeSubdivisions?.type}"></span>
+                            <span th:if="${subdivision.name != null }">
+                                        <span th:text="'- ' + ${subdivision.name}"></span>
+                                    </span>
+                            <span th:if="${subdivision.cities?.id != 1}" th:text="'- ' + ${subdivision.cities?.city}"></span>
+                        </option>
+                    </select>
+                </td>
+                <td><input type="submit"/></td>
+
+            </form>
+            </table>
+            </div>
+        <div class="divTable redTable table-responsive">
+            <div class="divTableHeading">
+                <div class="divTableRow">
+                    <div class="divTableHead">Номер</div>
+                    <div class="divTableHead">Назва</div>
+                    <div class="divTableHead">Тип</div>
+                    <div class="divTableHead">Виробник</div>
+                    <div class="divTableHead">Відділ</div>
+                    <div class="divTableHead">Редагувати</div>
+                    <div class="divTableHead">Додати показники</div>
+                </div>
+            </div>
+            <div class="divTableBody">
+                <div class="divTableRow" th:each="counter : ${counters}">
+                    <div class="divTableCell">
+                        <a th:href="@{'/indicator/track/'+ ${counter.id}}" th:text="${counter.number}"></a>
+                    </div>
+                    <div th:text="${counter.name}" class="divTableCell">cell3_1</div>
+                    <div th:text="${counter.type}" class="divTableCell">cell4_1</div>
+                    <div th:text="${counter.manufacturer}" class="divTableCell">cell5_1</div>
+                    <div class="divTableCell">
+                        <span th:text="${counter.subdivisions.typeSubdivisions?.type}"></span>
+                        <span th:if="${counter.subdivisions.name != null }">
+                            <span th:text="'- ' + ${counter.subdivisions.name}"></span>
+                        </span>
+                        <span th:if="${counter.subdivisions.cities?.id != 1}"
+                              th:text="'- ' + ${counter.subdivisions.cities?.city}">
+                        </span>
+                    </div>
+                    <div class="divTableCell">
+                        <a class="btn btn-link btn-sm" th:href="@{'/counter/edit/'+ ${counter.id}}">Редагувати лічильник</a>
+                    </div>
+                    <div class="divTableCell">
+                        <a class="btn btn-link btn-sm" th:href="@{'/indicator/edit/'+ ${counter.id}}">Редагувати показник</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </section>
+</div>
+<div th:replace="/fragments/footer :: footer"></div>
+
+</body>
+</html>

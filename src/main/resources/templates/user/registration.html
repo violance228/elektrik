@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8"/>
+    <title>Sign-Up</title>
+    <!--<link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,300,600' rel='stylesheet' type='text/css'/>-->
+    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css"/>-->
+    <link th:href="@{'/css/register.css'}" rel="stylesheet"/>
+    <script type="text/javascript" th:src="@{'/js/jquery.js'}"></script>
+
+</head>
+
+<body>
+
+<div class="form">
+
+    <a class="tab active" th:href="@{'/index/class/admin'}">Повернутись назад</a>
+
+    <div class="tab-content">
+            <h1>Sign Up for Free</h1>
+
+            <form th:action="@{'/admin/user/registration'}" method="post">
+
+                <div class="top-row">
+                    <div class="field-wrap">
+                        <label>
+                            Ім'я<span class="req">*</span>
+                        </label>
+                        <input type="text" name="name" required="true" autocomplete="off" />
+                    </div>
+
+                    <div class="field-wrap">
+                        <label>
+                            Прізвище<span class="req">*</span>
+                        </label>
+                        <input type="text" name="surname" required="true" autocomplete="off"/>
+                    </div>
+                </div>
+
+                <div class="field-wrap">
+                    <label>
+                        Телефон <span class="req">*</span>
+                    </label>
+                    <input type="tel" name="telephone" required="true" autocomplete="off"/>
+                </div>
+
+                <div class="field-wrap">
+                    <h2 style="color: red;"><span th:text="${err}"></span></h2>
+                    <label>
+                        Логін <span class="req">*</span>
+                    </label>
+                    <input type="text" name="username" required="true" autocomplete="off"/>
+                </div>
+
+                <div class="field-wrap">
+                    <label>
+                        Введіть пароль<span class="req">*</span>
+                    </label>
+                    <input type="password" name="password" required="true" autocomplete="off"/>
+                </div>
+
+                <div class="top-row">
+
+                    <div class="field-wrap">
+                        <div class="styled-select">
+                            <select name ="subdivision">
+                                <option>Виберіть відділ</option>
+                                <option
+                                        th:each="subdivision : ${subdivisions}"
+                                        th:value="${subdivision.id}">
+                                    <span th:text="${subdivision.typeSubdivisions?.type}"></span>
+                                    <span th:if="${subdivision.name != null }">
+                                        <span th:if="${subdivision.name != 9999}" th:text="'- ' + ${subdivision.name}"></span>
+                                    </span>
+                                    <span th:if="${subdivision.cities?.id != 1}" th:text="'- ' + ${subdivision.cities?.city}"></span>
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="field-wrap">
+                        <div class="styled-select">
+                            <select name ="role">
+                                <option>Виберіть роль</option>
+                                <option
+                                        th:each="role : ${roles}"
+                                        th:text="${role.name}"
+                                        th:value="${role.id}">
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+
+                <button type="submit" class="button button-block">Зареєструвати</button>
+
+            </form>
+
+    </div>
+
+</div>
+<script th:src="@{'/js/registr.js'}"></script>
+
+</body>
+
+</html>

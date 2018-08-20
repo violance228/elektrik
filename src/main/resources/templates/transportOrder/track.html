@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/header :: head">
+</head>
+<body>
+<div class="wrapper container">
+    <div th:replace="/fragments/top :: top"></div>
+    <div class="heading">
+        <h2 th:text="${h1name}"></h2>
+    </div>
+    <div th:replace="/fragments/leftnavbar :: left_panel"></div>
+    <section class="col-md-17">
+        <div class="table-responsive">
+            <table class="table table-hover table-condensed table-bordered">
+                <tr>
+                    <td>Відділ відрядження:</td>
+                    <td>
+                        <span th:text="${transportOrder.assignments.subdivisions.typeSubdivisions?.type}"></span>
+                        <span th:if="${transportOrder.assignments.subdivisions.name != null }">
+                                <span th:if="${transportOrder.assignments.subdivisions.name != 9999}" th:text="'- ' + ${transportOrder.assignments.subdivisions.name}"></span>
+                            </span>
+                        <span th:if="${transportOrder.assignments.subdivisions.cities?.id != 1}" th:text="'- ' + ${transportOrder.assignments.subdivisions.cities?.city}"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Населені пункти які будуть проїжати:</td>
+                    <td>
+                        <ul>
+                            <li th:each="city : ${transportOrder.assignments.citiesTravels}"
+                                th:text="${city.cities.city}">
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Дата виїзду:</td>
+                    <td th:if="${transportOrder.assignments.date$TimeOfDeparture != null}" th:text="${#dates.format(transportOrder.assignments.date$TimeOfDeparture, 'yyyy-MM-dd HH:mm')}"></td>
+                </tr>
+                <tr>
+                    <td>Коментар:</td>
+                    <td th:text="${transportOrder.assignments.comment}"></td>
+                </tr>
+                <tr>
+                    <td>Автомобіль:</td>
+                    <td th:text="${transportOrder.cars.brand + '-' + transportOrder.cars.model}"></td>
+                </tr>
+                <tr>
+                    <td>Коментар:</td>
+                    <td th:text="${transportOrder.comment}"></td>
+                </tr>
+                <tr>
+                    <td>Дата створення:</td>
+                    <td th:if="${transportOrder.assignments.date$TimeOfDeparture != null}" th:text="${#dates.format(transportOrder.dateOfCreation, 'yyyy-MM-dd HH:mm')}"></td>
+                </tr>
+            </table>
+        </div>
+    </section>
+</div>
+<div th:replace="/fragments/footer :: footer"></div>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/header :: head">
+</head>
+<body>
+<div class="wrapper container">
+    <div th:replace="/fragments/top :: top"></div>
+    <div class="heading">
+        <h1 th:text="${h1name}"></h1><h2 th:text="${h1name}"></h2>    </div>
+        <!--<div th:replace="/fragments/leftnavbar :: left_panel"></div>-->
+        <section class="col-md-17">
+            <div class="table-responsive">
+                <table class="table table-hover table-condensed table-bordered">
+                    <tr >
+                        <th>Id</th>
+                        <th>Текст Заявки</th>
+                        <th>Дата подачі заявки</th>
+                        <th>Від відділу</th>
+                        <th>Подав</th>
+                        <th>Для відділу</th>
+                        <th>Виконано</th>
+                        <th>Статус</th>
+                        <th>Зміна статусу</th>
+                        <th>Comment</th>
+                        <th>addComment</th>
+                    </tr>
+                    <tr th:each="orders : ${subDivision}">
+                        <td th:text="${orders.id}">ID</td>
+                        <td th:text="${orders.applicationText}">APPTEXT</td>
+                        <td th:text="${orders.dateOfApplication}">DATE</td>
+                        <td th:text="${orders.users?.subdivisions?.name}">SUBDIVISION</td>
+                        <td th:text="${orders.users?.surname}">SURNAME</td>
+                        <td th:text="${orders.subdivisions?.name}"></td>
+                        <td th:text="${orders.dateOfCompletion}">DateOfCompletion</td>
+                        <td th:text="${orders.status?.name}"></td>
+                        <td>
+                            <div th:switch="${orders.status?.id}">
+                                <button th:case="2" th:id="${orders.id}" class="btn btn-warning btn-sm" th:onclick="${'orderEditStatus('+ orders.id + ',' + 1 +')'}">
+                                    <span>Закрити</span></button>
+                                <button th:case="3" th:id="${orders.id}" class="btn btn-warning btn-sm" th:onclick="${'orderEditStatus('+ orders.id + ',' + 2 +')'}">
+                                    <span>В роботу</span></button>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div th:each="val : ${orders.orderComments}">
+                                <span th:text="${val.comment}"></span>
+                            </div>
+                        </td>
+                        <td>
+                            <a class="btn btn-link btn-sm" th:href="'/orderComment/addCommentToOrder/'+ ${orders.id}">addComment</a>
+                            <!--<input type="submit" value="edit"/>-->
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>---------------------------------</td>
+                        <td>-----------------------------</td>
+                        <td>ВСІ ЗАЯВКИ ПОДАНІ ВАМИ</td>
+                        <td>-------------------------</td>
+                        <td>---------------------</td>
+                        <td>-----------------</td>
+                        <td>-----------</td>
+                        <td>--------</td>
+                        <td>------</td>
+                        <td>----</td>
+                        <td>--</td>
+                    </tr>
+                    <tr>
+                        <th>Id</th>
+                        <th>Текст Заявки</th>
+                        <th>Дата подачі заявки</th>
+                        <th>Для відділу</th>
+                        <th>Подав</th>
+                        <th>Виконано</th>
+                        <td>Статус</td>
+                        <th>Edit</th>
+                    </tr>
+                    <tr th:each="subdivision : ${userOrders}">
+                        <td th:text="${subdivision.id}"></td>
+                        <td th:text="${subdivision.applicationText}"></td>
+                        <td th:text="${subdivision.dateOfApplication}"></td>
+                        <td th:text="${subdivision.subdivisions?.name}"></td>
+                        <td th:text="${subdivision.users?.surname}"></td>
+                        <td th:text="${subdivision.dateOfCompletion}">Дата виконання</td>
+                        <td th:text="${subdivision.status?.name}"></td>
+                        <td>
+                            <button type="button" class="button-edit-user">Edit</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+</div>
+<div th:replace="/fragments/footer :: footer"></div>
+
+<script th:src="@{'js/bootstrap.min.js'}"></script>
+<script type="text/javascript" th:src="@{'/js/js.js'}"></script>
+</body>
+</html>

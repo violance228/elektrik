@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/header :: head">
+</head>
+<body>
+<div class="wrapper container">
+    <div th:replace="/fragments/top :: top"></div>
+    <div class="heading">
+        <h2 th:text="${h1name}"></h2>
+    </div>
+    <div th:replace="/fragments/leftnavbar :: left_panel"></div>
+    <section class="col-md-17">
+        <form action="/transportOrder/addTransportOrder" method="post">
+            <div class="table-responsive">
+                <table class="table table-hover table-condensed table-bordered">
+                    <tr>
+                        <td>Відділ відрядження:</td>
+                        <td>
+                            <span th:text="${assignments.subdivisions.typeSubdivisions?.type}"></span>
+                            <span th:if="${assignments.subdivisions.name != null }">
+                                <span th:text="'- ' + ${assignments.subdivisions.name}"></span>
+                            </span>
+                            <span th:if="${assignments.subdivisions.cities?.id != 1}" th:text="'- ' + ${assignments.subdivisions.cities?.city}"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Населені пункти які будуть проїжати:</td>
+                        <td>
+                            <ul>
+                                <li th:each="city : ${assignments.citiesTravels}"
+                                    th:text="${city.cities.city}">
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Дата виїзду:</td>
+                        <td th:if="${assignments.date$TimeOfDeparture != null}" th:text="${#dates.format(assignments.date$TimeOfDeparture, 'yyyy-MM-dd HH:mm')}"></td>
+                    </tr>
+                    <tr>
+                        <td>Коментар:</td>
+                        <td th:text="${assignments.comment}"></td>
+                    </tr>
+                    <tr>
+                        <td>Автомобіль:</td>
+                        <td>
+                            <select name="car">
+                                <option selected="true"></option>
+                                <option th:each="car : ${cars}" th:value="${car.id}">
+                                    <span th:text="${car.brand + '-' + car.model}"></span>
+                                </option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Коментар:</td>
+                        <td><textarea name="comment"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td><input class="btn btn-success btn-sm" type="submit" name="submit"/></td>
+                    </tr>
+                    <input type="text" name="assignmentId" th:value="${assignments.id}" hidden="hidden"/>
+                </table>
+            </div>
+        </form>
+    </section>
+</div>
+<div th:replace="/fragments/footer :: footer"></div>
+</body>
+</html>

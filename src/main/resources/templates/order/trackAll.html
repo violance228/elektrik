@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/header :: head">
+</head>
+<body>
+<div class="wrapper container">
+    <div th:replace="/fragments/top :: top"></div>
+    <div class="heading">
+        <h2 th:text="${h1name}"></h2>
+    </div>
+        <!--<div th:replace="/fragments/leftnavbar :: left_panel"></div>-->
+        <section class="col-md-17">
+            <div class="table-responsive">
+            <table class="table table-hover table-condensed table-bordered">
+            <form th:action="@{'/admin/order/trackAll'}" method="post">
+                <tr>
+                    <th>Автор</th>
+                    <th>Для відділу</th>
+                    <th>Статус</th>
+                    <th>Сортувати</th>
+                </tr>
+                <tr>
+                    <td><input type="text" name="username"/></td>
+                    <td>
+                        <div class="styled-select">
+                            <select name ="subdivisionId">
+                                <option value=""></option>
+                                <option
+                                        th:each="subdivision : ${subdivisions}"
+                                        th:text="${subdivision.name}"
+                                        th:value="${subdivision.id}">
+                                </option>
+                            </select>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="styled-select">
+                            <select name ="statusId">
+                                <option value=""></option>
+                                <option
+                                        th:each="statu : ${status}"
+                                        th:text="${statu.name}"
+                                        th:value="${statu.id}">
+                                </option>
+                            </select>
+                        </div>
+                    </td>
+                    <td><input type="submit" class="btn btn-success btn-sm" value="Сорт"/></td>
+                </tr>
+            </form>
+            </table>
+            </div>
+            <!--<div class="table-responsive">-->
+                <!--<table class="table table-hover table-condensed table-bordered">-->
+                <!--<tr>-->
+                    <!--<th>Id</th>-->
+                    <!--<th>Логін</th>-->
+                    <!--<th>Подана відділом</th>-->
+                    <!--<th>Дата подачі</th>-->
+                    <!--<th>Для відділу</th>-->
+                    <!--<th>Текст заявки</th>-->
+                    <!--<th>Виконано</th>-->
+                    <!--<th>Статус</th>-->
+
+                    <!--<th>Текст заявки</th>-->
+                <!--</tr>-->
+                <!--<tr th:each="order : ${orders}">-->
+                    <!--<td th:text="${order.id}"></td>-->
+                    <!--<td th:text="${order.users?.username}"></td>-->
+                    <!--<td th:text="${order.users?.subdivisions?.name}"></td>-->
+                    <!--<td th:text="${order.applicationText}"></td>-->
+                    <!--<td th:text="${order.dateOfApplication}"></td>-->
+                    <!--<td th:text="${order.subdivisions?.name}"></td>-->
+                    <!--<td th:text="${order.dateOfCompletion}"></td>-->
+                    <!--<td th:text="${order.surname}"></td>-->
+                    <!--<td th:text="${order.status?.id}"></td>-->
+                <!--</tr>-->
+            <!--</table>-->
+            <!--</div>-->
+        <div class="divTable redTable">
+            <div class="divTableHeading">
+                <div class="divTableRow">
+                    <div class="divTableHead">Текст заявки</div>
+                    <div class="divTableHead">Дата подачі</div>
+                    <div class="divTableHead">Дата виконання</div>
+                    <div class="divTableHead">Автор</div>
+                    <div class="divTableHead">Подана відділом</div>
+                    <div class="divTableHead">Для відділу</div>
+                    <div class="divTableHead">Виконав</div>
+                    <div class="divTableHead">Статус</div>
+                </div>
+            </div>
+            <div class="divTableBody">
+                <div class="divTableRow" th:each="order : ${orders}">
+                    <div th:text="${order.applicationText}" class="divTableCell">cell5_1</div>
+                    <div class="divTableCell">
+                        <span th:if="${order.dateOfApplication} != null" th:text="${#calendars.format(order.dateOfApplication,'dd-MM-yyyy')}"></span>
+                    </div>
+                    <div class="divTableCell">
+                        <span th:if="${order.dateOfCompletion} != null" th:text="${#calendars.format(order.dateOfCompletion,'dd-MM-yyyy')}"></span>
+                    </div>
+                    <div th:text="${order.users?.surname}" class="divTableCell">cell3_1</div>
+                    <div th:text="${order.users?.subdivisions?.name}" class="divTableCell">cell4_1</div>
+                    <div th:text="${order.subdivisions?.name}" class="divTableCell">cell5_1</div>
+                    <div th:text="${order.surname}" class="divTableCell">cell5_1</div>
+                    <div class="divTableCell">
+                        <a th:href="@{'/order/track/'+ ${order.id}}"><span th:text="${order.status.name}"></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </section>
+</div>
+<div th:replace="/fragments/footer :: footer"></div>
+
+</body>
+</html>

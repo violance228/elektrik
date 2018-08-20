@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="/fragments/header :: head">
+</head>
+<body>
+<!--<body th:onload="'chartDiagram(' + ${data1} + ', ' + ${data2} + ', ' + ${data3} + ', ' + ${data4} + ', ' ${data5} + ')'">-->
+<script type="text/javascript" th:src="@{'/js/Chart.min.js'}"></script>
+<div th:replace="/fragments/top :: top"></div>
+<div class="heading">
+    <h2 th:text="${h1name}"></h2>
+</div>
+<div class="table-responsive">
+<table class="table table-hover table-condensed table-bordered">
+    <form th:action="@{'/counter/statisticsBySubdivision'}" method="post">
+        <td>Точка</td>
+        <td>
+            <select name="subdivision">
+                <option selected="true" th:value="${selectedSubdv.id}">
+                    <span th:text="${selectedSubdv.typeSubdivisions?.type}"></span>
+                    <span th:if="${selectedSubdv.name != null }">
+                                        <span th:text="'- ' + ${selectedSubdv.name}"></span>
+                                    </span>
+                    <span th:if="${selectedSubdv.cities?.id != 1}" th:text="'- ' + ${selectedSubdv.cities?.city}"></span>
+                </option>
+                <option th:each="subdivision : ${subdivisions}" th:value="${subdivision.id}">
+                    <span th:text="${subdivision.typeSubdivisions?.type}"></span>
+                    <span th:if="${subdivision.name != null }">
+                                        <span th:text="'- ' + ${subdivision.name}"></span>
+                                    </span>
+                    <span th:if="${subdivision.cities?.id != 1}" th:text="'- ' + ${subdivision.cities?.city}"></span>
+                </option>
+            </select>
+        </td>
+        <td>Рік</td>
+        <td>
+            <select name="year">
+                <option th:text="${year}" th:value="${year}" selected="true"></option>
+                <option th:each="year : ${years}" th:text="${year}" th:value="${year}"></option>
+            </select>
+        </td>
+        <td><input type="submit"/></td>
+    </form>
+</table>
+<table class="table table-hover table-condensed table-bordered">
+    <thead>
+    <tr>
+        <th>Точка</th>
+        <th>Лічильник</th>
+        <th>Рік</th>
+        <th>1</th>
+        <th>2</th>
+        <th>3</th>
+        <th>4</th>
+        <th>5</th>
+        <th>6</th>
+        <th>7</th>
+        <th>8</th>
+        <th>9</th>
+        <th>10</th>
+        <th>11</th>
+        <th>12</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="counter : ${counters}">
+        <td>
+            <span th:text="${counter.key.subdivisions.typeSubdivisions?.type}"></span>
+            <span th:if="${counter.key.subdivisions.name != null }">
+                <span th:text="'- ' + ${counter.key.subdivisions.name}"></span>
+            </span>
+            <span th:if="${counter.key.subdivisions.cities?.id != 1}"
+                  th:text="'- ' + ${counter.key.subdivisions.cities?.city}"></span>
+        </td>
+        <td th:text="${counter.key.number}">r</td>
+        <td th:text="${year}"></td>
+        <span th:each="ind : ${counter.value}">
+            <td th:text="${ind.indicator}">
+            </td>
+        </span>
+    </tr>
+    </tbody>
+</table>
+</div>
+<!--&lt;!&ndash;<canvas id="line-chart" width="800" height="400"></canvas>&ndash;&gt;-->
+<!--&lt;!&ndash;<script th:inline="javascript">&ndash;&gt;-->
+    <!--&lt;!&ndash;// var a = ;&ndash;&gt;-->
+    <!--&lt;!&ndash;// var b = [0, 10, 10, 100, 50, 60, 80, 90, 20];&ndash;&gt;-->
+    <!--&lt;!&ndash;// chartDiagram(["0s", "10s", "20s", "30s", "40s", "50s", "60s"], [0, 1, 10, 2 , 100]);&ndash;&gt;-->
+
+    <!--&lt;!&ndash;function chartDiagram(data1, data2, data3, data4, data5) {&ndash;&gt;-->
+        <!--&lt;!&ndash;/*<![CDATA[*/&ndash;&gt;-->
+        <!--&lt;!&ndash;console.log(data1);&ndash;&gt;-->
+        <!--&lt;!&ndash;new Chart(document.getElementById("line-chart"), {&ndash;&gt;-->
+            <!--&lt;!&ndash;type: 'line',&ndash;&gt;-->
+            <!--&lt;!&ndash;data: {&ndash;&gt;-->
+                <!--&lt;!&ndash;labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],&ndash;&gt;-->
+                <!--&lt;!&ndash;datasets: [{&ndash;&gt;-->
+                    <!--&lt;!&ndash;data: data1,&ndash;&gt;-->
+                    <!--&lt;!&ndash;label: "Показники лічильника - " + [[${counter1}]],&ndash;&gt;-->
+                    <!--&lt;!&ndash;borderColor: "#3e95cd",&ndash;&gt;-->
+                    <!--&lt;!&ndash;fill: false&ndash;&gt;-->
+                <!--&lt;!&ndash;}, {&ndash;&gt;-->
+                    <!--&lt;!&ndash;data: data2,&ndash;&gt;-->
+                    <!--&lt;!&ndash;label: "Показники лічильника - " + [[${counter2}]],&ndash;&gt;-->
+                    <!--&lt;!&ndash;borderColor: "#232323",&ndash;&gt;-->
+                    <!--&lt;!&ndash;fill: false&ndash;&gt;-->
+                <!--&lt;!&ndash;}, {&ndash;&gt;-->
+                    <!--&lt;!&ndash;data: data3,&ndash;&gt;-->
+                    <!--&lt;!&ndash;label: "Показники лічильника - " + [[${counter3}]],&ndash;&gt;-->
+                    <!--&lt;!&ndash;borderColor: "#99ff00",&ndash;&gt;-->
+                    <!--&lt;!&ndash;fill: false&ndash;&gt;-->
+                <!--&lt;!&ndash;},{&ndash;&gt;-->
+                    <!--&lt;!&ndash;data: data4,&ndash;&gt;-->
+                    <!--&lt;!&ndash;label: "Показники лічильника - " + [[${counter4}]],&ndash;&gt;-->
+                    <!--&lt;!&ndash;borderColor: "#0000cc",&ndash;&gt;-->
+                    <!--&lt;!&ndash;fill: false&ndash;&gt;-->
+                <!--&lt;!&ndash;},{&ndash;&gt;-->
+                    <!--&lt;!&ndash;data: data5,&ndash;&gt;-->
+                    <!--&lt;!&ndash;label: "Показники лічильника - " + [[${counter5}]],&ndash;&gt;-->
+                    <!--&lt;!&ndash;borderColor: "#0000cc",&ndash;&gt;-->
+                    <!--&lt;!&ndash;fill: false&ndash;&gt;-->
+                <!--&lt;!&ndash;}&ndash;&gt;-->
+                <!--&lt;!&ndash;]&ndash;&gt;-->
+            <!--&lt;!&ndash;},&ndash;&gt;-->
+            <!--&lt;!&ndash;options: {&ndash;&gt;-->
+                <!--&lt;!&ndash;title: {&ndash;&gt;-->
+                    <!--&lt;!&ndash;display: true,&ndash;&gt;-->
+                    <!--&lt;!&ndash;text: 'Показники кВт/год'&ndash;&gt;-->
+                <!--&lt;!&ndash;}&ndash;&gt;-->
+            <!--&lt;!&ndash;}&ndash;&gt;-->
+        <!--&lt;!&ndash;});&ndash;&gt;-->
+        <!--&lt;!&ndash;/*]]>*/&ndash;&gt;-->
+        <!--&lt;!&ndash;// }&ndash;&gt;-->
+    <!--&lt;!&ndash;}&ndash;&gt; -->
+ <!--</script>-->
+<div th:replace="/fragments/footer :: footer"></div>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/header :: head">
+</head>
+<body>
+<div class="wrapper container">
+    <div th:replace="/fragments/top :: top"></div>
+    <div class="heading">
+        <h2 th:text="${h1name}"></h2>
+    </div>
+        <section class="col-md-17">
+        <div class="divTable redTable">
+        <div class="divTableHeading">
+            <div class="divTableRow">
+                <div class="divTableHead">Текст Заявки</div>
+                <div class="divTableHead">Дата подачі</div>
+                <div class="divTableHead">Виконано</div>
+                <div class="divTableHead">Для відділу</div>
+                <div class="divTableHead">Виконав</div>
+                <div class="divTableHead">Статус</div>
+
+            </div>
+        </div>
+        <div class="divTableBody">
+            <div class="divTableRow" th:each="userOrder : ${userOrders}" th:if="${userOrder.status.id != 1}">
+                <div th:text="${userOrder.applicationText}" class="divTableCell">cell2_1</div>
+                <!--<div class="divTableCell">-->
+                    <!--<div th:each="val : ${userOrder.orderComments}">-->
+                        <!--<span th:text="${val.comment}"></span>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <div th:text="${#calendars.format(userOrder.dateOfApplication,'dd-MM-yyyy')}"  class="divTableCell"></div>
+                <div class="divTableCell">
+                    <span th:if="${userOrder.dateOfCompletion} != null" th:text="${#calendars.format(userOrder?.dateOfCompletion,'dd-MM-yyyy')}"></span>
+                </div>
+                <div th:text="${userOrder.subdivisions?.name}" class="divTableCell">cell4_1</div>
+                <div th:text="${userOrder.surname}" class="divTableCell">cell5_1</div>
+                <div class="divTableCell">
+                    <a th:href="@{'/order/track/'+ ${userOrder.id}}"><span th:text="${userOrder.status.name}"></span></a>
+                </div>
+                <!--<div class="divTableCell">-->
+                    <!--<div th:switch="${userOrder.status?.id}">-->
+                        <!--<span th:case="1" th:id="${userOrder.id}" class="btn btn-warning btn-sm">-->
+                            <!--<span>Закрито</span></span>-->
+                        <!--<a th:case="2" th:id="${userOrder.id}" class="btn btn-primary btn-sm" th:href="${'http://localhost:8080/order/edit/'+userOrder.id}">-->
+                            <!--<span>Редагувати</span></a>-->
+                        <!--<a th:case="3" th:id="${userOrder.id}" class="btn btn-success btn-sm" th:href="${'http://localhost:8080/order/edit/'+userOrder.id}">-->
+                            <!--<span>Редагувати</span></a>-->
+                    <!--</div>-->
+                <!--</div>-->
+            </div>
+        </div>
+    </div>
+    </section>
+</div>
+<div th:replace="/fragments/footer :: footer"></div>
+</body>
+</html>

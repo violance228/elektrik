@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/header :: head">
+</head>
+<body th:onload="'chartDiagram(' + '[' + ${data1} + '], '+ ${labels} + ', ['+ ${data2} + '], ' + ${label1} + ',' + ${label2} + ')'">
+<script type="text/javascript" th:src="@{'/js/Chart.min.js'}"></script>
+<div class="wrapper container">
+    <div th:replace="/fragments/top :: top"></div>
+    <div class="heading">
+        <h2 th:text="${h1name}"></h2>
+    </div>
+        <!--<div th:replace="/fragments/leftnavbar :: left_panel"></div>-->
+        <section class="col-md-17">
+            <form th:action="@{'/indicator/compareIndicators'}" method="post">
+                <div class="table-responsive">
+                    <table class="table table-hover table-condensed table-bordered">
+                        <tr>
+                            <td>
+                                <div class="styled-select">
+                                    <select name ="counterId1">
+                                        <option th:text="${counter1}">Лічильник 1</option>
+                                        <option
+                                                th:each="counter : ${counters}"
+                                                th:text="${counter.number}"
+                                                th:value="${counter.id}">
+                                        </option>
+                                    </select>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="styled-select">
+                                    <select name ="counterId2">
+                                        <option th:text="${counter2}">Лічильник 2</option>
+                                        <option th:each="counter : ${counters}"
+                                                th:text="${counter.number}"
+                                                th:value="${counter.id}">
+                                        </option>
+                                    </select>
+                                </div>
+                            </td>
+                            <td>
+                                <select name="date">
+                                    <option th:text="${date}" th:value="${date}" selected="true"></option>
+                                    <option value="2014">2014</option>
+                                    <option value="2015">2015</option>
+                                    <option value="2016">2016</option>
+                                    <option value="2017">2017</option>
+                                    <option value="2018">2018</option>
+                                    <option value="2019">2019</option>
+                                    <option value="2020">2020</option>
+                                    <option value="2021">2021</option>
+                                    <option value="2022">2022</option>
+                                    <option value="2023">2023</option>
+                                    <option value="2024">2024</option>
+                                    <option value="2025">2025</option>
+                                    <option value="2026">2026</option>
+                                    <option value="2027">2027</option>
+                                    <option value="2028">2028</option>
+                                    <option value="2029">2029</option>
+                                </select>
+                            </td>
+                            <td><button>Показать</button></td>
+                        </tr>
+                    </table>
+                </div>
+            </form>
+            <h1 th:text="${err}"></h1>
+            <canvas id="line-chart" width="800" height="400"></canvas>
+            <script type="text/javascript">
+                // var a = ;
+                // var b = [0, 10, 10, 100, 50, 60, 80, 90, 20];
+                // chartDiagram(["0s", "10s", "20s", "30s", "40s", "50s", "60s"], [0, 1, 10, 2 , 100]);
+
+                function chartDiagram(data1, labels, data2, label1, label2) {
+                    console.log(data1);
+                    console.log(data2);
+                    new Chart(document.getElementById("line-chart"), {
+                        type: 'line',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                data: data1,
+                                label: "Показники лічильника - " + label1,
+                                borderColor: "#3e95cd",
+                                fill: false
+                            }, {
+                                    data: data2,
+                                    label: "Показники лічильника - " + label2,
+                                    borderColor: "#232323",
+                                    fill: false
+                                }
+                            ]
+                        },
+                        options: {
+                            title: {
+                                display: true,
+                                text: 'Показники кВт/год'
+                            }
+                        }
+                    });
+                }
+            </script>
+        </section>
+</div>
+<div th:replace="/fragments/footer :: footer"></div>
+
+</body>
+</html>

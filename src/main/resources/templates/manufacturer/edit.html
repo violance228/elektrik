@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/header :: head">
+</head>
+<body>
+<div class="wrapper container">
+    <div th:replace="/fragments/top :: top"></div>
+    <div class="heading">
+        <h2 th:text="${h1name}"></h2>
+    </div>
+        <div th:replace="/fragments/leftnavbar :: left_panel"></div>
+        <section class="col-md-17">
+            <form th:action="@{'/order/edit'}" name="editManufacturer" method="post">
+                <div class="table-responsive">
+                    <table class="table table-hover table-condensed table-bordered">
+                    <tr>
+                        <label>
+                            <td>Назва виробника:</td>
+                            <td><input type="text" name="name" th:value="${name}" th:maxlength="20" required="true"/></td>
+                        </label>
+                    </tr>
+
+                    <tr>
+                        <td><input type="submit" class="btn btn-success btn-sm" name="submit"/></td>
+                    </tr>
+                </table>
+                </div>
+            </form>
+        </section>
+</div>
+<div th:replace="/fragments/footer :: footer"></div>
+
+</body>
+</html>

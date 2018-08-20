@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/header :: head">
+</head>
+<body>
+<div class="wrapper container">
+    <div th:replace="/fragments/top :: top"></div>
+    <div class="heading">
+        <h2 style="margin-left: 5%" th:text="${orders.status.name}"></h2>
+    </div>
+    <div th:replace="/fragments/leftnavbar :: left_panel"></div>
+    <section class="col-md-17">
+        <div class="table-responsive">
+            <table class="table table-hover table-condensed table-bordered">
+                <tr>
+                    <td>Текст заявки</td>
+                    <td>
+                        <span th:text="${orders.users.surname + ' ' + orders.users.name + ' -'}"></span>
+                        <span th:text="${#dates.format(orders.dateOfApplication, 'yyyy-MM-dd HH:mm') + ':'}"></span>
+                        <h4>
+                            <p style="margin-left: 7%;" th:text="${orders.applicationText}"></p>
+                        </h4>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Коментар</td>
+                    <td>
+                        <ul>
+                            <li th:each="val : ${orderComments}">
+                                <span th:text="${val.users.surname + '-' + #dates.format(val.date, 'yyyy-MM-dd HH:mm') + ': ' + val.comment}"></span>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Виконано</td>
+                    <td th:if="${orders.dateOfCompletion != null}" th:text="${#dates.format(orders.dateOfCompletion, 'yyyy-MM-dd HH:mm')}"></td>
+                </tr>
+                <tr>
+                    <td>Підрозділ, що подав заявку</td>
+                    <td th:text="${orders.users.subdivisions.name}"></td>
+                </tr>
+                <tr th:if="${session.currUserId != orders.users.id}">
+                    <td>Змінити статус/Перенаправити</td>
+                    <td>
+                        <div th:switch="${orders.status?.id}">
+                            <span th:case="1" th:id="${orders.id}" >
+                                <button th:id="${orders.id}" class="btn btn-success btn-sm" th:onclick="${'orderEditStatus('+ orders.id + ',' + 2 +')'}">
+                                    <span>Відновити</span>
+                                </button>
+                            </span>
+                            <span th:case="2">
+                                <button  th:id="${orders.id}" class="btn btn-primary btn-sm" th:onclick="${'orderEditStatus('+ orders.id + ',' + 1 +')'}">
+                                    <span>Закрити</span>
+                                </button>
+                                 <a class="btn btn-success btn-sm" th:href="@{'/order/redirectOrderToSubdivision/'+ ${orders.id}}">Перенаправити</a>
+                            </span>
+                            <span th:case="3">
+                                <button th:id="${orders.id}" class="btn btn-success btn-sm" th:onclick="${'orderEditStatus('+ orders.id + ',' + 2 +')'}">
+                                    <span>В роботу</span>
+                                </button>
+                                <a class="btn btn-success btn-sm" th:href="@{'/order/redirectOrderToSubdivision/'+ ${orders.id}}">Перенаправити</a>
+                            </span>
+                        </div>
+                    </td>
+                </tr>
+                <tr th:if="${session.currUserId == orders.users.id}">
+                    <td>Редагувати замовлення</td>
+                    <td>
+                        <div th:switch="${orders.status?.id}">
+                            <span th:case="1" th:id="${orders.id}" >
+                                <span class="btn btn-warning btn-sm">Закрито</span>
+                                <button th:id="${orders.id}" class="btn btn-success btn-sm" th:onclick="${'orderEditStatus('+ orders.id + ',' + 2 +')'}">
+                                    <span>Відновити</span>
+                                </button>
+                            </span>
+                            <!--<button th:case="1" th:id="${orders.id}" class="btn btn-success btn-sm" th:onclick="${'orderEditStatus('+ orders.id + ',' + 2 +')'}">-->
+                                <!--<span>Відновити</span>-->
+                            <!--</button>-->
+                            <a th:case="2" th:id="${orders.id}" class="btn btn-primary btn-sm" th:href="@{'/order/edit/'+${orders.id}}">
+                                <span>Редагувати</span></a>
+                            <a th:case="3" th:id="${orders.id}" class="btn btn-success btn-sm" th:href="@{'/order/edit/'+${orders.id}}">
+                                <span>Редагувати</span></a>
+                        </div>
+                    </td>
+                </tr>
+                <form action="/orderComment/create" method="post">
+                    <tr>
+                        <td>Коментар:</td>
+                        <td>
+                            <input type="text" name="orderId" th:value="${orders.id}" hidden="hidden" />
+                            <textarea style="width: 50%;" name="comment"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="submit" />
+                        </td>
+                    </tr>
+                </form>
+            </table>
+        </div>
+    </section>
+</div>
+<div th:replace="/fragments/footer :: footer"></div>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) 2018. month - 5. day - 4.
+  ~ @Author Violence
+  ~ @All rights reserved
+  -->
+
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/header :: head">
+</head>
+<body>
+<div class="wrapper container">
+    <div th:replace="/fragments/top :: top"></div>
+    <div class="heading">
+        <h2 th:text="${h1name}"></h2>
+    </div>
+    <!--<div th:replace="/fragments/leftnavbar :: left_panel"></div>-->
+    <section class="col-md-17">
+        <div class="table-responsive">
+            <table class="table table-hover table-condensed table-bordered">
+                <form th:action="@{'/stuff/edit'}" name="stuff" method="post">
+                    <tr>
+                        <td>ID:</td>
+                        <td>
+                            <select name ="id">
+                                <option th:text="${stuffs.id}" th:value="${stuffs.id}"></option>
+                            </select>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Інвентарний номер:</td>
+                        <td><input type="number" name="number" th:value="${stuffs.number}"/></td>
+                    </tr>
+                    <tr>
+                        <td>Дата виготовлення:</td>
+                        <td>
+                            <input type="date" name="dateOfManufactu" th:value="${#calendars.format(stuffs?.dateOfManufacture,'yyyy-MM-dd')}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Виробник/модель:</td>
+                        <td><input type="text" name="model" th:value="${stuffs.model}"/></td>
+                    </tr>
+
+                    <tr>
+                        <td>Дата отримання відділом:</td>
+                        <td>
+                            <input type="date" name="dateOfReceiv" th:value="${#calendars.format(stuffs?.dateOfReceiving,'yyyy-MM-dd')}"/>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Коментар(переміщення):</td>
+                        <td><textarea name="comment" ></textarea></td>
+                    </tr>
+
+                    <tr>
+                        <td>Тип предмета:</td>
+                        <td>
+                            <div class="styled-select">
+                                <select name="stuffTypes">
+                                    <option th:text="${stuffs.stuffTypes.type}"
+                                            th:value="${stuffs.stuffTypes.id}" selected="true"></option>
+                                    <option
+                                            th:each="stuffType : ${stuffTypes}"
+                                            th:text="${stuffType.type}"
+                                            th:value="${stuffType.id}">
+                                    </option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Відділ</td>
+                        <td>
+                            <div class="styled-select">
+                                <select name="subdivisions">
+                                    <option th:text="${stuffs.subdivisions.name}"
+                                            th:value="${stuffs.subdivisions.id}" selected="true"></option>
+                                    <option
+                                            th:each="subdivision : ${subdivisions}"
+                                            th:text="${subdivision.name}"
+                                            th:value="${subdivision.id}">
+                                    </option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <input type="submit" class="btn btn-success btn-sm"/>
+                        </td>
+                    </tr>
+                </form>
+            </table>
+        </div>
+    </section>
+</div>
+<div th:replace="/fragments/footer :: footer"></div>
+</body>
+</html>

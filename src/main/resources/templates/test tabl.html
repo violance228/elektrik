@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) 2018. month - 4. day - 25.
+  ~ @Author Violence
+  ~ @All rights reserved
+  -->
+
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="/fragments/header :: head">
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    </head>
+<body>
+<script type="text/javascript" th:src="@{'/js/Chart.min.js'}"></script>
+    <div class="wrapper container">
+        <div th:replace="/fragments/top :: top"></div>
+        <div class="heading">
+            <h1></h1>
+        </div>
+            <section class="col-md-17">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-danger">Action</button>
+                    <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Separated link</a>
+                    </div>
+                </div>
+                <canvas id="line-chart" width="800" height="400"></canvas>
+            </section>
+    </div>
+    <div th:replace="/fragments/footer :: footer"></div>
+<script type="text/javascript">
+    // var a = ;
+    var b = [0, 10, 10, 100, 50, 60, 80, 50, 20];
+
+    // chartDiagram(["0s", "10s", "20s", "30s", "40s", "50s", "60s"], [0, 1, 10, 2 , 100]);
+
+    chartDiagram(b);
+    function chartDiagram(b) {
+
+        new Chart(document.getElementById("line-chart"), {
+            type: 'line',
+            data: {
+                labels: [1500, 1600, 1700, 1750, 1800, 1850, 1900, 1950, 1999, 2050],
+                datasets: [
+                    {
+                    data: b,
+                    label: "Africa",
+                    borderColor: "#3e95cd",
+                    fill: false
+                    }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'World population per region (in millions)'
+                }
+            }
+        });
+    }
+</script>
+</body>
+</html>

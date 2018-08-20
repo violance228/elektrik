@@ -1,0 +1,18 @@
+/*
+ * Copyright (c) 2018. month -- 4. day -- 21.
+ * @Author Violence
+ * @All rights reserved
+ */
+
+#links li a
+{
+    display: block;
+    font: bold 120% Arial, Helvetica, sans-serif;
+    padding: 5px;
+    text-decoration: none;
+}
+
+#links li a:hover
+{
+    background: #555555;
+}

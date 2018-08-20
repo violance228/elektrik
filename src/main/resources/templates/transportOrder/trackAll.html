@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/header :: head">
+</head>
+<body>
+<div class="wrapper container">
+    <div th:replace="/fragments/top :: top"></div>
+    <div class="heading">
+        <h2 th:text="${h1name}"></h2>
+    </div>
+    <div th:replace="/fragments/leftnavbar :: left_panel"></div>
+    <section class="col-md-17">
+        <div class="divTable redTable">
+            <div class="divTableHeading">
+                <div class="divTableRow">
+                    <div class="divTableHead">Коментар</div>
+                    <div class="divTableHead">Для відділу</div>
+                    <div class="divTableHead">Дата виїзду</div>
+                    <div class="divTableHead">Нас. Пункти</div>
+                    <div class="divTableHead">Авто</div>
+                    <div class="divTableHead">Коментар тр.від.</div>
+                    <div class="divTableHead">Додатись до поїздки</div>
+                </div>
+            </div>
+            <div class="divTableBody">
+                <div class="divTableRow" th:each="trOrder : ${transportOrder}">
+                    <div th:text="${trOrder.assignments.comment}" class="divTableCell">cell2_1</div>
+                    <div class="divTableCell">
+                        <span th:text="${trOrder.assignments.subdivisions.typeSubdivisions?.type}"></span>
+                        <span th:if="${trOrder.assignments.subdivisions.name != null }">
+                            <span th:if="${trOrder.assignments.subdivisions.name != 9999}" th:text="'- ' + ${trOrder.assignments.subdivisions.name}"></span>
+                        </span>
+                        <span th:if="${trOrder.assignments.subdivisions.cities?.id != 1}" th:text="'- ' + ${trOrder.assignments.subdivisions.cities?.city}"></span>
+                    </div>
+                    <div th:if="${trOrder.assignments.date$TimeOfDeparture != null}" th:text="${#dates.format(trOrder.assignments.date$TimeOfDeparture, 'yyyy-MM-dd HH:mm')}" class="divTableCell"></div>
+                    <div class="divTableCell">
+                        <span th:each="assign : ${trOrder.assignments.citiesTravels}" th:text="${assign.cities.city}"></span>
+                    </div>
+                    <div th:text="${trOrder.cars.brand + '-' + trOrder.cars.model}" class="divTableCell">cell2_1</div>
+                    <div th:text="${trOrder.comment}" class="divTableCell">cell2_1</div>
+                    <div class="divTableCell">
+                        <a th:href="@{'/transportOrder/addToTravel/' + ${trOrder.id}}"><button>Додатись</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<div th:replace="/fragments/footer :: footer"></div>
+</body>
+</html>

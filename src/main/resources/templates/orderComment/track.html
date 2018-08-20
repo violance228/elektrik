@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title></title>
+</head>
+<body>
+<table>
+    <tr>
+        <th>OrderId</th>
+        <th>Comment</th>
+    </tr>
+    <tr th:each="orders : ${order}">
+        <td th:text="${orders?.orders}"></td>
+        <td th:text="${orders?.comment}"></td>
+    </tr>
+</table>
+</body>
+</html>

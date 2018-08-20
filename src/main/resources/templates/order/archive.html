@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/header :: head">
+</head>
+<body>
+<div class="wrapper container">
+    <div th:replace="/fragments/top :: top"></div>
+    <div class="heading">
+        <h2 th:text="${h1name}"></h2>
+    </div>
+    <section class="col-md-17">
+        <div class="divTable redTable">
+            <div class="divTableHeading">
+                <div class="divTableRow">
+                    <div class="divTableHead">Текст Заявки</div>
+                    <div class="divTableHead">Дата подачі</div>
+                    <div class="divTableHead">Виконано</div>
+                    <div class="divTableHead">Підрозділ</div>
+                    <div class="divTableHead">Автор</div>
+                    <div class="divTableHead">Статус</div>
+                </div>
+            </div>
+            <div class="divTableBody">
+                <div class="divTableRow" th:each="orders : ${subDivision}" th:if="${orders.status.id == 1}">
+                    <div th:text="${orders.applicationText}" class="divTableCell">cell2_1</div>
+                    <div class="divTableCell">
+                        <span th:if="${orders.dateOfApplication} != null" th:text="${#calendars.format(orders.dateOfApplication,'dd-MM-yyyy')}"></span>
+                    </div>
+                    <div class="divTableCell">
+                        <span th:if="${orders.dateOfCompletion} != null" th:text="${#calendars.format(orders.dateOfCompletion,'dd-MM-yyyy')}"></span>
+                    </div>
+                    <div th:text="${orders.users?.subdivisions?.name}" class="divTableCell">cell4_1</div>
+                    <div th:text="${orders.users?.surname}" class="divTableCell">cell5_1</div>
+                    <div  class="divTableCell">
+                        <a th:href="@{'/order/track/'+ ${orders.id}}"><span th:text="${orders.status.name}"></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<div th:replace="/fragments/footer :: footer"></div>
+</body>
+</html>

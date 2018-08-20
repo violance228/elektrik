@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) 2018. month - 5. day - 7.
+  ~ @Author Violence
+  ~ @All rights reserved
+  -->
+
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/header :: head">
+</head>
+<body>
+<div class="wrapper container">
+    <div th:replace="/fragments/top :: top"></div>
+    <div class="heading">
+        <h2 th:text="${h1name}"></h2>
+    </div>
+    <!--<div th:replace="/fragments/leftnavbar :: left_panel"></div>-->
+    <section class="col-md-17">
+        <div class="divTable redTable table-responsive">
+            <div class="divTableHeading">
+                <div class="divTableRow">
+                    <div class="divTableHead">id</div>
+                    <div class="divTableHead">Тип</div>
+                    <div class="divTableHead">Кількість</div>
+                </div>
+            </div>
+            <div class="divTableBody">
+                <div class="divTableRow" th:each="stuffs : ${stuffTypes}">
+                    <div  class="divTableCell">
+                        <span th:text="${stuffs.id}"></span>
+                    </div>
+                    <div  class="divTableCell">
+                        <a class="btn btn-link btn-sm" th:text="${stuffs.type}" th:href="@{'/stuff/trackAllStuffByStuffTypes/'+ ${stuffs.id}}"></a>
+                    </div>
+                    <div  class="divTableCell">
+                        <span th:text="${stuffs.count}"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<div th:replace="/fragments/footer :: footer"></div>
+</body>
+</html>

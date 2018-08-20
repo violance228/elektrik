@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/header :: head">
+</head>
+<body>
+<div class="wrapper container">
+    <div th:replace="/fragments/top :: top"></div>
+    <div class="heading">
+        <h2 th:text="${h1name}"></h2>
+    </div>
+        <div th:replace="/fragments/leftnavbar :: left_panel"></div>
+        <section class="col-md-17">
+            <!--<div class="table-responsive">-->
+                <!--<table class="table table-hover table-condensed table-bordered">-->
+                <!--<tr>-->
+                   <!---->
+                    <!--<th>Коментар</th>-->
+                    <!--<th>Подав користувач</th>-->
+                    <!--<th>Підрозділ</th>-->
+                <!--</tr>-->
+                <!--<tr th:each="assignment : ${assignments}">-->
+                    <!--<td th:text="${assignment.comment}"></td>-->
+                    <!--<td th:text="${assignment.users?.surname}"></td>-->
+                    <!--<td th:text="${assignment.subdivisions?.name}"></td>-->
+                <!--</tr>-->
+            <!--</table>-->
+            <!--</div>-->
+        <!--</section>-->
+        <div class="divTable redTable">
+            <div class="divTableHeading">
+                <div class="divTableRow">
+                    <div class="divTableHead">Коментар</div>
+                    <div class="divTableHead">Подав користувач</div>
+                    <div class="divTableHead">Дата подачі</div>
+                    <div class="divTableHead">Для відділу</div>
+                    <div class="divTableHead">Дата виїзду</div>
+                    <div class="divTableHead">Нас.Пункти</div>
+                    <div class="divTableHead">Видати машину</div>
+                </div>
+            </div>
+            <div class="divTableBody">
+                <div class="divTableRow" th:each="assignment : ${assignments}" th:if="${assignment.date$TimeOfDeparture > #dates.createToday()}">
+                    <div th:text="${assignment.comment}" class="divTableCell">cell2_1</div>
+                    <div th:text="${assignment.users?.username}" class="divTableCell">cell3_1</div>
+                    <div th:if="${assignment.dateOfCreating != null}" th:text="${#dates.format(assignment.dateOfCreating, 'yyyy-MM-dd HH:mm')}" class="divTableCell">cell2_1</div>
+                    <div class="divTableCell">
+                        <span th:text="${assignment.subdivisions.typeSubdivisions?.type}"></span>
+                        <span th:if="${assignment.subdivisions.name != null }">
+                            <span th:if="${assignment.subdivisions.name != 9999}" th:text="'- ' + ${assignment.subdivisions.name}"></span>
+                        </span>
+                        <span th:if="${assignment.subdivisions.cities?.id != 1}" th:text="'- ' + ${assignment.subdivisions.cities?.city}"></span>
+                    </div>
+                    <div th:if="${assignment.date$TimeOfDeparture != null}" th:text="${#dates.format(assignment.date$TimeOfDeparture, 'yyyy-MM-dd HH:mm')}" class="divTableCell">cell4_1</div>
+                    <div class="divTableCell">
+                        <span th:each="assign : ${assignment.citiesTravels}" th:text="${assign.cities.city}"></span>
+                    </div>
+                    <div class="divTableCell">
+                        <a th:if="${assignment.transportOrder == null}" th:href="@{'/transportOrder/addTransportOrder/'+ ${assignment.id}}"><input type="button" value="Видати машину" /></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>
+</div>
+<div th:replace="/fragments/footer :: footer"></div>
+
+</body>
+</html>

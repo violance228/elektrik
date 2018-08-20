@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<body>
+<form action="/user/findByParam" method="post">
+    Surname: <input type="text" name="userSurname"/>
+    Login: <input type="text" name="userName"/>
+    <tr>
+        <td>Роль</td>
+        <td>
+            <select name ="rolesId">
+                <option value=""></option>
+                <option
+                        th:each="role : ${roles}"
+                        th:text="${role.name}"
+                        th:value="${role.id}">
+                </option>
+            </select>
+        </td>
+    </tr>
+
+    <tr>
+        <td>Відділ</td>
+        <td>
+            <select name ="subdivisionId">
+                <option value=""></option>
+                <option
+                        th:each="subdivision : ${subdivisions}"
+                        th:text="${subdivision.name}"
+                        th:value="${subdivision.id}">
+                </option>
+            </select>
+        </td>
+    </tr>
+    <input type="submit"/>
+</form>
+</body>
+</html>

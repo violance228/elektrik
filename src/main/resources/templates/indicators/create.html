@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/header :: head">
+</head>
+<body th:onload="'chartDiagram(' + '[' + ${data} + '], '+ ${labels} + ')'">
+<script type="text/javascript" th:src="@{'/js/Chart.min.js'}"></script>
+<div class="wrapper container">
+    <div th:replace="/fragments/top :: top"></div>
+    <div class="heading">
+        <h2 th:text="${h1name}"></h2>
+    </div>
+        <div th:replace="/fragments/leftnavbar :: left_panel"></div>
+        <section class="col-md-17">
+            <form th:action="@{'/indicator/create'}" name="createIndicators" method="post">
+                <div class="table-responsive">
+                    <table class="table table-hover table-condensed table-bordered">
+                    <tr>
+                        <label>
+                            <td>Дата зняття показника:</td>
+                            <td><input type="date" name="date" id="date" th:maxlength="20" required="true"/></td>
+                        </label>
+                    </tr>
+
+                    <tr>
+                        <label>
+                            <td>Показник:</td>
+                            <td><input type="number" name="indicators" value="" th:maxlength="20" required="true"/></td>
+                        </label>
+                    </tr>
+
+                    <tr>
+                        <label>
+                            <td>Споживання:</td>
+                            <td><input type="number" name="consumption" value=""  th:minlength="8" th:maxlength="13" required="true"/></td>
+                        </label>
+                    </tr>
+
+                    <tr>
+                        <label>
+                            <td>Відділ:</td>
+                            <td><input type="text" name="subdivision" value=""  th:minlength="8" th:maxlength="13" required="true"/></td>
+                        </label>
+                    </tr>
+
+                    <tr>
+                        <label>
+                            <td>Лічильник:</td>
+                            <td><input type="text" name="counter" value=""  th:minlength="8" th:maxlength="13" required="true"/></td>
+                        </label>
+                    </tr>
+
+                    <tr>
+                        <td><input type="submit" class="btn btn-success btn-sm" name="submit"/></td>
+                    </tr>
+                </table>
+                </div>
+            </form>
+
+            <script type="text/javascript">
+            function chartDiagram(data, labels) {
+
+            console.log(data);
+            console.log(labels);
+            var speedCanvas = document.getElementById("speedChart");
+
+            Chart.defaults.global.defaultFontFamily = "Lato";
+            Chart.defaults.global.defaultFontSize = 18;
+
+            var speedData = {
+            labels: labels,
+            datasets: [{
+            label: "Car Speed (mph)",
+            data: data,
+            }]
+            };
+
+            var chartOptions = {
+            legend: {
+            display: true,
+            position: 'top',
+            labels: {
+            boxWidth: 80,
+            fontColor: 'black'
+            }
+            }
+            };
+
+            var lineChart = new Chart(speedCanvas, {
+            type: 'line',
+            data: speedData,
+            options: chartOptions
+            });
+            }
+            </script>
+        </section>
+</div>
+<div th:replace="/fragments/footer :: footer"></div>
+
+</body>
+</html>

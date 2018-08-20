@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en"    xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/header :: head">
+</head>
+<body>
+<div class="wrapper container">
+    <div th:replace="/fragments/top :: top"></div>
+    <div class="heading">
+        <h2 th:text="${h1name}"></h2>
+    </div>
+    <div th:replace="/fragments/leftnavbar :: left_panel"></div>
+    <section class="col-md-17">
+        <div class="table-responsive">
+            <table class="table table-hover table-condensed table-bordered">
+
+                <tr>
+                    <td>Номер машини</td>
+                    <td th:text="${car.carNumber}">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Категорія машини</td>
+                    <td th:text="${car.vehicleCategory}">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Бренд</td>
+                    <td th:text="${car.brand}">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Модель</td>
+                    <td th:text="${car.model}">
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </section>
+</div>
+<div th:replace="/fragments/footer :: footer"></div>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/header :: head">
+</head>
+<body>
+<div class="wrapper container">
+    <div th:replace="/fragments/top :: top"></div>
+    <div class="heading">
+        <h2 th:text="${h1name}"></h2>
+    </div>
+        <!--<div th:replace="/fragments/leftnavbar :: left_panel"></div>-->
+        <section class="col-md-17">
+            <div class="table-responsive">
+                <table class="table table-hover table-condensed table-bordered">
+                    <form th:action="@{'/admin/connectionLog'}" method="post">
+                        <tr>
+                            <td>Логін</td>
+                            <td><input type="text" name="userUsername"/></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="submit"/>
+                            </td>
+                        </tr>
+                    </form>
+                </table>
+            </div>
+        <div class="divTable redTable">
+            <div class="divTableHeading">
+                <div class="divTableRow">
+                    <div class="divTableHead">ID</div>
+                    <div class="divTableHead">username</div>
+                    <div class="divTableHead">Date</div>
+                    <div class="divTableHead">IP</div>
+                </div>
+            </div>
+            <div class="divTableBody">
+                <div class="divTableRow" th:each="connectionLog : ${connectionLogs}">
+                    <div th:text="${connectionLog.id}" class="divTableCell">cell2_1</div>
+                    <div th:text="${connectionLog.users?.username}" class="divTableCell">cell3_1</div>
+                    <div th:text="${connectionLog.date}" class="divTableCell">cell4_1</div>
+                    <div th:text="${connectionLog.ip}" class="divTableCell">cell5_1</div>
+                </div>
+            </div>
+        </div>
+        <div class="redTable outerTableFooter"><div class="tableFootStyle"><div class="links"><a href="#">&laquo;</a> <a class="active" href="#">1</a> <a href="#">2</a> <a href="#">3</a> <a href="#">4</a> <a href="#">&raquo;</a>
+        </div>
+        </div>
+        </div>
+        </section>
+</div>
+<div th:replace="/fragments/footer :: footer"></div>
+</body>
+</html>

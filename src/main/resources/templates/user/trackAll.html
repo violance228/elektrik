@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/header :: head">
+</head>
+<body>
+<div class="wrapper container">
+    <div th:replace="/fragments/top :: top"></div>
+    <div class="heading">
+        <h2 th:text="${h1name}"></h2>
+    </div>
+        <!--<div th:replace="/fragments/leftnavbar :: left_panel"></div>-->
+        <section class="col-md-17">
+            <div class="divTable redTable">
+                <div class="divTableHeading">
+                    <div class="divTableRow">
+                        <div class="divTableHead">Фільтер</div>
+                    </div>
+                </div>
+                <div class="divTableBody">
+                    <div class="divTableRow">
+                        <form action="/admin/user/trackAll" method="post">
+                        <div class="divTableCell"><input type="text" name="userSurname" placeholder="Фамілія"/></div>
+                        <div class="divTableCell"><input type="text" name="userName" placeholder="Логін"/></div>
+                        <div class="divTableCell">
+                            <div class="styled-select">
+                                <select name ="subdivisionId">
+                                    <option value="">Відділ</option>
+                                    <option
+                                            th:each="subdivision : ${subdivisions}"
+                                            th:text="${subdivision.name}"
+                                            th:value="${subdivision.id}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                            <div class="divTableCell">
+                                <input type="submit" class="btn btn-success btn-sm" value="Сортувати"/>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="divTable redTable">
+                <div class="divTableHeading">
+                    <div class="divTableRow">
+                        <div class="divTableHead">Імя</div>
+                        <div class="divTableHead">Фаміліля</div>
+                        <div class="divTableHead">Логін</div>
+                        <div class="divTableHead">Відділ</div>
+                        <div class="divTableHead">Роль</div>
+                        <div class="divTableHead">Редаг.</div>
+                    </div>
+                </div>
+                <div class="divTableBody">
+                    <div class="divTableRow" th:each="user : ${users}">
+                        <div th:text="${user.name}" class="divTableCell">cell2_1</div>
+                        <div th:text="${user.surname}" class="divTableCell">cell3_1</div>
+                        <div th:text="${user.username}" class="divTableCell">cell4_1</div>
+
+                        <div class="divTableCell">
+                            <span th:text="${user.subdivisions.typeSubdivisions?.type}"></span>
+                            <span th:if="${user.subdivisions.name != null }">
+                                        <span th:if="${user.subdivisions.name != 9999}" th:text="'- ' + ${user.subdivisions.name}"></span>
+                                    </span>
+                            <span th:if="${user.subdivisions.cities?.id != 1}" th:text="'- ' + ${user.subdivisions.cities?.city}"></span>
+                        </div>
+                        <div  class="divTableCell">
+                            <div th:each="val : ${user.roles}">
+                                <span th:text="${val.name}"></span>
+                            </div>
+                        </div>
+                        <div class="divTableCell">
+                            <button type="button" class="btn btn-warning btn-sm" th:onclick="${'userEdit('+ user.id +')'}">Edit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+</div>
+<div th:replace="/fragments/footer :: footer"></div>
+
+<script type="text/javascript">
+    function userEdit(userId) {
+window.location.href='http://192.200.100.221:8080/elektrik-online/admin/user/editFromAll?id=' + userId;
+}
+</script>
+<script type="text/javascript" th:src="@{'/js/js.js'}"></script>
+</body>
+</html>

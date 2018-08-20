@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="/fragments/header :: head">
+</head>
+<body>
+<div th:replace="/fragments/top :: top"></div>
+<div class="heading">
+    <h2 th:text="${h1name}"></h2>
+</div>
+<div class="table-responsive">
+    <table class="table table-hover table-condensed table-bordered">
+        <form th:action="@{'/counter/statistics'}" method="post">
+            <td>
+                Відділ
+            </td>
+            <td>
+                <select name="subdivisionId" class="subdivision">
+                    <option value="null"></option>
+                    <option selected="true" th:value="${selectedSubdv.id}">
+                        <span th:text="${selectedSubdv.typeSubdivisions?.type}"></span>
+                        <span th:if="${selectedSubdv.name != null }">
+                                        <span th:text="'- ' + ${selectedSubdv.name}"></span>
+                                    </span>
+                        <span th:if="${selectedSubdv.cities?.id != 1}" th:text="'- ' + ${selectedSubdv.cities?.city}"></span>
+                    </option>
+                    <option th:each="subdivision : ${subdivisions}" th:value="${subdivision.id}">
+                        <span th:text="${subdivision.typeSubdivisions?.type}"></span>
+                        <span th:if="${subdivision.name != null }">
+                                            <span th:text="'- ' + ${subdivision.name}"></span>
+                                        </span>
+                        <span th:if="${subdivision.cities?.id != 1}" th:text="'- ' + ${subdivision.cities?.city}"></span>
+                    </option>
+                </select>
+            </td>
+            <td>Рік</td>
+            <td>
+                <select name="dateOfWithdrawalOfIndicators" class="year">
+                    <option th:text="${year}" th:value="${year}" selected="true"></option>
+                    <option th:each="year : ${years}" th:text="${year}" th:value="${year}"></option>
+                </select>
+            </td>
+            <td th:if="${typeIndicators == 0}">
+                <input type="radio" id="indicator"
+                       name="indicators" value="0" checked="checked" />
+                <label for="indicator">Показники</label>
+
+                <input type="radio" id="consumption"
+                       name="indicators" value="1" />
+                <label for="consumption">Використання</label>
+            </td>
+            <td th:if="${typeIndicators == 1}">
+                <input type="radio" id="indicator"
+                       name="indicators" value="0"  />
+                <label for="indicator">Показники</label>
+
+                <input type="radio" id="consumption"
+                       name="indicators" value="1" checked="checked"/>
+                <label for="consumption">Використання</label>
+            </td>
+            <td><input type="submit" /></td>
+        </form>
+    </table>
+</div>
+<div class="table-responsive">
+    <table class="table table-hover table-condensed table-bordered">
+        <thead>
+        <tr>
+            <th>Точка</th>
+            <th>Назва</th>
+            <th>1</th>
+            <th>2</th>
+            <th>3</th>
+            <th>4</th>
+            <th>5</th>
+            <th>6</th>
+            <th>7</th>
+            <th>8</th>
+            <th>9</th>
+            <th>10</th>
+            <th>11</th>
+            <th>12</th>
+        </tr>
+        </thead>
+        <tbody th:if="${typeIndicators == 0}">
+        <tr th:each="counter : ${counters}">
+            <td>
+                <span th:text="${counter.key.subdivisions.typeSubdivisions?.type}"></span>
+                <span th:if="${counter.key.subdivisions.name != null }">
+                    <span th:text="'- ' + ${counter.key.subdivisions.name}"></span>
+                </span>
+                <span th:if="${counter.key.subdivisions.cities?.id != 1}" th:text="'- ' + ${counter.key.subdivisions.cities?.city}"></span>
+            </td>
+            <td th:text="${counter.key.name}">r</td>
+            <span th:each="ind : ${counter.value}">
+                    <td th:text="${ind.indicator}"></td>
+            </span>
+        </tr>
+        </tbody>
+        <tbody th:if="${typeIndicators == 1}">
+        <tr th:each="counter : ${counters}">
+            <td>
+                <span th:text="${counter.key.subdivisions.typeSubdivisions?.type}"></span>
+                <span th:if="${counter.key.subdivisions.name != null }">
+                    <span th:text="'- ' + ${counter.key.subdivisions.name}"></span>
+                </span>
+                <span th:if="${counter.key.subdivisions.cities?.id != 1}" th:text="'- ' + ${counter.key.subdivisions.cities?.city}"></span>
+            </td>
+            <td th:text="${counter.key.name}">r</td>
+            <span th:each="ind : ${counter.value}" >
+                    <td th:text="${ind.consumption}"></td>
+            </span>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<!--<script>-->
+    <!--$('.subdivision').on('change', function() {-->
+        <!--var selected = $(this).val();-->
+        <!--var year = $('.year').val();-->
+        <!--var indicator = $('input[name="indicators"]');-->
+        <!--var checkedIndicator = $("input[name='indicators']:checked").val();-->
+        <!--console.log(selected);-->
+        <!--console.log(year);-->
+        <!--console.log(checkedIndicator);-->
+        <!--$.ajax({-->
+            <!--url: 'http://localhost:8080/counter/statistics',-->
+            <!--type: 'POST',-->
+            <!--data: {'subdivisionId': selected, 'year': year, 'indicators': checkedIndicator},-->
+            <!--success: function(data) {-->
+                <!--console.log(data);-->
+
+                <!--window.location.reload();-->
+            <!--}-->
+        <!--});-->
+    <!--});-->
+<!--</script>-->
+<!--<script th:inline="javascript">-->
+    <!--/*<![CDATA[*/-->
+
+    <!--/*]]>*/-->
+    <!--// }-->
+<!--</script>-->
+<div th:replace="/fragments/footer :: footer"></div>
+
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) 2018. month - 5. day - 4.
+  ~ @Author Violence
+  ~ @All rights reserved
+  -->
+
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/header :: head">
+</head>
+<body>
+<div class="wrapper container">
+    <div th:replace="/fragments/top :: top"></div>
+    <div class="heading">
+        <h2 th:text="${h1name}"></h2>
+    </div>
+    <!--<div th:replace="/fragments/leftnavbar :: left_panel"></div>-->
+    <section class="col-md-17">
+        <div class="table-responsive">
+            <table class="table table-hover table-condensed table-bordered">
+                <tr>
+                    <td>ID:</td>
+                    <td>
+                        <span th:text="${stuffs.id}" th:value="${stuffs.id}"></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Інвентарний номер:</td>
+                    <td><span name="number" th:text="${stuffs.number}"></span></td>
+                </tr>
+                <tr>
+                    <td>Дата виготовлення:</td>
+                    <td><span th:if="${stuffs.dateOfManufacture} != null" th:text="${#calendars.format(stuffs.dateOfManufacture,'dd-MM-yyyy')}"></span></td>
+                </tr>
+                <tr>
+                    <td>Виробник/модель:</td>
+                    <td><span name="model" th:text="${stuffs.model}"></span></td>
+                </tr>
+
+                <tr>
+                    <td>Дата отримання відділом:</td>
+                    <td>
+                        <span th:if="${stuffs.dateOfReceiving} != null" th:text="${#calendars.format(stuffs.dateOfReceiving,'dd-MM-yyyy')}"></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Тип предмета:</td>
+                    <td>
+                        <span name="stuffTypes" th:text="${stuffs.stuffTypes?.type}"></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Відділ</td>
+                    <td>
+                        <span name="subdivisions" th:text="${stuffs.subdivisions?.name}"></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Переміщення предмету</td>
+                    <td>
+                        <div th:each="val : ${stuffs.stuffComments}">
+                            <span th:text="${val.comment}"></span>
+                        </div>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a class="btn btn-link btn-sm" th:href="@{'/stuff/edit/' + ${stuffs.id}}">Редагувати</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </section>
+</div>
+<div th:replace="/fragments/footer :: footer"></div>
+</body>
+</html>

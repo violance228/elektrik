@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/header :: head">
+</head>
+<body>
+<div class="wrapper container">
+    <div th:replace="/fragments/top :: top"></div>
+    <div class="heading">
+        <h2 th:text="${h1name}"></h2>
+    </div>
+        <div th:replace="/fragments/leftnavbar :: left_panel"></div>
+        <section class="col-md-17">
+            <form th:action="@{'/counter/create'}" name="createCounter" method="post">
+                <div class="table-responsive">
+                    <table class="table table-hover table-condensed table-bordered">
+                    <tr>
+                        <label>
+                            <td>Номер лічильника:</td>
+                            <td><input type="number" name="number" id="number" th:maxlength="20" required="true"/></td>
+                        </label>
+                    </tr>
+
+                    <tr>
+                        <label>
+                            <td>Назва:</td>
+                            <td><input type="text" name="name" value="" th:maxlength="20" required="true"/></td>
+                        </label>
+                    </tr>
+
+                    <tr>
+                        <label>
+                            <td>Тип лічильника:</td>
+                            <td>
+                                <select name="type">
+                                    <option value="Вода гаряча">Вода(гаряча)</option>
+                                    <option value="Вода холодна">Вода(холодна)</option>
+                                    <option value="Газ">Газ</option>
+                                    <option value="Електрика">Електрика</option>
+                                </select>
+                            </td>
+                        </label>
+                    </tr>
+
+                    <tr>
+                        <td>Відділ</td>
+                        <td>
+                            <select name ="subdivision">
+                                <option
+                                        th:each="subdivision : ${subdivisions}"
+                                        th:text="${subdivision.name}"
+                                        th:value="${subdivision.id}">
+                                </option>
+                            </select>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Виробник</td>
+                        <td>
+                            <input name="manufacturer" type="text" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><input type="submit" class="btn btn-success btn-sm" name="submit"/></td>
+                    </tr>
+                </table>
+                </div>
+            </form>
+        </section>
+</div>
+<div th:replace="/fragments/footer :: footer"></div>
+
+</body>
+</html>

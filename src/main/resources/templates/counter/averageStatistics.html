@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/header :: head">
+</head>
+<body th:onload="'chartDiagram([' + ${data1} + ',' + ${data2} + ',' + ${data3} + ','  + ${data4} + '])'">
+<div class="wrapper container">
+    <div th:replace="/fragments/top :: top"></div>
+    <div class="heading">
+        <h2 th:text="${h1name}"></h2>
+    </div>
+    <section class="col-md-17">
+        <form th:action="@{'/counter/averageStatisticByYear'}" method="post">
+            <table>
+                <tr>
+                    <td>
+                        <select name="firstYear">
+                            <option th:value="0"></option>
+                            <option th:text="${dateFirstYear}" th:value="${dateFirstYear}" selected="true"></option>
+                            <option th:each="year : ${years}" th:text="${year}" th:value="${year}"></option>
+                        </select>
+                    </td>
+                    <td>
+                        <select name="secondYear">
+                            <option th:value="0"></option>
+                            <option th:text="${dateSecondYear}" th:value="${dateSecondYear}" selected="true"></option>
+                            <option th:each="year : ${years}" th:text="${year}" th:value="${year}"></option>
+                        </select>
+                    </td>
+                    <td>
+                        <select name="thirdYear">
+                            <option th:value="0"></option>
+                            <option th:text="${dateThirdYear}" th:value="${dateThirdYear}" selected="true"></option>
+                            <option th:each="year : ${years}" th:text="${year}" th:value="${year}"></option>
+                        </select>
+                    </td>
+                    <td>
+                        <select name="fourthYear">
+                            <option th:value="0"></option>
+                            <option th:text="${dateFourthYear}" th:value="${dateFourthYear}" selected="true"></option>
+                            <option th:each="year : ${years}" th:text="${year}" th:value="${year}"></option>
+                        </select>
+                    </td>
+                    <td>
+                        <select name="counters" multiple="true" size="10">
+                            <optgroup th:each="subdivision : ${subdivisions}" th:label="${subdivision.typeSubdivisions?.type + '- ' + subdivision.name + '- ' + subdivision.cities?.city}">
+                                <option th:each="counters : ${subdivision.counters}" th:text="${counters.number + '-' + counters.name}" th:value="${counters.id}"></option>
+                            </optgroup>
+                        </select>
+                    </td>
+                    <td><input type="submit" value="Підтвердити"/></td>
+                </tr>
+            </table>
+        </form>
+        <canvas id="line-chart" width="800" height="400"></canvas>
+        <script type="text/javascript">
+            // var a = ;
+            // var b = [0, 10, 10, 100, 50, 60, 80, 90, 20];
+            // chartDiagram(["0s", "10s", "20s", "30s", "40s", "50s", "60s"], [0, 1, 10, 2 , 100]);
+
+            function chartDiagram(data) {
+                console.log(data);
+                new Chart(document.getElementById("line-chart"), {
+                    type: 'line',
+                    data: {
+                        labels: "",
+                        datasets: [{
+                            data: data,
+                            label: "Показники лічильника - "  ,
+                            borderColor: "#3e95cd",
+                            fill: false
+                        }]
+                    },
+                    options: {
+                        title: {
+                            display: true,
+                            text: 'Показники кВт/год'
+                        }
+                    }
+                });
+            }
+        </script>
+    </section>
+</div>
+<div th:replace="/fragments/footer :: footer"></div>
+</body>
+</html>

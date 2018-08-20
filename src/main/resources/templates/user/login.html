@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Login Form</title>
+    <link th:href="@{'/css/register.css'}" rel="stylesheet"/>
+    <script type="text/javascript" th:src="@{'/js/jquery.js'}"></script>
+</head>
+<body>
+<div class="form">
+    <ul class="tab-group">
+        <li class="tab"><h2>Log In</h2></li>
+    </ul>
+    <div class="tab-content">
+            <h1>З поверненням!</h1>
+
+            <form th:action="@{'/user/login'}" method="post">
+
+                <div class="field-wrap">
+                    <label>
+                        Логін<span class="req">*</span>
+                    </label>
+                    <input type="text" name="username" required="true"/>
+                </div>
+
+                <div class="field-wrap">
+                    <label>
+                        Пароль<span class="req">*</span>
+                    </label>
+                    <input type="password" name="password" required="true"/>
+                </div>
+
+                <button class="button button-block">Увійти</button>
+
+            </form>
+
+    </div><!-- tab-content -->
+
+</div> <!-- /form -->
+<script type="text/javascript" th:src="@{'/js/registr.js'}"></script>
+</body>
+</html>

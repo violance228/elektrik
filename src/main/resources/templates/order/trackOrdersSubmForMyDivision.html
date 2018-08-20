@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/header :: head">
+</head>
+<body>
+<div class="wrapper container">
+    <div th:replace="/fragments/top :: top"></div>
+    <div class="heading">
+        <h2 th:text="${h1name}"></h2>
+    </div>
+        <section class="col-md-17">
+            <!--<div class="table-responsive">-->
+                <!--<table class="table table-hover table-condensed table-bordered">-->
+                    <!--<form action="/order/trackOrdersSubmForMyDivision" method="post">-->
+                        <!--<tr>-->
+                            <!--<th>Surname</th>-->
+                            <!--<th>Для відділа</th>-->
+                            <!--<th>Дата</th>-->
+                            <!--<th>Status</th>-->
+                            <!--<th>Сортувати</th>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td><input type="text" name="userId"/></td>-->
+                            <!--<td><div class="styled-select">-->
+                                <!--<select name ="subdivisionId">-->
+                                    <!--<option value=""></option>-->
+                                    <!--<option-->
+                                            <!--th:each="subdivision : ${subdivisions}"-->
+                                            <!--th:text="${subdivision.name}"-->
+                                            <!--th:value="${subdivision.id}">-->
+                                    <!--</option>-->
+                                <!--</select>-->
+                            <!--</div>-->
+                            <!--</td>-->
+                            <!--<td> <div class="styled-select">-->
+                                <!--<select name="day">-->
+                                    <!--<option value=""></option>-->
+                                    <!--<option ></option>-->
+                                <!--</select>-->
+                            <!--</div>-->
+                            <!--</td>-->
+                            <!--<td><input type="text" name="status"/></td>-->
+                            <!--<td><input type="submit" class="btn btn-success btn-sm" value="Сорт"/></td>-->
+                        <!--</tr>-->
+                    <!--</form>-->
+                <!--</table>-->
+            <!--</div>-->
+        <div class="divTable redTable">
+        <div class="divTableHeading">
+            <div class="divTableRow">
+                <div class="divTableHead">Текст Заявки</div>
+                <div class="divTableHead">Дата подачі</div>
+                <div class="divTableHead">Виконано</div>
+                <div class="divTableHead">Від відділу</div>
+                <div class="divTableHead">Автор</div>
+                <div class="divTableHead">Статус</div>
+            </div>
+        </div>
+        <div class="divTableBody">
+            <div class="divTableRow" th:each="orders : ${subDivision}" th:if="${orders.status.id != 1}">
+                <div th:text="${orders.applicationText}" class="divTableCell">cell2_1</div>
+                <div class="divTableCell">
+                    <span th:if="${orders.dateOfApplication} != null" th:text="${#calendars.format(orders.dateOfApplication,'dd-MM-yyyy')}"></span>
+                </div>
+                <div class="divTableCell">
+                    <span th:if="${orders.dateOfCompletion} != null" th:text="${#calendars.format(orders.dateOfCompletion,'dd-MM-yyyy')}"></span>
+                </div>
+                <div th:text="${orders.users?.subdivisions?.name}" class="divTableCell">cell4_1</div>
+                <div th:text="${orders.users?.surname}" class="divTableCell">cell5_1</div>
+                <div  class="divTableCell">
+                    <a th:href="@{'/order/track/'+ ${orders.id}}"><span th:text="${orders.status.name}"></span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+        </section>
+</div>
+<div th:replace="/fragments/footer :: footer"></div>
+</body>
+</html>

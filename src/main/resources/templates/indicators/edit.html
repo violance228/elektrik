@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/header :: head">
+</head>
+<body th:onload="'chartDiagram(' + '[' + ${data} + '], '+ ${labels} + ')'">
+<script type="text/javascript" th:src="@{'/js/Chart.min.js'}"></script>
+<div class="wrapper container">
+    <div th:replace="/fragments/top :: top"></div>
+    <div class="heading">
+        <h2 id="h2" th:text="${h1name}"></h2>
+    </div>
+        <!--<div th:replace="/fragments/leftnavbar :: left_panel"></div>-->
+        <section class="col-md-17">
+                <div class="table-responsive">
+                    <table class="table table-hover table-condensed table-bordered">
+                        <tr>
+                            <th>Дата зняття показника</th>
+                            <th>Показник</th>
+
+                            <th>Редагувати</th>
+                        </tr>
+                        <h1>Створити показники</h1>
+                        <tr>
+                            <form th:action="@{'/indicator/add'}" method="post">
+                                <td><input type="date" name="dat" th:maxlength="20" required="true"/></td>
+                                <td><input type="number" name="indicator" th:maxlength="20" required="true"/></td>
+                                <td hidden="hidden">
+                                    <select name="counterId" >
+                                        <option th:text="${counterId}"></option>
+                                    </select>
+                                </td>
+                                <td><input type="submit" class="btn btn-success btn-sm" value="Додати показники"/></td>
+                            </form>
+                        </tr>
+                    </table>
+                </div>
+                        <h1>Редагувати показники</h1>
+
+                    <table class="table table-hover table-condensed table-bordered">
+                        <tr>
+                            <th>ID</th>
+                            <th>Дата зняття показника</th>
+                            <th>Показник</th>
+                            <th>Використання</th>
+                            <th>Редагувати</th>
+                        </tr>
+                        <tr th:each="indicator : ${indicators}">
+                            <form th:action="@{'/indicator/edit'}" method="post">
+                                <td>
+                                    <select name="id">
+                                        <option th:text="${indicator.id}"></option>
+                                    </select>
+                                </td>
+
+                                <td><input type="date" name="dat" th:value="${#calendars.format(indicator?.date, 'yyyy-MM-dd')}" required="true"/></td>
+
+                                <td><input type="number" name="indicator" th:value="${indicator.indicator}" th:maxlength="20" required="true"/></td>
+
+                                <td th:text="${indicator.consumption}"></td>
+
+                                <td><input type="submit" class="btn btn-success btn-sm" value="Редагувати показник"/></td>
+                            </form>
+                        </tr>
+
+
+                    </table>
+            <canvas id="line-chart" width="800" height="400"></canvas>
+            <script type="text/javascript">
+                // var a = ;
+                // var b = [0, 10, 10, 100, 50, 60, 80, 90, 20];
+                // chartDiagram(["0s", "10s", "20s", "30s", "40s", "50s", "60s"], [0, 1, 10, 2 , 100]);
+
+                function chartDiagram(data, labels) {
+
+                    new Chart(document.getElementById("line-chart"), {
+                        type: 'line',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                data: data,
+                                label: "Показники лічильника - " +document.getElementById("count").outerText,
+                                borderColor: "#3e95cd",
+                                fill: false
+                            }]
+                        },
+                        options: {
+                            title: {
+                                display: true,
+                                text: 'Показники кВт/год'
+                            }
+                        }
+                    });
+                }
+            </script>
+        </section>
+                </div>
+<div th:replace="/fragments/footer :: footer"></div>
+
+</body>
+</html>

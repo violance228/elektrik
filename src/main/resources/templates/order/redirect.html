@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/header :: head">
+</head>
+<body>
+<div class="wrapper container">
+    <div th:replace="/fragments/top :: top"></div>
+    <div class="heading">
+        <h2 th:text="${h1name}"></h2>
+    </div>
+    <section class="col-md-17">
+        <table class="table table-hover table-condensed table-bordered">
+                    <form th:action="@{'/order/redirectOrderToSubdivision'}" method="post">
+                        <tr><td>ID</td>
+                            <td>
+                                <select name="id">
+                                    <option th:value="${order.id}" th:text="${order.id}"></option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr><td>Коментар</td>
+                            <td>
+                                <textarea name="comment" placeholder="не обов'язково"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Перенаправити в відділ</td>
+                            <td>
+                                <select name="subdivision">
+                                    <option th:text="${order.subdivisions?.name}" th:value="${order.subdivisions?.id}"></option>
+                                    <option
+                                            th:each="subdivision : ${subdivisions}"
+                                            th:text="${subdivision.name}"
+                                            th:value="${subdivision.id}">
+                                    </option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr><td><input class="btn btn-success btn-sm" type="submit"/></td>  </tr>
+                    </form>
+        </table>
+    </section>
+</div>
+<div th:replace="/fragments/footer :: footer"></div>
+</body>
+</html>
