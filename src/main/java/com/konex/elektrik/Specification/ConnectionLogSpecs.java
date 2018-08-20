@@ -48,7 +48,6 @@ public class ConnectionLogSpecs implements Specification<ConnectionLog> {
             String param;
             String day, month, year;
 
-
             System.out.println("------------------------------------------------------\npredicates_cnt: " + predicates.size());
             return cb.and(predicates.toArray(new Predicate[]{}));
         };
