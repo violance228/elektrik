@@ -3,5 +3,3 @@ package com.konex.elektrik.Repository;///*
 // * @Author Violence
 // * @All rights reserved
 // */
-//
-//package com.konex.elektrik
