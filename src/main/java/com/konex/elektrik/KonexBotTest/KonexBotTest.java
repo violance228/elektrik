@@ -67,8 +67,7 @@ package com.konex.elektrik.KonexBotTest;//package com.konex.elektrik.KonexBotTes
 //                 user.setLongitude(update.getMessage().getLocation().getLongitude());
 //                 userService.addToUserChatId(user);
 //             }
-//         }
-//        else if (update.hasMessage() && update.getMessage().hasText()) {
+//         } else if (update.hasMessage() && update.getMessage().hasText()) {
 //
 //            Long orderGetNumber = null;
 //            try {
