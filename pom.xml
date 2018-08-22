@@ -103,7 +103,7 @@
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat8-war-runner</artifactId>
-				<version>RELEASE</version>
+				<version>3.0-r1655215</version>
 				<configuration>
 					<url>http://localhost:8080/manager/text</url>
 					<server>TomcatServer</server>
