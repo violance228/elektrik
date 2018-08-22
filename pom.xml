@@ -5,7 +5,7 @@
 
 	<groupId>com.konex</groupId>
 	<artifactId>elektrik</artifactId>
-	<version>oline</version>
+	<version>online</version>
 	<packaging>war</packaging>
 
 	<name>elektrik</name>
