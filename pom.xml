@@ -99,7 +99,7 @@
 					</compilerArguments>
 				</configuration>
 			</plugin>
-			
+<!-- 			
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
     				<artifactId>tomcat7-maven-plugin</artifactId>
@@ -110,7 +110,7 @@
 					<username>tomcat</username>
         				<password>1216</password>
 				</configuration>
-			</plugin>
+			</plugin> -->
 			
 		</plugins>
 
