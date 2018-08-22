@@ -55,11 +55,7 @@ public class AdminController {
     @Autowired
     private ConnectionLogService connectionLogService;
     final static Logger log = Logger.getLogger(SecurityConfig.class.getName());
-//    @RequestMapping( value = "/index", method = RequestMethod.GET)
-//    public String menu(Model model) {
-//
-//        return "/user/index";
-//    }
+
 //*************************************************************************************
 //*************************************USER*******************************************
 //*************************************************************************************
@@ -175,15 +171,6 @@ public class AdminController {
         return "redirect:/admin/user/trackAll";
     }
 
-//    @RequestMapping( value = "/findByParam", method = RequestMethod.POST)
-//    public String findByParamPost(Model model, UserFilter userFilter) {
-//
-//        System.out.println("====== paramUserGet ======");
-//
-//        model.addAttribute("users", userService.findByCriteriaQuery(userFilter));
-//
-//        return "/user/findByParam";
-//    }
 
 //*************************************************************************************
 //*************************************SUBDIVISION*************************************
@@ -231,7 +218,6 @@ public class AdminController {
         model.addAttribute("buttons", buttons);
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
-        model.addAttribute("active", "active");
         model.addAttribute("h1name", "Редагувати підрозділи");
         model.addAttribute("subdivisions", subdivisionService.getById(id));
         Long currUserId = (Long)session.getAttribute("currUserId");
@@ -248,7 +234,6 @@ public class AdminController {
         model.addAttribute("buttons", buttons);
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
-        model.addAttribute("active", "active");
         model.addAttribute("h1name", "Редагувати підрозділи");
         subdivision = subdivisionService.editSubdivision(subdivision);
         return "redirect:/subdivision/track/" + subdivision.getId();
@@ -262,7 +247,6 @@ public class AdminController {
         model.addAttribute("buttons", buttons);
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
-        model.addAttribute("active", "active");
         Long currUserId = (Long)session.getAttribute("currUserId");
         User user = userService.getById(currUserId);
         model.addAttribute("userLogo", user.getName());
@@ -283,7 +267,6 @@ public class AdminController {
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Переглянути всі замовлення ");
-        model.addAttribute("active", "active");
         Long currUserId = (Long)session.getAttribute("currUserId");
         User user = userService.getById(currUserId);
         model.addAttribute("userLogo", user.getName());
@@ -300,7 +283,6 @@ public class AdminController {
         List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
         model.addAttribute("buttons", buttons);
         model.addAttribute("h1name", "Переглянути всі замовлення ");
-        model.addAttribute("active", "active");
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         Long currUserId = (Long)session.getAttribute("currUserId");
@@ -308,7 +290,7 @@ public class AdminController {
         try {
             orderFilter.setUsername(userService.findByUsername(orderFilter.getUsername()).getId().toString());
         } catch (NullPointerException e) {
-            System.out.println("eroro");
+            System.out.println("error");
         }
         model.addAttribute("userLogo", user.getName());
         List<Order> orders = orderService.getByCriteria(orderFilter, new Sort(Sort.Direction.DESC, "dateOfApplication"));
@@ -331,7 +313,7 @@ public class AdminController {
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Переглянути всі відрядження");
-        model.addAttribute("active", "active");
+
         Long currUserId = (Long)session.getAttribute("currUserId");
         User user = userService.getById(currUserId);
         model.addAttribute("userLogo", user.getName());
