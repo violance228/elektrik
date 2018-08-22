@@ -107,7 +107,8 @@
 				<configuration>
 					<url>http://localhost:8080/manager/text</url>
 					<server>TomcatServer</server>
-					<path>/myapp</path>
+					<username>tomcat</username>
+        				<password>1216</password>
 				</configuration>
 			</plugin>
 			
