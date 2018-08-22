@@ -54,7 +54,7 @@ public class CounterController {
         model.addAttribute("h1name", "Створити лічильник");
         model.addAttribute("active", "active");
         model.addAttribute("subdivisions", subdivisionService.getAll(new Sort(Sort.Direction.ASC, "id")));
-//        model.addAttribute("manufacturers", manufacturerService.getAll(new Sort(Sort.Direction.DESC, "date")));
+
         return "/counter/create";
     }
 
