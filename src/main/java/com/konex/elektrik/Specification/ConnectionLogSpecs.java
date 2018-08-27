@@ -41,23 +41,12 @@ public class ConnectionLogSpecs implements Specification<ConnectionLog> {
     public static Specification<ConnectionLog> connectionLogSpecsByFilter(ConnectionLogFilter connectionLogFilter) {
         System.out.println("**************************** orderSpecByFilter **************************** " + connectionLogFilter);
         return (root, query, cb) -> {
-            //Constructing list of parameters
+            //Constructing list of parameter
             List<Predicate> predicates = new ArrayList<Predicate>();
             Predicate predicate = null;
             SingularAttribute attribute = null;
             String param;
             String day, month, year;
-
-//            if (connectionLogFilter.getUserUsername() != null) {
-//                attribute = ConnectionLog_.users;
-//                String search = null;
-//                connectionLogFilter.setUserUsername();
-////                search =
-//                predicate = SpecsMethods.getSpecForText(attribute, search, root, cb);
-//                if (predicate != null) {
-//                    predicates.add(predicate);
-//                }
-//            }
 
             System.out.println("------------------------------------------------------\npredicates_cnt: " + predicates.size());
             return cb.and(predicates.toArray(new Predicate[]{}));

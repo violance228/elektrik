@@ -1,5 +1,5 @@
 package com.konex.elektrik.KonexBotTest;//package com.konex.elektrik.KonexBotTest;
-//
+
 //import com.konex.elektrik.Entity.Order;
 //import com.konex.elektrik.Entity.Status;
 //import com.konex.elektrik.Entity.Subdivision;
@@ -67,8 +67,7 @@ package com.konex.elektrik.KonexBotTest;//package com.konex.elektrik.KonexBotTes
 //                 user.setLongitude(update.getMessage().getLocation().getLongitude());
 //                 userService.addToUserChatId(user);
 //             }
-//         }
-//        else if (update.hasMessage() && update.getMessage().hasText()) {
+//         } else if (update.hasMessage() && update.getMessage().hasText()) {
 //
 //            Long orderGetNumber = null;
 //            try {

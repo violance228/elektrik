@@ -54,7 +54,7 @@ public class CounterController {
         model.addAttribute("h1name", "Створити лічильник");
         model.addAttribute("active", "active");
         model.addAttribute("subdivisions", subdivisionService.getAll(new Sort(Sort.Direction.ASC, "id")));
-//        model.addAttribute("manufacturers", manufacturerService.getAll(new Sort(Sort.Direction.DESC, "date")));
+
         return "/counter/create";
     }
 
@@ -115,7 +115,6 @@ public class CounterController {
         User user = userService.getById(currUserId);
         model.addAttribute("userLogo", user.getName());
         model.addAttribute("subdivisions", subdivisionService.getAll(new Sort(Sort.Direction.ASC, "id")));
-//        model.addAttribute("manufacturers", manufacturerService.getAll(new Sort(Sort.Direction.DESC, "date")));
 
         return "/counter/edit";
     }
@@ -143,7 +142,7 @@ public class CounterController {
         model.addAttribute("userLogo", user.getName());
         model.addAttribute("counters", counterService.getAll(new Sort(Sort.Direction.ASC, "subdivisions.name")));
         model.addAttribute("subdivisions", subdivisionService.getAll(new Sort(Sort.Direction.ASC, "name")));
-//        model.addAttribute("manufacturers", manufacturerService.getAll(new Sort(Sort.Direction.DESC, "date")));
+        
         return "/counter/trackAll";
     }
 
@@ -161,7 +160,6 @@ public class CounterController {
         model.addAttribute("userLogo", user.getName());
         model.addAttribute("counters", counterService.findCounterByCriteria(counterFilter));
         model.addAttribute("subdivisions", subdivisionService.getAll(new Sort(Sort.Direction.ASC, "name")));
-//        model.addAttribute("manufacturers", manufacturerService.getAll(new Sort(Sort.Direction.DESC, "date")));
 
         return "/counter/trackAll";
     }
@@ -217,8 +215,6 @@ public class CounterController {
         Long currUserId = (Long) session.getAttribute("currUserId");
         User user = userService.getById(currUserId);
         model.addAttribute("userLogo", user.getName());
-//        model.addAttribute("counters", counterService.getStatisticsBySpec(counterFilter));
-
 
         if (subdivisionId != null) {
             Subdivision subdivision = subdivisionService.getById(subdivisionId);
@@ -419,35 +415,7 @@ public class CounterController {
             }
         }
 
-//        try {
-//
-//            IndicatorsController controller = new IndicatorsController();
-//
-////            if (counterBySubdivList.get(0) != null) {
-//                model.addAttribute("data1", controller.getIndicatorsByCounterAndYear(thisYear, counterBySubdivList.get(0).getId()));
-//                model.addAttribute("counter1", counterBySubdivList.get(0).getNumber());
-////            }
-////            if (counterBySubdivList.get(1) != null) {
-//                model.addAttribute("data2", controller.getIndicatorsByCounterAndYear(thisYear, counterBySubdivList.get(1).getId()));
-//                model.addAttribute("counter2", counterBySubdivList.get(1).getNumber());
-////            }
-////            if (counterBySubdivList.get(2) != null) {
-//                model.addAttribute("data3", controller.getIndicatorsByCounterAndYear(thisYear, counterBySubdivList.get(2).getId()));
-//                model.addAttribute("counter3", counterBySubdivList.get(2).getNumber());
-////            }
-////            if (counterBySubdivList.get(3) != null) {
-//                model.addAttribute("data4", controller.getIndicatorsByCounterAndYear(thisYear, counterBySubdivList.get(3).getId()));
-//                model.addAttribute("counter4", counterBySubdivList.get(3).getNumber());
-////            }
-////            if (counterBySubdivList.get(4) != null) {
-//                model.addAttribute("data5", controller.getIndicatorsByCounterAndYear(thisYear, counterBySubdivList.get(4).getId()));
-//                model.addAttribute("counter5", counterBySubdivList.get(4).getNumber());
-////            }
-//        } catch (NullPointerException e) {
-//
-//        } catch (IndexOutOfBoundsException e) {
-//
-//        }
+
         model.addAttribute("subdivisions", subdivisionService.getAll(new Sort(Sort.Direction.ASC, "name")));
         model.addAttribute("selectedSubdv", user.getSubdivisions());
         model.addAttribute("counters", counterListMap);

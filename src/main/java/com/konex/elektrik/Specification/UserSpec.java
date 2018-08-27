@@ -14,9 +14,8 @@ import java.util.List;
 
 public class UserSpec implements Specification<User> {
 
-    public UserSpec() {
-    }
-
+    public UserSpec() {} 
+    
     @Autowired
     private static UserService userService;
 
@@ -26,7 +25,7 @@ public class UserSpec implements Specification<User> {
 
     /**
      * Returns Predicates and Criterias for Order filtering
-     *
+    
      * @param userFilter object of OrderFilter class
      * @return Spec for Order
      */
@@ -50,9 +49,7 @@ public class UserSpec implements Specification<User> {
                 if (predicate != null) {
                     predicates.add(predicate);
                 }
-            }
-
-            if (userFilter.getUserSurname() != null) {
+            } if (userFilter.getUserSurname() != null) {
                 System.out.println("**********************************orderSpecGetSubdivisionId-----------"+ userFilter.getUserSurname());
                 attribute = User_.surname;
                 String search = null;
@@ -61,9 +58,7 @@ public class UserSpec implements Specification<User> {
                 if (predicate != null) {
                     predicates.add(predicate);
                 }
-            }
-//            userService.findUserBySurname(userFilter.getUserSurname()).getId().toString();
-            if(userFilter.getUserName() != null) {
+            } if(userFilter.getUserName() != null) {
                 System.out.println("**********************************orderSpecGetSubdivisionId----------"+ userFilter.getUserName());
                 attribute = User_.username;
                 String search = null;
@@ -73,16 +68,6 @@ public class UserSpec implements Specification<User> {
                     predicates.add(predicate);
                 }
             }
-
-//            if (userFilter.getRolesId() != null) {
-//                attribute = User_.;
-//                String search = null;
-//                search = userFilter.getRolesId();
-//                predicate = SpecsMethods.getSpecForNumbers(attribute, search, root, cb);
-//                if (predicate != null) {
-//                    predicates.add(predicate);
-//                }
-//            }
 
             System.out.println("------------------------------------------------------\npredicates_cnt: " + predicates.size());
             return cb.and(predicates.toArray(new Predicate[]{}));
