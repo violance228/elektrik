@@ -1,6 +1,8 @@
 package com.konex.elektrik.Controller;
 
 import com.konex.elektrik.Config.SecurityConfig;
+import com.konex.elektrik.Config.SessionListener;
+import com.konex.elektrik.Const.ProjectVersion;
 import com.konex.elektrik.Entity.Buttons;
 import com.konex.elektrik.Entity.User;
 import com.konex.elektrik.Service.Buttons.ButtonsService;
@@ -83,18 +85,19 @@ public class UserController {
 
 //    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @RequestMapping(value = "/personalInform", method = RequestMethod.GET)
-    public String trackUser(HttpSession session , Model model) {
+    public String trackUser(HttpSession session , Model modelAtt) {
 
         List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
-        model.addAttribute("buttons", buttons);
+        modelAtt.addAttribute("buttons", buttons);
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
-        model.addAttribute("button", button);
-        model.addAttribute("h1name", "Особистий кабінет");
-        model.addAttribute("active", "active");
+        modelAtt.addAttribute("button", button);
+        modelAtt.addAttribute("h1name", "Особистий кабінет");
+        modelAtt.addAttribute("active", "active");
         Long currUserId = (Long)session.getAttribute("currUserId");
         User user = userService.getById(currUserId);
-        model.addAttribute("users", user);
-        model.addAttribute("userLogo", user.getName());
+        modelAtt.addAttribute("users", user);
+        modelAtt.addAttribute("userLogo", SessionListener.getNumberOfUsersOnline());
+
         return "/user/personalOffice";
     }
 }
