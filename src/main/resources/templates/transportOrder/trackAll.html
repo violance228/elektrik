@@ -9,8 +9,7 @@
     <div class="heading">
         <h2 th:text="${h1name}"></h2>
     </div>
-    <div th:replace="/fragments/leftnavbar :: left_panel"></div>
-    <section class="col-md-17">
+    <div class="col-md-17">
         <div class="divTable redTable">
             <div class="divTableHeading">
                 <div class="divTableRow">
@@ -35,7 +34,7 @@
                     </div>
                     <div th:if="${trOrder.assignments.date$TimeOfDeparture != null}" th:text="${#dates.format(trOrder.assignments.date$TimeOfDeparture, 'yyyy-MM-dd HH:mm')}" class="divTableCell"></div>
                     <div class="divTableCell">
-                        <span th:each="assign : ${trOrder.assignments.citiesTravels}" th:text="${assign.cities.city}"></span>
+                        <span th:each="assign : ${trOrder.assignments.citiesTravels}" th:text="${assign.cities.city + ' '}"></span>
                     </div>
                     <div th:text="${trOrder.cars.brand + '-' + trOrder.cars.model}" class="divTableCell">cell2_1</div>
                     <div th:text="${trOrder.comment}" class="divTableCell">cell2_1</div>
@@ -45,7 +44,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 </div>
 <div th:replace="/fragments/footer :: footer"></div>
 </body>

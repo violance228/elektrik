@@ -9,8 +9,7 @@
     <div class="heading">
         <h2 th:text="${h1name}"></h2>
     </div>
-        <div th:replace="/fragments/leftnavbar :: left_panel"></div>
-        <section class="col-md-17">
+        <div class="col-md-17">
             <form th:action="@{'/order/create'}" name="createOrder" method="post">
                 <div class="table-responsive">
                     <table class="table table-hover table-condensed table-bordered">
@@ -45,9 +44,8 @@
                 </table>
                 </div>
             </form>
-        </section>
+        </div>
 </div>
 <div th:replace="/fragments/footer :: footer"></div>
-
 </body>
 </html>

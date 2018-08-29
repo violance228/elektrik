@@ -34,7 +34,13 @@
                 <div class="divTableCell">
                     <span th:if="${userOrder.dateOfCompletion} != null" th:text="${#calendars.format(userOrder?.dateOfCompletion,'dd-MM-yyyy')}"></span>
                 </div>
-                <div th:text="${userOrder.subdivisions?.name}" class="divTableCell">cell4_1</div>
+                <div th:text="${userOrder.subdivisions?.name}" class="divTableCell">
+                    <span th:text="${userOrder.subdivisions.typeSubdivisions?.type}"></span>
+                    <span th:if="${userOrder.subdivisions.name != null }">
+                                        <span th:if="${userOrder.subdivisions.name != 9999}" th:text="'- ' + ${userOrder.subdivisions.name}"></span>
+                                    </span>
+                    <span th:if="${userOrder.subdivisions.cities?.id != 1}" th:text="'- ' + ${userOrder.subdivisions.cities?.city}"></span>
+                </div>
                 <div th:text="${userOrder.surname}" class="divTableCell">cell5_1</div>
                 <div class="divTableCell">
                     <a th:href="@{'/order/track/'+ ${userOrder.id}}"><span th:text="${userOrder.status.name}"></span></a>

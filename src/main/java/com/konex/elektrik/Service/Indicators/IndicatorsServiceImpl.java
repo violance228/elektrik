@@ -17,9 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class IndicatorsServiceImpl
-//        extends JdbcDaoSupport
-        implements IndicatorsService {
+public class IndicatorsServiceImpl implements IndicatorsService {
 
     @Autowired
     private IndicatorsRepository indicatorsRepository;

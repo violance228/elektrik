@@ -9,7 +9,6 @@
     <div class="heading">
         <h2 th:text="${h1name}"></h2>
     </div>
-        <div th:replace="/fragments/leftnavbar :: left_panel"></div>
         <section class="col-md-17">
             <form th:action="@{'/counter/edit'}" name="editCounter" method="post">
                 <div class="table-responsive">

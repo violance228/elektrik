@@ -15,12 +15,11 @@
     <div class="heading">
         <h2 th:text="${h1name}"></h2>
     </div>
-    <!--<div th:replace="/fragments/leftnavbar :: left_panel"></div>-->
     <section class="col-md-17">
         <div class="table-responsive">
             <table class="table table-hover table-condensed table-bordered">
                 <form th:action="@{'/stuff/edit'}" name="stuff" method="post">
-                    <tr>
+                    <tr hidden="hidden">
                         <td>ID:</td>
                         <td>
                             <select name ="id">

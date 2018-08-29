@@ -9,12 +9,11 @@
     <div class="heading">
         <h2 th:text="${h1name}"></h2>
     </div>
-        <div th:replace="/fragments/leftnavbar :: left_panel"></div>
         <section class="col-md-17">
             <form th:action="@{'/order/edit'}" method="post">
                 <div class="table-responsive">
                     <table class="table table-hover table-condensed table-bordered">
-                        <tr>
+                        <tr hidden="hidden">
                             <label>
                                 <td>ID:</td>
                                 <td>
@@ -38,8 +37,12 @@
                                     <option th:text="${order.subdivisions?.name}" th:value="${order.subdivisions?.id}" selected="true"></option>
                                     <option
                                             th:each="subdivision : ${subdivisions}"
-                                            th:text="${subdivision.name}"
                                             th:value="${subdivision.id}">
+                                        <span th:text="${subdivision.typeSubdivisions?.type}"></span>
+                                        <span th:if="${subdivision.name != null }">
+                                        <span th:if="${subdivision.name != 9999}" th:text="'- ' + ${subdivision.name}"></span>
+                                    </span>
+                                        <span th:if="${subdivision.cities?.id != 1}" th:text="'- ' + ${subdivision.cities?.city}"></span>
                                     </option>
                                 </select>
                             </td>

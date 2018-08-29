@@ -9,7 +9,6 @@
     <div class="heading">
         <h2 style="margin-left: 5%" th:text="${orders.status.name}"></h2>
     </div>
-    <div th:replace="/fragments/leftnavbar :: left_panel"></div>
     <section class="col-md-17">
         <div class="table-responsive">
             <table class="table table-hover table-condensed table-bordered">
@@ -39,7 +38,13 @@
                 </tr>
                 <tr>
                     <td>Підрозділ, що подав заявку</td>
-                    <td th:text="${orders.users.subdivisions.name}"></td>
+                    <td>
+                        <span th:text="${orders.users.subdivisions.typeSubdivisions?.type}"></span>
+                        <span th:if="${orders.users.subdivisions.name != null }">
+                                        <span th:if="$orders.users.{subdivisions.name != 9999}" th:text="'- ' + ${orders.users.subdivisions.name}"></span>
+                                    </span>
+                        <span th:if="${orders.users.subdivisions.cities?.id != 1}" th:text="'- ' + ${orders.users.subdivisions.cities?.city}"></span>
+                    </td>
                 </tr>
                 <tr th:if="${session.currUserId != orders.users.id}">
                     <td>Змінити статус/Перенаправити</td>

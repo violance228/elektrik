@@ -182,6 +182,7 @@ public class CounterController {
 
         Calendar calendar = Calendar.getInstance();
         Subdivision subdivision = new Subdivision();
+        subdivision.setName((long) subdivisionService.getAll(new Sort(Sort.Direction.ASC, "name")).size());
         Date date = new Date();
         Calendar calendarThisYear = Calendar.getInstance();
         calendarThisYear.setTime(date);
@@ -192,9 +193,8 @@ public class CounterController {
         model.addAttribute("year", thisYear);
         Year years = new Year();
         model.addAttribute("years", years.getArrayYear());
-        model.addAttribute("counters", counterListMap(thisYear));
+        model.addAttribute("counters", counterService.counterListMap(thisYear));
         model.addAttribute("subdivisions", subdivisionService.getAll(new Sort(Sort.Direction.ASC, "name")));
-        model.addAttribute("selectedSubdv", subdivision);
         model.addAttribute("typeIndicators", 0);
 
         return "/counter/statistics";
@@ -202,9 +202,9 @@ public class CounterController {
 
     @RequestMapping(value = "/statistics", method = RequestMethod.POST)
     public String statisticsPOST(Model model, HttpSession session,
-                                 @RequestParam(name = "year", required = false) int year,
+                                 @RequestParam(name = "dateOfWithdrawalOfIndicators", required = false) Integer year,
                                  @RequestParam(name = "subdivisionId", required = false) Long subdivisionId,
-                                 @RequestParam(name = "indicators", required = false) int typeIndicators) {
+                                 @RequestParam(name = "indicators", required = false) Integer typeIndicators) {
 
         List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
         model.addAttribute("buttons", buttons);
@@ -216,14 +216,14 @@ public class CounterController {
         User user = userService.getById(currUserId);
         model.addAttribute("userLogo", user.getName());
 
-        if (subdivisionId != null) {
+        if (subdivisionId != 0) {
             Subdivision subdivision = subdivisionService.getById(subdivisionId);
             model.addAttribute("selectedSubdv", subdivision);
-            model.addAttribute("counters", counterBySubdivisionListMap(year, subdivisionId));
+            model.addAttribute("counters", counterService.counterBySubdivisionListMap(year, subdivisionId));
         } else {
             Subdivision subdivision = new Subdivision();
             model.addAttribute("selectedSubdv", subdivision);
-            model.addAttribute("counters", counterListMap(year));
+            model.addAttribute("counters", counterService.counterListMap(year));
         }
 
         model.addAttribute("year", year);
@@ -233,154 +233,6 @@ public class CounterController {
         model.addAttribute("typeIndicators", typeIndicators);
 
         return "/counter/statistics";
-    }
-
-    public Map<Counter, List<Indicators>> counterListMap(int year) {
-
-        List<Counter> countersList = counterService.getAll(new Sort(Sort.Direction.ASC, "subdivisions.name"));
-
-        Map<Counter, List<Indicators>> countersListMap = new LinkedHashMap<>();
-
-        for (Counter counter : countersList) {
-
-            countersListMap.put(counter,
-                    indicatorsService.getListIndicatorSortByCounterByDate(counter, year));
-        }
-
-        return countersListMap;
-
-//        List<Indicators> indicatorsList = indicatorsService.getListIndicatorByDate(year);
-//
-//        long idBefore = 5   ;
-//        int month = 0;
-//
-//        Calendar calendar = Calendar.getInstance();
-//        Date date = new Date();
-//        calendar.setTime(date);
-//        int thisMonth = calendar.get(Calendar.YEAR);
-//        Counter counterIndicators = new Counter();
-//
-//        List<Indicators> indicatorsArrayList = new ArrayList<>();
-////        indicatorsList.sort(Comparator.comparing(Indicators::getDate));
-//        TreeMap<Counter, List<Indicators>> counterListMap = new TreeMap<Counter, List<Indicators>>();
-////        SortedMap<Counter, List<Indicators>> counterListMap = new TreeMap<>(Comparator.comparing(c -> c.getSubdivisions().getId()));
-//        for (Indicators indicators : indicatorsList) {
-//
-//            calendar.setTime(indicators.getDate());
-//            int indicatorMonth = calendar.get(Calendar.MONTH);
-//
-//            if (indicators.getCounters().getId() == idBefore) {
-//
-//                if(indicatorMonth == month) {
-//                    indicatorsArrayList.add(indicators);
-//                    month++;
-//                } else {
-//                    for (int i = month; i <= indicatorMonth; i++){
-//                        Indicators indicatorNull = new Indicators();
-//                        indicatorNull = indicators;
-//                        indicatorNull.setDate(new Date(year-i-01));
-//                        indicatorsArrayList.add(indicatorNull);
-//                        month++;
-//                    }
-//                }
-//            }
-//            else {
-//                counterIndicators = counterService.getById(idBefore);
-//                counterListMap.put(counterIndicators, indicatorsArrayList);
-//                indicatorsArrayList = new ArrayList<>();
-//                month = 0;
-//                if(indicatorMonth == 0) {
-//                    indicatorsArrayList.add(indicators);
-//                    month++;
-//                } else {
-//                    for (int i = 0; i <= indicatorMonth; i++){
-//                        Indicators indicatorNull = new Indicators();
-//                        indicatorNull = indicators;
-//                        indicatorNull.setDate(new Date(year-i-01));
-//                        indicatorsArrayList.add(indicatorNull);
-//                        month++;
-//                    }
-//                }
-//                idBefore = indicators.getCounters().getId();
-//            }
-//        }
-//
-////        SortedMap<Counter, List<Indicators>> counterListSortedMap = new TreeMap<>(Comparator.comparing(c -> c.getSubdivisions().getName()));
-////        counterListSortedMap.putAll(counterListMap);
-//        Comparator<Counter> c = Comparator.comparingLong(Counter::getId);
-//        Map<Counter, List<Indicators>> map = indicatorsArrayList.stream()
-//                .collect(Collectors.groupingBy(
-//                        Counter::getName, () -> c, Collectors.toSet()));
-//
-//        return counterListMap;
-    }
-
-    public Map<Counter, List<Indicators>> counterBySubdivisionListMap(int year, long idSubdv) {
-
-
-        List<Counter> counters = counterService.getAllCountersBySubdivision(subdivisionService.getById(idSubdv));
-
-        Map<Counter, List<Indicators>> countersListMap = new LinkedHashMap<>();
-        for (Counter counter : counters)
-            countersListMap.put(counter,
-                    indicatorsService.getListIndicatorSortByCounterByDate(counter, year));
-
-        return countersListMap;
-
-//        Subdivision subdivision = subdivisionService.getById(idSubdv);
-//        List<Indicators> indicatorsList = indicatorsService.getAllBySubdivision(subdivision, year);
-//
-//        long idBefore = 0;
-//        int month = 0;
-//
-//        Calendar calendar = Calendar.getInstance();
-//        Counter counterIndicators = new Counter();
-//
-//        List<Indicators> indicatorsArrayList = new ArrayList<>();
-//        Map<Counter, List<Indicators>> counterListMap = new HashMap<>();
-//
-//        for (Indicators indicators : indicatorsList) {
-//
-//            calendar.setTime(indicators.getDate());
-//            int indicatorMonth = calendar.get(Calendar.MONTH);
-//
-//            if (indicators.getCounters().getId() == idBefore) {
-//
-//                if(indicatorMonth == month) {
-//                    indicatorsArrayList.add(indicators);
-//                    month++;
-//                } else {
-//                    for (int i = month; i <= indicatorMonth; i++){
-//                        Indicators indicatorNull = new Indicators();
-//                        indicatorNull = indicators;
-//                        indicatorNull.setDate(new Date(year-i-01));
-//                        indicatorsArrayList.add(indicatorNull);
-//                        month++;
-//                    }
-//                }
-//            }
-//            else {
-//                counterIndicators = counterService.getById(indicators.getCounters().getId());
-//                indicatorsArrayList.add(indicators);
-//                counterListMap.put(counterIndicators, indicatorsArrayList);
-//                indicatorsArrayList = new ArrayList<>();
-//                month = 0;
-//                if(indicatorMonth == 0) {
-//                    indicatorsArrayList.add(indicators);
-//                    month++;
-//                } else {
-//                    for (int i = 0; i <= indicatorMonth; i++){
-//                        Indicators indicatorNull = new Indicators();
-//                        indicatorNull = indicators;
-//                        indicatorNull.setDate(new Date(year-i-01));
-//                        indicatorsArrayList.add(indicatorNull);
-//                        month++;
-//                    }
-//                }
-//                idBefore = indicators.getCounters().getId();
-//            }
-//        }
-//        return counterListMap;
     }
 
     @RequestMapping(value = "/statisticsBySubdivision", method = RequestMethod.GET)
@@ -406,7 +258,7 @@ public class CounterController {
 
         for (Counter counter : counterBySubdivList) {
             try {
-                List<Indicators> indicatorsArray = getIndicatorsBySubdivision(thisYear, counter.getId());
+                List<Indicators> indicatorsArray = counterService.getIndicatorsBySubdivision(thisYear, counter.getId());
                 counterListMap.put(counter, indicatorsArray);
             } catch (NullPointerException e) {
 
@@ -447,7 +299,7 @@ public class CounterController {
 
         for (Counter counter : counterBySubdivList) {
             try {
-                List<Indicators> indicatorsArray = getIndicatorsBySubdivision(year, counter.getId());
+                List<Indicators> indicatorsArray = counterService.getIndicatorsBySubdivision(year, counter.getId());
                 counterListMap.put(counter, indicatorsArray);
             } catch (NullPointerException e) {
 
@@ -482,46 +334,6 @@ public class CounterController {
         model.addAttribute("selectedSubdv", subdivision);
 
         return "/counter/statisticsBySubdivision";
-    }
-
-    public List<Indicators> getIndicatorsBySubdivision(int year, long counterId) {
-
-        Counter counter = counterService.getById(counterId);
-
-        int month = 0;
-
-        List<Indicators> IndicatorsListChart = indicatorsService.getListIndicatorSortByCounterByDate(counter, year);
-        List<Indicators> IndicatorsListArr = new ArrayList<>();
-
-        for (Indicators firstIndicators : IndicatorsListChart) {
-            Calendar calendarIndicator = Calendar.getInstance();
-            calendarIndicator.setTime(firstIndicators.getDate());
-            int indicatorMonth = calendarIndicator.get(Calendar.MONTH);
-            if (indicatorMonth == month) {
-                IndicatorsListArr.add(firstIndicators);
-                month++;
-            } else {
-                for (int i = 0; i < indicatorMonth; i++) {
-                    Indicators indicators = new Indicators();
-                    indicators.setConsumption(0);
-                    indicators.setIndicator(0);
-                    IndicatorsListArr.add(indicators);
-                    month++;
-                }
-                IndicatorsListArr.add(firstIndicators);
-                month++;
-            }
-        }
-        Indicators indicators = new Indicators();
-        if (IndicatorsListArr.size() != 12) {
-            for (int i = IndicatorsListArr.size(); i <= 11; i++) {
-                indicators.setConsumption(0);
-                indicators.setIndicator(0);
-                IndicatorsListArr.add(indicators);
-            }
-        }
-
-        return IndicatorsListArr;
     }
 
     @RequestMapping(value = "/averageStatisticByYear", method = RequestMethod.GET)

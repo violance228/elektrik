@@ -169,11 +169,40 @@ public class StuffController {
         }
         Stuff stuf = stuffService.getById(stuff.getId());
         if (stuff.getSubdivisions() != stuf.getSubdivisions()) {
-            String transferComment = comment + " **** Предмет премістили з відділа: " +
-                    stuf.getSubdivisions().getName() +
-                    " в відділ " + stuff.getSubdivisions().getName() + ", Дата преміщення: " +
-                    stuff.getDateOfReceiving() + ". Перемістив: " +
-                    user.getSurname() +" " +user.getName() + " **** ";
+            String transferComment = null;
+                    if (stuf.getSubdivisions().getName() != 9999) {
+                            transferComment = comment
+                                    + " **** Предмет премістили з відділа: "
+                                    + stuf.getSubdivisions().getTypeSubdivisions().getType()
+                                    + " - " + stuf.getSubdivisions().getName() + " - "
+                                    + stuf.getSubdivisions().getCities().getCity()
+                                    + " в відділ "
+                                    + stuff.getSubdivisions().getTypeSubdivisions().getType()
+                                    + " - " + stuff.getSubdivisions().getName() + " - "
+                                    + stuff.getSubdivisions().getCities().getCity()
+                                    + ", Дата преміщення: "
+                                    + stuff.getDateOfReceiving()
+                                    + ". Перемістив: "
+                                    + user.getSurname()
+                                    +" " +user.getName()
+                                    + " **** ";
+                    } else {
+                        transferComment = comment
+                                + " **** Предмет премістили з відділа: "
+                                + stuf.getSubdivisions().getTypeSubdivisions().getType()
+                                + " - " + stuf.getSubdivisions().getName() + " - "
+                                + stuf.getSubdivisions().getCities().getCity()
+                                + " в відділ "
+                                + stuff.getSubdivisions().getTypeSubdivisions().getType()
+                                + " - " + stuff.getSubdivisions().getName() + " - "
+                                + stuff.getSubdivisions().getCities().getCity()
+                                + ", Дата преміщення: "
+                                + stuff.getDateOfReceiving()
+                                + ". Перемістив: "
+                                + user.getSurname()
+                                +" " +user.getName()
+                                + " **** ";
+                    }
 
             stuffComment.setComment(transferComment);
             try {

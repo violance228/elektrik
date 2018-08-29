@@ -16,14 +16,14 @@
             </td>
             <td>
                 <select name="subdivisionId" class="subdivision">
-                    <option value="null"></option>
-                    <option selected="true" th:value="${selectedSubdv.id}">
-                        <span th:text="${selectedSubdv.typeSubdivisions?.type}"></span>
-                        <span th:if="${selectedSubdv.name != null }">
-                                        <span th:text="'- ' + ${selectedSubdv.name}"></span>
-                                    </span>
-                        <span th:if="${selectedSubdv.cities?.id != 1}" th:text="'- ' + ${selectedSubdv.cities?.city}"></span>
-                    </option>
+                    <option selected="true" th:value="${0}"></option>
+                    <!--<option selected="true" th:value="${selectedSubdv.id}">-->
+                        <!--<span th:text="${selectedSubdv.typeSubdivisions?.type}"></span>-->
+                        <!--<span th:if="${selectedSubdv.name != null }">-->
+                                        <!--<span th:text="'- ' + ${selectedSubdv.name}"></span>-->
+                                    <!--</span>-->
+                        <!--<span th:if="${selectedSubdv.cities?.id != 1}" th:text="'- ' + ${selectedSubdv.cities?.city}"></span>-->
+                    <!--</option>-->
                     <option th:each="subdivision : ${subdivisions}" th:value="${subdivision.id}">
                         <span th:text="${subdivision.typeSubdivisions?.type}"></span>
                         <span th:if="${subdivision.name != null }">
