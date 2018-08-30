@@ -59,8 +59,12 @@
                                 <select name="subdivisions" required="true">
                                     <option
                                             th:each="subdivision : ${subdivisions}"
-                                            th:text="${subdivision.name}"
                                             th:value="${subdivision.id}">
+                                        <span th:text="${subdivision.typeSubdivisions?.type}"></span>
+                                        <span th:if="${subdivision.name != null }">
+                                            <span th:if="${subdivision.name != 9999}" th:text="'- ' + ${subdivision.name}"></span>
+                                        </span>
+                                        <span th:if="${subdivision.cities?.id != 1}" th:text="'- ' + ${subdivision.cities?.city}"></span>
                                     </option>
                                 </select>
                             </div>

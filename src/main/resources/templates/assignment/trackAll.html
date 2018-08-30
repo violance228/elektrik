@@ -10,22 +10,6 @@
         <h2 th:text="${h1name}"></h2>
     </div>
         <div class="col-md-17">
-            <!--<div class="table-responsive">-->
-                <!--<table class="table table-hover table-condensed table-bordered">-->
-                <!--<tr>-->
-                   <!---->
-                    <!--<th>Коментар</th>-->
-                    <!--<th>Подав користувач</th>-->
-                    <!--<th>Підрозділ</th>-->
-                <!--</tr>-->
-                <!--<tr th:each="assignment : ${assignments}">-->
-                    <!--<td th:text="${assignment.comment}"></td>-->
-                    <!--<td th:text="${assignment.users?.surname}"></td>-->
-                    <!--<td th:text="${assignment.subdivisions?.name}"></td>-->
-                <!--</tr>-->
-            <!--</table>-->
-            <!--</div>-->
-        <!--</section>-->
         <div class="divTable redTable">
             <div class="divTableHeading">
                 <div class="divTableRow">
@@ -52,15 +36,15 @@
                     </div>
                     <div th:if="${assignment.date$TimeOfDeparture != null}" th:text="${#dates.format(assignment.date$TimeOfDeparture, 'yyyy-MM-dd HH:mm')}" class="divTableCell">cell4_1</div>
                     <div class="divTableCell">
-                        <span th:each="assign : ${assignment.citiesTravels}" th:text="${assign.cities.city}"></span>
+                        <span th:each="assign : ${assignment.citiesTravels}" th:text="${assign.cities.city + ' '}"></span>
                     </div>
                     <div class="divTableCell">
-                        <a th:if="${assignment.transportOrder == null}" th:href="@{'/transportOrder/addTransportOrder/'+ ${assignment.id}}"><input type="button" value="Видати машину" /></a>
+                        <a class="btn btn-success btn-sm" th:if="${assignment.transportOrder == null}" th:href="@{'/transportOrder/addTransportOrder/'+ ${assignment.id}}"><input type="button"  value="Видати машину" /></a>
                     </div>
                 </div>
             </div>
         </div>
-</div>
+    </div>
 </div>
 <div th:replace="/fragments/footer :: footer"></div>
 

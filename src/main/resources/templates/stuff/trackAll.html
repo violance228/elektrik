@@ -39,7 +39,13 @@
                         <span th:if="${stuffs.dateOfReceiving} != null" th:text="${#calendars.format(stuffs.dateOfReceiving,'dd-MM-yyyy')}"></span>
                     </div>
                     <div th:text="${stuffs.model}" class="divTableCell">cell4_1</div>
-                    <div th:text="${stuffs.subdivisions?.name}" class="divTableCell">cell5_1</div>
+                    <div class="divTableCell">
+                        <span th:text="${stuffs.subdivisions.typeSubdivisions?.type}"></span>
+                        <span th:if="${stuffs.subdivisions.name != null }">
+                            <span th:if="${stuffs.subdivisions.name != 9999}" th:text="'- ' + ${stuffs.subdivisions.name}"></span>
+                        </span>
+                        <span th:if="${stuffs.subdivisions.cities?.id != 1}" th:text="'- ' + ${stuffs.subdivisions.cities?.city}"></span>
+                    </div>
                     <div th:text="${stuffs.stuffTypes?.type}" class="divTableCell">cell5_1</div>
                 </div>
             </div>

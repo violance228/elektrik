@@ -14,7 +14,7 @@
             <div class="table-responsive">
                 <table class="table table-hover table-condensed table-bordered">
                     <tr>
-                        <td>Населений пункт</td>
+                        <td>Населений пункт:</td>
                         <td>
                             <select name ="cityId">
                                 <option th:each="city : ${city}" th:value="${city.cities.id}"
@@ -24,13 +24,13 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>Коментар</td>
+                        <td>Коментар:</td>
                         <td>
                             <textarea name="comment"></textarea>
                         </td>
                     </tr>
                     <tr>
-                        <td><input type="submit"/></td>
+                        <td><input class="btn btn-success btn-sm" type="submit"/></td>
                     </tr>
                     <input type="text" name="transportOrderId" th:value="${transportOrderId}" hidden="hidden" />
                 </table>

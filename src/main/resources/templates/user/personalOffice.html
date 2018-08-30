@@ -4,56 +4,114 @@
 <head th:replace="/fragments/header :: head">
 </head>
 <body>
-<div class="wrapper container">
+<!--<div class="wrapper container">-->
+
+    <!--<div class="heading">-->
+        <!--<h2 th:text="${h1name}"></h2>-->
+    <!--</div>-->
+    <!--<section class="col-md-17">-->
+        <!--<div class="table-responsive">-->
+            <!--<table class="table table-hover table-condensed table-bordered">-->
+            <!--<tr>-->
+                <!--<label>-->
+                    <!--<td>Логін:</td>-->
+                    <!--<td th:text="${users.username}"></td>-->
+                <!--</label>-->
+            <!--</tr>-->
+
+            <!--<tr>-->
+                <!--<label>-->
+                    <!--<td>Ім'я:</td>-->
+                    <!--<td th:text="${users.name}"></td>-->
+                <!--</label>-->
+            <!--</tr>-->
+
+            <!--<tr>-->
+                <!--<label>-->
+                    <!--<td>Прізвище:</td>-->
+                    <!--<td th:text="${users.surname}"></td>-->
+                <!--</label>-->
+            <!--</tr>-->
+
+            <!--<tr>-->
+                <!--<label>-->
+                    <!--<td>Телефон:</td>-->
+                    <!--<td th:text="${users.telephone}"></td>-->
+                <!--</label>-->
+            <!--</tr>-->
+
+            <!--<tr>-->
+                <!--<td>Відділ:</td>-->
+                <!--<td>-->
+                    <!--<span th:text="${users.subdivisions.typeSubdivisions?.type}"></span>-->
+                    <!--<span th:if="${users.subdivisions.name != null }">-->
+                                <!--<span th:if="${users.subdivisions.name != 9999}" th:text="'- ' + ${users.subdivisions.name}"></span>-->
+                            <!--</span>-->
+                    <!--<span th:if="${users.subdivisions.cities?.id != 1}" th:text="'- ' + ${users.subdivisions.cities?.city}"></span>-->
+                <!--</td>-->
+            <!--</tr>-->
+        <!--</table>-->
+        <!--</div>-->
+    <!--</section>-->
+<!--</div>-->
+<div class="container">
     <div th:replace="/fragments/top :: top"></div>
-    <div class="heading">
-        <h2 th:text="${h1name}"></h2>
-    </div>
-        <section class="col-md-17">
-            <div class="table-responsive">
-                <table class="table table-hover table-condensed table-bordered">
-                <tr>
-                    <label>
-                        <td>Login:</td>
-                        <td th:text="${users.username}"></td>
-                    </label>
-                </tr>
-
-                <tr>
-                    <label>
-                        <td>Name:</td>
-                        <td th:text="${users.name}"></td>
-                    </label>
-                </tr>
-
-                <tr>
-                    <label>
-                        <td>Surname:</td>
-                        <td th:text="${users.surname}"></td>
-                    </label>
-                </tr>
-
-                <tr>
-                    <label>
-                        <td>telephone :</td>
-                        <td th:text="${users.telephone}"></td>
-                    </label>
-                </tr>
-
-                <tr>
-                    <td>Відділ</td>
-                    <td>
-                        <span th:text="${users.subdivisions.typeSubdivisions?.type}"></span>
-                        <span th:if="${users.subdivisions.name != null }">
-                                    <span th:if="${users.subdivisions.name != 9999}" th:text="'- ' + ${users.subdivisions.name}"></span>
-                                </span>
-                        <span th:if="${users.subdivisions.cities?.id != 1}" th:text="'- ' + ${users.subdivisions.cities?.city}"></span>
-                    </td>
-                </tr>
-            </table>
+    <div class="row">
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4>Ваш профіль</h4>
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                <label for="username" class="col-4 col-form-label">Логін*</label>
+                                <div class="col-8">
+                                    <span id="username" th:text="${users.username}" name="username" class="form-control here" ></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="name" class="col-4 col-form-label">Ім'я*</label>
+                                <div class="col-8">
+                                    <span id="name" name="name" th:text="${users.name}" class="form-control here" ></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="surname" class="col-4 col-form-label">Прізвище*</label>
+                                <div class="col-8">
+                                    <span id="surname" name="surname" th:text="${users.surname}" class="form-control here" ></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="telephone" class="col-4 col-form-label">Телефон*</label>
+                                <div class="col-8">
+                                    <span id="telephone" name="telephone" th:text="${users.telephone}" class="form-control here" ></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="subdivision" class="col-4 col-form-label">Відділ*</label>
+                                <div class="col-8">
+                                    <span id="subdivision" name="subdivision" class="form-control here" >
+                                        <span th:text="${users.subdivisions.typeSubdivisions?.type}"></span>
+                                        <span th:if="${users.subdivisions.name != null }">
+                                            <span th:if="${users.subdivisions.name != 9999}" th:text="'- ' + ${users.subdivisions.name}"></span>
+                                        </span>
+                                        <span th:if="${users.subdivisions.cities?.id != 1}" th:text="'- ' + ${users.subdivisions.cities?.city}"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </section>
+        </div>
+    </div>
+    <div th:replace="/fragments/footer :: footer"></div>
 </div>
-<div th:replace="/fragments/footer :: footer"></div>
+
 </body>
 </html>

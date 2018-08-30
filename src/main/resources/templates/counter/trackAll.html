@@ -40,13 +40,13 @@
                         <option th:each="subdivision : ${subdivisions}" th:value="${subdivision.id}">
                             <span th:text="${subdivision.typeSubdivisions?.type}"></span>
                             <span th:if="${subdivision.name != null }">
-                                        <span th:text="'- ' + ${subdivision.name}"></span>
-                                    </span>
+                                <span th:if="${subdivision.name != 9999}" th:text="'- ' + ${subdivision.name}"></span>
+                            </span>
                             <span th:if="${subdivision.cities?.id != 1}" th:text="'- ' + ${subdivision.cities?.city}"></span>
                         </option>
                     </select>
                 </td>
-                <td><input type="submit"/></td>
+                <td><input  class="btn btn-warning btn-sm" type="submit"/></td>
 
             </form>
             </table>

@@ -13,7 +13,7 @@
         <div class="table-responsive">
             <table class="table table-hover table-condensed table-bordered">
                 <tr>
-                    <td>Текст заявки</td>
+                    <td>Текст заявки:</td>
                     <td>
                         <span th:text="${orders.users.surname + ' ' + orders.users.name + ' -'}"></span>
                         <span th:text="${#dates.format(orders.dateOfApplication, 'yyyy-MM-dd HH:mm') + ':'}"></span>
@@ -23,7 +23,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Коментар</td>
+                    <td>Коментар:</td>
                     <td>
                         <ul>
                             <li th:each="val : ${orderComments}">
@@ -33,21 +33,21 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Виконано</td>
+                    <td>Виконано:</td>
                     <td th:if="${orders.dateOfCompletion != null}" th:text="${#dates.format(orders.dateOfCompletion, 'yyyy-MM-dd HH:mm')}"></td>
                 </tr>
                 <tr>
-                    <td>Підрозділ, що подав заявку</td>
+                    <td>Підрозділ, що подав заявку:</td>
                     <td>
                         <span th:text="${orders.users.subdivisions.typeSubdivisions?.type}"></span>
                         <span th:if="${orders.users.subdivisions.name != null }">
-                                        <span th:if="$orders.users.{subdivisions.name != 9999}" th:text="'- ' + ${orders.users.subdivisions.name}"></span>
+                                        <span th:if="${orders.users.subdivisions.name != 9999}" th:text="'- ' + ${orders.users.subdivisions.name}"></span>
                                     </span>
                         <span th:if="${orders.users.subdivisions.cities?.id != 1}" th:text="'- ' + ${orders.users.subdivisions.cities?.city}"></span>
                     </td>
                 </tr>
                 <tr th:if="${session.currUserId != orders.users.id}">
-                    <td>Змінити статус/Перенаправити</td>
+                    <td>Змінити статус/Перенаправити:</td>
                     <td>
                         <div th:switch="${orders.status?.id}">
                             <span th:case="1" th:id="${orders.id}" >
@@ -71,7 +71,7 @@
                     </td>
                 </tr>
                 <tr th:if="${session.currUserId == orders.users.id}">
-                    <td>Редагувати замовлення</td>
+                    <td>Редагувати замовлення:</td>
                     <td>
                         <div th:switch="${orders.status?.id}">
                             <span th:case="1" th:id="${orders.id}" >
@@ -100,7 +100,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <input type="submit" />
+                            <input class="btn btn-success btn-sm" type="submit" />
                         </td>
                     </tr>
                 </form>

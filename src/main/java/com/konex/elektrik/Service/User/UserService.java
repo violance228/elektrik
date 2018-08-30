@@ -24,4 +24,6 @@ public interface UserService {
     User addToUserChatId(User user);
     User findUserByChatId(Long chatId);
     User editParsePasswords(User user);
+    List<User> getAllByTelephone(String username);
+    List<User> getAllByUsername(String username);
 }

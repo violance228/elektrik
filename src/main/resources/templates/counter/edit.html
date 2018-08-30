@@ -24,62 +24,78 @@
                             </label>
                         </tr>
                         <tr>
-                        <label>
-                            <td>Номер лічильника:</td>
-                            <td><input type="number" name="number" th:value="${counters.number}" th:maxlength="20" required="true"/></td>
-                        </label>
-                    </tr>
-
-                    <tr>
-                        <label>
-                            <td>Назва:</td>
-                            <td><input type="text" name="name" th:value="${counters.name}" th:maxlength="20" required="true"/></td>
-                        </label>
-                    </tr>
-
-                    <tr>
-                        <label>
-                            <td>Тип лічильника:</td>
-                            <td>
-                                <select name="type">
-                                    <option th:text="${counters.type}" th:value="${counters.type}" selected="true"></option>
-                                    <option value="Вода гаряча">Вода(гаряча)</option>
-                                    <option value="Вода холодна">Вода(холодна)</option>
-                                    <option value="Газ">Газ</option>
-                                    <option value="Електрика">Електрика</option>
-                                </select>
-                            </td>
-                        </label>
-                    </tr>
-
-                    <tr>
-                        <label>
-                            <td>Відділ:</td>
-                            <td>
-                                <select name="subdivision">
-                                    <option th:text="${counters.subdivisions?.name}" th:value="${counters.subdivisions?.id}" selected="true"></option>
-                                    <option
-                                            th:each="subdivision : ${subdivisions}"
-                                            th:text="${subdivision.name}"
-                                            th:value="${subdivision.id}">
-                                    </option>
-                                </select>
-                            </td>
-                        </label>
-                    </tr>
-
-                        <tr>
-                            <td>Виробник</td>
-                            <td>
-                                <input name="manufacturer" type="text" />
-                            </td>
+                            <label>
+                                <td>Номер лічильника:</td>
+                                <td><input type="number" name="number" th:value="${counters.number}" th:maxlength="20" required="true"/></td>
+                            </label>
                         </tr>
 
-                    <tr>
-                        <td><input type="submit" class="btn btn-success btn-sm" name="submit"/></td>
-                        <td><a class="btn btn-success btn-sm" th:href="${'/counter/delete/' + counters.id}">Видалити</a></td>
-                    </tr>
-                </table>
+                        <tr>
+                            <label>
+                                <td>Назва:</td>
+                                <td><input type="text" name="name" th:value="${counters.name}" th:maxlength="20" required="true"/></td>
+                            </label>
+                        </tr>
+
+                        <tr>
+                            <label>
+                                <td>Тип лічильника:</td>
+                                <td>
+                                    <select name="type">
+                                        <option th:text="${counters.type}" th:value="${counters.type}" selected="true"></option>
+                                        <option value="Вода гаряча">Вода(гаряча)</option>
+                                        <option value="Вода холодна">Вода(холодна)</option>
+                                        <option value="Газ">Газ</option>
+                                        <option value="Електрика">Електрика</option>
+                                    </select>
+                                </td>
+                            </label>
+                        </tr>
+
+                        <tr>
+                            <label>
+                                <td>Відділ:</td>
+                                <td>
+                                    <select name="subdivision">
+                                        <option th:value="${counters.subdivisions?.id}" selected="true">
+                                            <span th:text="${counters.subdivisions.typeSubdivisions?.type}"></span>
+                                            <span th:if="${counters.subdivisions.name != null }">
+                                                <span th:if="${counters.subdivisions.name != 9999}" th:text="'- ' + ${counters.subdivisions.name}"></span>
+                                            </span>
+                                            <span th:if="${counters.subdivisions.cities?.id != 1}" th:text="'- ' + ${counters.subdivisions.cities?.city}"></span>
+                                        </option>
+                                        <option
+                                                th:each="subdivision : ${subdivisions}"
+                                                th:value="${subdivision.id}">
+
+                                            <span th:text="${subdivision.typeSubdivisions?.type}"></span>
+                                            <span th:if="${subdivision.name != null }">
+                                                <span th:if="${subdivision.name != 9999}" th:text="'- ' + ${subdivision.name}"></span>
+                                            </span>
+                                            <span th:if="${subdivision.cities?.id != 1}" th:text="'- ' + ${subdivision.cities?.city}"></span>
+
+                                        </option>
+                                    </select>
+                                </td>
+                            </label>
+                        </tr>
+
+                            <tr>
+                                <td>Виробник</td>
+                                <td>
+                                    <input name="manufacturer" type="text" />
+                                </td>
+                            </tr>
+
+                        <tr>
+                            <td>
+                                <input type="submit" class="btn btn-success btn-sm" name="submit"/>
+                            </td>
+                            <td>
+                                <a class="btn btn-warning btn-sm" th:href="${'/counter/delete/' + counters.id}">Видалити</a>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </form>
         </section>

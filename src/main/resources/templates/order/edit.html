@@ -26,7 +26,7 @@
                         <tr>
                             <label>
                                 <td>Текст заявки:</td>
-                                <td><textarea name="applicationText" th:value="${order.applicationText}" th:text="${order.applicationText}" th:maxlength="256" required="true"></textarea></td>
+                                <td><textarea name="applicationText" style="width: 50%;" th:value="${order.applicationText}" th:text="${order.applicationText}" th:maxlength="256" required="true"></textarea></td>
                             </label>
                         </tr>
 
@@ -34,15 +34,23 @@
                             <td>Subdivision:</td>
                             <td>
                                 <select name="subdivisions">
-                                    <option th:text="${order.subdivisions?.name}" th:value="${order.subdivisions?.id}" selected="true"></option>
-                                    <option
-                                            th:each="subdivision : ${subdivisions}"
+                                    <option th:value="${order.subdivisions?.id}" selected="true">
+
+                                        <span th:text="${order.subdivisions?.typeSubdivisions?.type}"></span>
+                                        <span th:if="${order.subdivisions?.name != null }">
+                                            <span th:if="${order.subdivisions?.name != 9999}" th:text="'- ' + ${order.subdivisions?.name}"></span>
+                                        </span>
+                                        <span th:if="${order.subdivisions?.cities?.id != 1}" th:text="'- ' + ${order.subdivisions?.cities?.city}"></span>
+                                    </option>
+                                    <option th:each="subdivision : ${subdivisions}"
                                             th:value="${subdivision.id}">
+
                                         <span th:text="${subdivision.typeSubdivisions?.type}"></span>
                                         <span th:if="${subdivision.name != null }">
-                                        <span th:if="${subdivision.name != 9999}" th:text="'- ' + ${subdivision.name}"></span>
-                                    </span>
+                                            <span th:if="${subdivision.name != 9999}" th:text="'- ' + ${subdivision.name}"></span>
+                                        </span>
                                         <span th:if="${subdivision.cities?.id != 1}" th:text="'- ' + ${subdivision.cities?.city}"></span>
+
                                     </option>
                                 </select>
                             </td>

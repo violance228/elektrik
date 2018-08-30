@@ -52,10 +52,9 @@ public class UserController {
         Long currUserId = (Long)session.getAttribute("currUserId");
         User user = userService.getById(currUserId);
         model.addAttribute("userLogo", user.getName());
-        model.addAttribute("h1name", "редагувати користувача");
+        model.addAttribute("h1name", "Редагувати користувача");
         model.addAttribute("active", "active");
         model.addAttribute("users", user);
-
 
         return "/user/edit";
     }
@@ -63,24 +62,30 @@ public class UserController {
     @RequestMapping( value = "/edit", method = RequestMethod.POST)
     public String editUserPost(Model model, User user, HttpSession session) {
 
+        List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
+        model.addAttribute("buttons", buttons);
+        List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
+        model.addAttribute("button", button);
+        model.addAttribute("h1name", "Редагувати користувача");
         Long currUserId = (Long)session.getAttribute("currUserId");
         User users = userService.getById(currUserId);
         user.setSubdivisions(users.getSubdivisions());
         user.setRoles(users.getRoles());
         try {
-            if (userService.findByUsername(user.getUsername()) == null && userService.findUserByTelephone(user.getTelephone()) == null) {
+            if ((userService.getAllByUsername(user.getUsername()).size() == 1) && (userService.getAllByTelephone(user.getTelephone()).size() == 1)) {
                 log.info(userService.editUser(user, session).toString());
+                model.addAttribute("err", "Ви редагували свої данні");
             } else {
                 model.addAttribute("err", "Логін/телефон занятий");
+                System.err.println("Err registration");
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.err.println("Err registration");
             model.addAttribute("err", "Логін/телефон занятий");
         }
+        model.addAttribute("users", userService.getById(user.getId()));
 
-
-        return "redirect:/user/personalInform";
+        return "/user/edit";
     }
 
 //    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")

@@ -68,7 +68,7 @@ public class IndicatorsController {
     @RequestMapping( value = "/edit/{counter.id}", method = RequestMethod.GET)
     public String editIndicatorsGet(Model model, Indicators indicator,
                                     @PathVariable("counter.id") Long counterId,
-                                    HttpSession session) {
+                                    HttpSession session) throws ParseException {
 
         List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
         model.addAttribute("buttons", buttons);
@@ -87,7 +87,17 @@ public class IndicatorsController {
         model.addAttribute("indicators", indicators);
         model.addAttribute("counterId", counterId);
 
+
         Date date1 = new Date();
+        Calendar thisMonth = Calendar.getInstance();
+        thisMonth.setTime(date1);
+        int thisMonthStr = thisMonth.get(Calendar.MONTH);
+        thisMonthStr++;
+        Calendar this_year = Calendar.getInstance();
+        this_year.setTime(date1);
+        int thisYear = this_year.get(Calendar.YEAR);
+        model.addAttribute("dat", "01-" + thisMonthStr + "-" + thisYear);
+
         Calendar calendar2 = Calendar.getInstance();
         Calendar cal = Calendar.getInstance();
         Calendar calendar = Calendar.getInstance();

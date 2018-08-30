@@ -154,14 +154,13 @@ public class AdminController {
     }
 
     @RequestMapping( value = "/user/editFromAll", method = RequestMethod.POST)
-    public String editUserPostFromTrackAll(Model model, HttpSession session,
+    public String editUserPostFromTrackAll(Model model,User user, HttpSession session,
                                            @RequestParam("id") Long userId,
                                            @RequestParam("role") Long roleId,
                                            @RequestParam("subdivision") Long subdivisionId) {
         System.out.println("====== editUserPostFromTrackAll ======");
         Role role = roleService.getById(roleId);
         Subdivision subdivision = subdivisionService.getById(subdivisionId);
-        User user = userService.getById(userId);
 
             userService.editUserByAdmin(user, subdivision, role);
 //        } else {

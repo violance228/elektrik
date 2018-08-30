@@ -10,7 +10,7 @@
             <!--</div>-->
         <!--</form>-->
     </header>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-info">
         <button class="navbar-toggler" type="button" data-toggle="collapse"
                 data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                 aria-expanded="false" aria-label="Toggle Navigation">
@@ -21,8 +21,8 @@
             <div id="links">
                 <ul class="navbar-nav mr-auto">
                     <li sec:authorize="hasRole('ROLE_ADMIN')" th:each="buttons : ${buttons}" class="nav-item active dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" th:text="${buttons.name}" th:href="'/index/class/' + ${buttons.engName}"></a>
-                        <ul class="dropdown-menu">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" th:text="${buttons.name}" role="button" aria-haspopup="true" aria-expanded="false"></a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
                             <li th:each="button : ${button}">
                                 <span th:if="${buttons.id == button.parentId}">
                                     <a class="dropdown-item" th:href="@{${button.url}}" th:text="${button.name}">Windows</a>

@@ -16,13 +16,12 @@
                         <tr>
                             <th>Дата зняття показника</th>
                             <th>Показник</th>
-
                             <th>Редагувати</th>
                         </tr>
                         <h1>Створити показники</h1>
                         <tr>
                             <form th:action="@{'/indicator/add'}" method="post">
-                                <td><input type="date" name="dat" th:maxlength="20" required="true"/></td>
+                                <td><input type="date" th:value="" name="dat" th:maxlength="20" required="true"/></td>
                                 <td><input type="number" name="indicator" th:maxlength="20" required="true"/></td>
                                 <td hidden="hidden">
                                     <select name="counterId" >
@@ -38,7 +37,6 @@
 
                     <table class="table table-hover table-condensed table-bordered">
                         <tr>
-                            <th>ID</th>
                             <th>Дата зняття показника</th>
                             <th>Показник</th>
                             <th>Використання</th>

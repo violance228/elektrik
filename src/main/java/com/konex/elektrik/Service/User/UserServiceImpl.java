@@ -77,7 +77,12 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public User editUserByAdmin(User user, Subdivision subdivision, Role role) {
 
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        if (user.getPassword().isEmpty()) {
+            user.setPassword(userService.getById(user.getId()).getPassword());
+        } else {
+            System.err.println("---------------------------------"+user.getPassword());
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        }
 
         user.setSubdivisions(subdivision);
         Set<Role> roles = new HashSet<>();
@@ -92,9 +97,13 @@ public class UserServiceImpl implements UserService {
 
         Long currUserId = (Long)session.getAttribute("currUserId");
         User users = userService.getById(currUserId);
-        if (!user.getPassword().equals(users.getPassword())) {
+        if (user.getPassword().isEmpty()) {
+           user.setPassword(users.getPassword());
+            System.out.println(user.getPassword());
+        } else {
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         }
+
         return userRepository.saveAndFlush(user);
     }
 
@@ -131,5 +140,17 @@ public class UserServiceImpl implements UserService {
     public User editParsePasswords(User user) {
 
         return userRepository.saveAndFlush(user);
+    }
+
+    @Transactional(readOnly = true)
+    public List<User> getAllByTelephone(String telephone) {
+
+        return userRepository.getAllByTelephone(telephone);
+    }
+
+    @Transactional(readOnly = true)
+    public List<User> getAllByUsername(String username) {
+
+        return userRepository.getAllByUsername(username);
     }
 }

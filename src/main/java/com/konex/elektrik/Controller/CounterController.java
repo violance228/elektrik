@@ -53,7 +53,7 @@ public class CounterController {
         model.addAttribute("userLogo", user.getName());
         model.addAttribute("h1name", "Створити лічильник");
         model.addAttribute("active", "active");
-        model.addAttribute("subdivisions", subdivisionService.getAll(new Sort(Sort.Direction.ASC, "id")));
+        model.addAttribute("subdivisions", subdivisionService.getAll(new Sort(Sort.Direction.ASC, "name")));
 
         return "/counter/create";
     }

@@ -13,7 +13,7 @@
             <form th:action="@{'/admin/user/editFromAll'}" method="post">
                 <div class="table-responsive">
                     <table class="table table-hover table-condensed table-bordered">
-                        <tr>
+                        <tr hidden="hidden">
                             <td>ID:</td>
                             <td>
                                 <select name="id">
@@ -24,41 +24,41 @@
 
                         <tr>
                             <label>
-                                <td>Login:</td>
+                                <td>Логін:</td>
                                 <td><input type="text" name="username" th:value="${users.username}" th:maxlength="20" required="true"/></td>
                             </label>
                         </tr>
 
                         <tr>
                             <label>
-                                <td>Password:</td>
+                                <td>Пароль:</td>
                                 <td><input type="password" name="password" placeholder="*********" th:minlength="8" th:maxlength="50" required="true"/></td>
                             </label>
                         </tr>
 
                         <tr>
                             <label>
-                                <td>Name:</td>
+                                <td>Ім'я:</td>
                                 <td><input type="text" name="name" th:value="${users.name}" th:maxlength="20" required="true"/></td>
                             </label>
                         </tr>
 
                         <tr>
                             <label>
-                                <td>Surname:</td>
+                                <td>Прізвище:</td>
                                 <td><input type="text" name="surname" th:value="${users.surname}" th:maxlength="20" required="true"/></td>
                             </label>
                         </tr>
 
                         <tr>
                             <label>
-                                <td>telephone:</td>
+                                <td>Телефон:</td>
                                 <td><input type="tel" name="telephone" th:value="${users.telephone}" th:minlength="8" th:maxlength="13" required="true"/></td>
                             </label>
                         </tr>
 
                         <tr>
-                            <td>Subdivision:</td>
+                            <td>Відділ:</td>
                             <td>
                                 <select name="subdivision">
                                     <option th:text="${users.subdivisions?.name}" th:value="${users.subdivisions?.id}" selected="true"></option>
@@ -76,7 +76,7 @@
                         </tr>
 
                         <tr>
-                            <td>Role:</td>
+                            <td>Роль:</td>
                             <td>
                                 <select name="role">
                                     <option
