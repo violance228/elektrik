@@ -1,10 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/header :: head">
 </head>
 <body>
+<div class="container">
+    <div th:replace="/fragments/top :: top"></div>
+    <div class="row">
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4>Редагувати авто</h4>
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form th:action="@{'/transportOrder/editCar'}" name="editUser" method="post">
+                                <div class="form-group row">
+                                    <label for="carNumber" class="col-4 col-form-label">Номер машини*</label>
+                                    <div class="col-8">
+                                        <span style="color: red;" th:text="${err}"></span>
+                                        <input id="carNumber" name="carNumber" th:value="${car.carNumber}"  placeholder="Великими буквами на укр" class="form-control here" required="required" type="text"/>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="brand" class="col-4 col-form-label">Бренд</label>
+                                    <div class="col-8">
+                                        <input id="brand" name="brand" placeholder="маленькими англ" th:value="${car.brand}" class="form-control here" type="text"/>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="model" class="col-4 col-form-label">Модель</label>
+                                    <div class="col-8">
+                                        <input id="model" name="model" placeholder="маленькими англ" th:value="${car.model}" class="form-control here" type="text"/>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="vehicleCategory" class="col-4 col-form-label">Категорія автомобіля*</label>
+                                    <div class="col-8">
+                                        <select id="vehicleCategory" name="vehicleCategory">
+                                            <option th:value="${car.vehicleCategory}" th:text="${car.vehicleCategory}" selected="selected"></option>
+                                            <option value="A">A</option>
+                                            <option value="B">B</option>
+                                            <option value="C">C</option>
+                                            <option value="D">D</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="offset-4 col-8">
+                                        <button name="submit" type="submit" th:minlength="4" class="btn btn-primary">Обновити авто</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <br/>
+    <div th:replace="/fragments/footer :: footer"></div>
+</div>
 
 </body>
 </html>

@@ -22,7 +22,7 @@
             <div class="divTableBody">
                 <div class="divTableRow" th:each="car : ${cars}">
                     <div class="divTableCell">
-                        <a th:href="@{'/transportOrder/trackCar/' + ${car.id}}">
+                        <a th:href="@{'/transportOrder/editCar/' + ${car.id}}">
                             <span th:text="${car.carNumber}"></span>
                         </a>
                     </div>

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.jws.WebParam;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
@@ -77,6 +78,31 @@ public class TransportOrderController {
             e.printStackTrace();
         }
         return "redirect:/transportOrder/addCar";
+    }
+
+    @RequestMapping(value = "/editCar/{car.id}", method = RequestMethod.GET)
+    public String editCarGet(Model model, HttpSession session,
+                             @PathVariable(name = "car.id") Long carId) {
+
+        List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
+        model.addAttribute("buttons", buttons);
+        List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
+        model.addAttribute("button", button);
+        model.addAttribute("h1name", "Створити Відрядження");
+        model.addAttribute("active", "active");
+        Long currUserId = (Long)session.getAttribute("currUserId");
+        User user = userService.getById(currUserId);
+        model.addAttribute("userLogo", user.getName());
+
+        model.addAttribute("car", carsService.getById(carId));
+
+        return "/cars/edit";
+    }
+
+    @RequestMapping(value = "/editCar", method = RequestMethod.POST)
+    public String editCarGet(HttpSession session, Cars car) {
+
+        return "/cars/edit/" + carsService.editCars(car).getId();
     }
 
     @RequestMapping( value = "/trackCar/{car.id}", method = RequestMethod.GET)
