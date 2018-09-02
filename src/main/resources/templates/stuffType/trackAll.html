@@ -19,27 +19,29 @@
         <div class="divTable redTable">
             <div class="divTableHeading">
                 <div class="divTableRow">
-                    <div class="divTableHead">id</div>
                     <div class="divTableHead">Тип</div>
                     <div class="divTableHead">Кількість</div>
+                    <div class="divTableHead">Редагувати</div>
                 </div>
             </div>
             <div class="divTableBody">
                 <div class="divTableRow" th:each="stuffs : ${stuffTypes}">
-                    <div  class="divTableCell">
-                        <span th:text="${stuffs.id}"></span>
-                    </div>
                     <div  class="divTableCell">
                         <a class="btn btn-link btn-sm" th:text="${stuffs.type}" th:href="@{'/stuff/trackAllStuffByStuffTypes/'+ ${stuffs.id}}"></a>
                     </div>
                     <div  class="divTableCell">
                         <span th:text="${stuffs.count}"></span>
                     </div>
+                    <div  class="divTableCell">
+                        <a th:href="@{'/stuffType/edit/' + ${stuffs.id}}" class="btn btn-primary">Редагувати</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    <br/>
+    <br/>
+    <div th:replace="/fragments/footer :: footer"></div>
 </div>
-<div th:replace="/fragments/footer :: footer"></div>
 </body>
 </html>

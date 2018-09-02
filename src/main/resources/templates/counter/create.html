@@ -4,76 +4,84 @@
 <head th:replace="/fragments/header :: head">
 </head>
 <body>
-<div class="wrapper container">
+<div class="container">
     <div th:replace="/fragments/top :: top"></div>
-    <div class="heading">
-        <h2 th:text="${h1name}"></h2>
-    </div>
-        <div>
-            <form th:action="@{'/counter/create'}" name="createCounter" method="post">
-                <div class="table-responsive">
-                    <table class="table table-hover table-condensed table-bordered">
-                    <tr>
-                        <label>
-                            <td>Номер лічильника:</td>
-                            <td><input type="number" name="number" id="number" th:maxlength="20" required="true"/></td>
-                        </label>
-                    </tr>
+    <div class="row">
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4>Створити лічильник</h4>
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form th:action="@{'/counter/create'}" method="post">
+                                <div class="form-group row">
+                                    <label for="number" class="col-4 col-form-label">Номер лічильника*</label>
+                                    <div class="col-8">
+                                        <span style="color: red;" th:text="${err}"></span>
+                                        <input id="number" type="number" name="number" placeholder="Username" class="form-control here" required="required">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="name" class="col-4 col-form-label">Назва</label>
+                                    <div class="col-8">
+                                        <input id="name" name="name" placeholder="назва" class="form-control here" type="text">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="type" class="col-4 col-form-label">Тип лічильника*</label>
+                                    <div class="col-8">
+                                        <select name="type" id="type">
+                                            <option value="Вода гаряча">Вода(гаряча)</option>
+                                            <option value="Вода холодна">Вода(холодна)</option>
+                                            <option value="Газ">Газ</option>
+                                            <option value="Електрика">Електрика</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="subdivision" class="col-4 col-form-label">Відділ*</label>
+                                    <div class="col-8">
+                                        <select name="subdivision" id="subdivision">
+                                            <option
+                                                    th:each="subdivision : ${subdivisions}"
+                                                    th:value="${subdivision.id}">
 
-                    <tr>
-                        <label>
-                            <td>Назва:</td>
-                            <td><input type="text" name="name" value="" th:maxlength="20" required="true"/></td>
-                        </label>
-                    </tr>
+                                                <span th:text="${subdivision.typeSubdivisions?.type}"></span>
+                                                <span th:if="${subdivision.name != null }">
+                                                <span th:if="${subdivision.name != 9999}" th:text="'- ' + ${subdivision.name}"></span>
+                                                    </span>
+                                                <span th:if="${subdivision.cities?.id != 1}" th:text="'- ' + ${subdivision.cities?.city}"></span>
 
-                    <tr>
-                        <label>
-                            <td>Тип лічильника:</td>
-                            <td>
-                                <select name="type">
-                                    <option value="Вода гаряча">Вода(гаряча)</option>
-                                    <option value="Вода холодна">Вода(холодна)</option>
-                                    <option value="Газ">Газ</option>
-                                    <option value="Електрика">Електрика</option>
-                                </select>
-                            </td>
-                        </label>
-                    </tr>
-
-                    <tr>
-                        <td>Відділ</td>
-                        <td>
-                            <select name ="subdivision">
-                                <option
-                                        th:each="subdivision : ${subdivisions}"
-                                        th:value="${subdivision.id}">
-                                    <span th:text="${subdivision.typeSubdivisions?.type}"></span>
-                                    <span th:if="${subdivision.name != null }">
-                                        <span th:if="${subdivision.name != 9999}" th:text="'- ' + ${subdivision.name}"></span>
-                                    </span>
-                                    <span th:if="${subdivision.cities?.id != 1}" th:text="'- ' + ${subdivision.cities?.city}"></span>
-                                </option>
-                            </select>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>Виробник</td>
-                        <td>
-                            <input name="manufacturer" type="text" />
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td><input type="submit" class="btn btn-success btn-sm" name="submit"/></td>
-                    </tr>
-                </table>
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="newpass" class="col-4 col-form-label">Виробник</label>
+                                    <div class="col-8">
+                                        <input id="newpass" name="password" placeholder="виробник" class="form-control here" type="text">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="offset-4 col-8">
+                                        <button name="submit" type="submit" class="btn btn-primary">Створити лічильник</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-            </form>
+            </div>
         </div>
+    </div>
+    <br/>
+    <br/>
+    <div th:replace="/fragments/footer :: footer"></div>
 </div>
-<div th:replace="/fragments/footer :: footer"></div>
-
 </body>
 </html>

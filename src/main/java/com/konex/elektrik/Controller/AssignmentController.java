@@ -64,7 +64,7 @@ public class AssignmentController {
         SimpleDateFormat formatForDateNow = new SimpleDateFormat("yyyy-MM-dd");
         model.addAttribute("userLogo", user.getName());
         model.addAttribute("subdivisions", subdivisionService.getAll(new Sort(Sort.Direction.ASC, "name")));
-        model.addAttribute("cities", cityService.getAll());
+        model.addAttribute("cities", cityService.getAll(new Sort(Sort.Direction.ASC, "city")));
         model.addAttribute("minDate", formatForDateNow.format(date));
         return "/assignment/create";
     }

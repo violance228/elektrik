@@ -4,45 +4,78 @@
 <head th:replace="/fragments/header :: head">
 </head>
 <body>
-<div class="wrapper container">
+
+<div class="container">
     <div th:replace="/fragments/top :: top"></div>
-    <div class="heading">
-        <h2 th:text="${h1name}"></h2>
-    </div>
-        <section class="col-md-17">
-            <form th:action="@{'/admin/subdivision/createSubdivision'}" name="createSubdivision" method="post">
-                    <div class="table-responsive">
-                        <table class="table table-hover table-condensed table-bordered">
-                        <tr>
-                            <label>
-                                <td>Назва:</td>
-                                <td><input type="text" name="name" id="name" th:maxlength="20" required="true"/></td>
-                            </label>
-                        </tr>
-
-                        <tr>
-                            <label>
-                                <td>Адреса:</td>
-                                <td><input type="text" name="address" value="" th:maxlength="20" required="true"/></td>
-                            </label>
-                        </tr>
-
-                        <tr>
-                            <label>
-                                <td>Телефон:</td>
-                                <td><input type="tel" name="telephone" value=""  th:minlength="8" th:maxlength="13" required="true"/></td>
-                            </label>
-                        </tr>
-
-                        <tr>
-                            <td><input type="submit" class="btn btn-success btn-sm"/></td>
-                        </tr>
-                    </table>
+    <div class="row">
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4>Створити відділ</h4>
+                            <hr>
+                        </div>
                     </div>
-            </form>
-        </section>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form th:action="@{'/admin/subdivision/createSubdivision'}" method="post">
+                                <div class="form-group row">
+                                    <label for="name" class="col-4 col-form-label">Назва(якщо у відділа не має числової назви вводити число - 9999)</label>
+                                    <div class="col-8">
+                                        <span style="color: red;" th:text="${err}"></span>
+                                        <input id="name" type="number" name="name" placeholder="назва" class="form-control here" required="required"/>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="address" class="col-4 col-form-label">Адреса</label>
+                                    <div class="col-8">
+                                        <span style="color: red;" th:text="${err}"></span>
+                                        <input id="address" type="text" name="address" placeholder="адреса" class="form-control here" required="required"/>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="telephone" class="col-4 col-form-label">Телефон</label>
+                                    <div class="col-8">
+                                        <span style="color: red;" th:text="${err}"></span>
+                                        <input id="telephone" type="text" name="telephone"  placeholder="телефон" class="form-control here" required="required"/>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="cities" class="col-4 col-form-label">Місто/н.п</label>
+                                    <div class="col-8">
+                                        <select name="cities" id="cities">
+                                            <option th:each="city : ${cities}"
+                                                    th:value="${city.id}" th:text="${city.city}">
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="typeSubdivisions" class="col-4 col-form-label">Тип відділа</label>
+                                    <div class="col-8">
+                                        <select name="typeSubdivisions" id="typeSubdivisions">
+                                            <option th:each="typeSubdivision : ${typeSubdivisions}"
+                                                    th:value="${typeSubdivision.id}" th:text="${typeSubdivision.type}">
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="offset-4 col-8">
+                                        <button name="submit" type="submit" class="btn btn-primary">Створити відділ</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <br/>
+    <div th:replace="/fragments/footer :: footer"></div>
 </div>
-<div th:replace="/fragments/footer :: footer"></div>
-
 </body>
 </html>

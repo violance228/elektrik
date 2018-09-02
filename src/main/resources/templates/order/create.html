@@ -4,48 +4,64 @@
 <head th:replace="/fragments/header :: head">
 </head>
 <body>
-<div class="wrapper container">
+<div class="container">
     <div th:replace="/fragments/top :: top"></div>
-    <div class="heading">
-        <h2 th:text="${h1name}"></h2>
-    </div>
-        <div class="col-md-17">
-            <form th:action="@{'/order/create'}" name="createOrder" method="post">
-                <div class="table-responsive">
-                    <table class="table table-hover table-condensed table-bordered">
-                    <tr>
-                        <label>
-                            <td>Текст заявки:</td>
-                            <td ><textarea style="width: 50%;" name="applicationText" th:maxlength="512" required="true"></textarea></td>
-                        </label>
-                    </tr>
+    <div class="row">
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4>Створити замовлення</h4>
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form th:action="@{'/order/create'}" name="editCounter" method="post">
+                                <div class="form-group row">
+                                    <label for="applicationText" class="col-4 col-form-label">Текст заявки:</label>
+                                    <div class="col-8">
+                                        <textarea id="applicationText" name="applicationText" placeholder="текст заявки" class="form-control here" ></textarea>
+                                    </div>
+                                </div>
 
-                    <tr>
-                        <td>Відділ</td>
-                        <td>
-                            <div class="styled-select">
-                            <select name="subdivision">
-                                <option
-                                        th:each="subdivision : ${subdivisions}"
-                                        th:value="${subdivision.id}">
-                                    <span th:text="${subdivision.typeSubdivisions?.type}"></span>
-                                    <span th:if="${subdivision.name != null }">
-                                        <span th:if="${subdivision.name != 9999}" th:text="'- ' + ${subdivision.name}"></span>
-                                    </span>
-                                    <span th:if="${subdivision.cities?.id != 1}" th:text="'- ' + ${subdivision.cities?.city}"></span>
-                                </option>
-                            </select>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><input type="submit" class="btn btn-success btn-sm" name="submit"/></td>
-                    </tr>
-                </table>
+                                <div class="form-group row">
+                                    <label for="subdivision" class="col-4 col-form-label">Відділ*</label>
+                                    <div class="col-8">
+                                        <select name="subdivision" id="subdivision">
+
+                                            <option th:each="subdivision : ${subdivisions}"
+                                                    th:value="${subdivision.id}">
+
+                                                <span th:text="${subdivision.typeSubdivisions?.type}"></span>
+                                                <span th:if="${subdivision.name != null }">
+                                                    <span th:if="${subdivision.name != 9999}" th:text="'- ' + ${subdivision.name}"></span>
+                                                </span>
+                                                <span th:if="${subdivision.cities?.id != 1}" th:text="'- ' + ${subdivision.cities?.city}"></span>
+
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="offset-4 col-8">
+                                        <button name="submit" type="submit" th:minlength="4" class="btn btn-primary">Створити замовлення</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
                 </div>
-            </form>
+            </div>
         </div>
+    </div>
+    <br/>
+    <br/>
+    <div th:replace="/fragments/footer :: footer"></div>
 </div>
-<div th:replace="/fragments/footer :: footer"></div>
+
 </body>
 </html>

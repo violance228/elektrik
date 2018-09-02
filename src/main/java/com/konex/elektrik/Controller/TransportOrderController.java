@@ -186,7 +186,7 @@ public class TransportOrderController {
             e.printStackTrace();
             log.info("addTransportOrderFail");
         }
-        return "redirect:/transportOrder/track/" + transportOrderFinnaly.getId();
+        return "redirect:/transportOrder/trackTransportOrder/" + transportOrderFinnaly.getId();
     }
 
     @RequestMapping( value = "/trackTransportOrder/{transportOrder.id}", method = RequestMethod.GET)

@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -49,6 +50,40 @@ public class StuffTypeController {
         model.addAttribute("userLogo", user.getName());
         log.info("stuffTypeCreateGet");
         return "/stuffType/create";
+    }
+
+    @RequestMapping( value = "/edit/{stuffs.id}", method = RequestMethod.GET)
+    public String editStuffTypeGet(Model model, HttpSession session,
+                                  @PathVariable(name = "stuffs.id") Long stuffTypeId) {
+
+        List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
+        model.addAttribute("buttons", buttons);
+        List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
+        model.addAttribute("button", button);
+        Long currUserId = (Long)session.getAttribute("currUserId");
+        User user = userService.getById(currUserId);
+        model.addAttribute("userLogo", user.getName());
+
+        model.addAttribute("stuffType", stuffTypeService.getById(stuffTypeId));
+        log.info("stuffTypeCreateGet");
+
+        return "/stuffType/edit";
+    }
+
+    @RequestMapping( value = "/edit", method = RequestMethod.POST)
+    public String editStuffTypePost(Model model, StuffType stuffType) {
+
+        try {
+            stuffType.setCount(stuffTypeService.getById(stuffType.getId()).getCount());
+            stuffType.setStuffs(stuffTypeService.getById(stuffType.getId()).getStuffs());
+            stuffTypeService.editStuffType(stuffType);
+            log.info("stuffTypeEditPostOk");
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.info("stuffTypeEditPostFail");
+        }
+
+        return "redirect:/stuffType/trackAll";
     }
 
     @RequestMapping( value = "/create", method = RequestMethod.POST)

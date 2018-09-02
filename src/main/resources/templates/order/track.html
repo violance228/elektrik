@@ -46,6 +46,16 @@
                         <span th:if="${orders.users.subdivisions.cities?.id != 1}" th:text="'- ' + ${orders.users.subdivisions.cities?.city}"></span>
                     </td>
                 </tr>
+                <tr>
+                    <td>Підрозділ, для якого подана заявка:</td>
+                    <td>
+                        <span th:text="${orders.subdivisions.typeSubdivisions?.type}"></span>
+                        <span th:if="${orders.subdivisions.name != null }">
+                                        <span th:if="${orders.subdivisions.name != 9999}" th:text="'- ' + ${orders.subdivisions.name}"></span>
+                                    </span>
+                        <span th:if="${orders.subdivisions.cities?.id != 1}" th:text="'- ' + ${orders.subdivisions.cities?.city}"></span>
+                    </td>
+                </tr>
                 <tr th:if="${session.currUserId != orders.users.id}">
                     <td>Змінити статус/Перенаправити:</td>
                     <td>

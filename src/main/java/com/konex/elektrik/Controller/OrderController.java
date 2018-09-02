@@ -150,6 +150,7 @@ public class OrderController {
             OrderComment orderComment = new OrderComment();
             Date date = new Date();
             try {
+                order.setApplicationText(orderService.getById(order.getId()).getApplicationText() + " -- " + order.getApplicationText());
                 orderService.editOrder(order);
                 log.info("orderEditPostOk");
             } catch (Exception e){

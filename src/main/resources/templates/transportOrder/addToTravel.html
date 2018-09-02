@@ -4,40 +4,54 @@
 <head th:replace="/fragments/header :: head">
 </head>
 <body>
-<div class="wrapper container">
+<div class="container">
     <div th:replace="/fragments/top :: top"></div>
-    <div class="heading">
-        <h2 th:text="${h1name}"></h2>
-    </div>
-    <section class="col-md-17">
-        <form action="/transportOrder/addToTravel" method="post">
-            <div class="table-responsive">
-                <table class="table table-hover table-condensed table-bordered">
-                    <tr>
-                        <td>Населений пункт:</td>
-                        <td>
-                            <select name ="cityId">
-                                <option th:each="city : ${city}" th:value="${city.cities.id}"
-                                        th:text="${city.cities.city}" >
-                                </option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Коментар:</td>
-                        <td>
-                            <textarea name="comment"></textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><input class="btn btn-success btn-sm" type="submit"/></td>
-                    </tr>
-                    <input type="text" name="transportOrderId" th:value="${transportOrderId}" hidden="hidden" />
-                </table>
+    <div class="row">
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4>Додатись до поїздки</h4>
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form th:action="@{'/transportOrder/addToTravel'}" name="editUser" method="post">
+                                <input type="text" name="transportOrderId" th:value="${transportOrderId}" hidden="hidden"/>
+                                <div class="form-group row">
+                                    <label for="cityId" class="col-4 col-form-label">Населений пункт*</label>
+                                    <div class="col-8">
+                                        <select name ="cityId" id="cityId">
+                                            <option th:each="city : ${city}" th:value="${city.cities.id}"
+                                                    th:text="${city.cities.city}" >
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="comment" class="col-4 col-form-label">Коментар</label>
+                                    <div class="col-8">
+                                        <textarea id="comment" name="comment" placeholder="коментар" class="form-control here"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="offset-4 col-8">
+                                        <button name="submit" type="submit" class="btn btn-primary">Додатись до поїздки</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
             </div>
-        </form>
-    </section>
+        </div>
+    </div>
+    <br/>
+    <br/>
+    <div th:replace="/fragments/footer :: footer"></div>
 </div>
-<div th:replace="/fragments/footer :: footer"></div>
 </body>
 </html>

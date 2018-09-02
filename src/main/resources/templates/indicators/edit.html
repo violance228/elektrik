@@ -21,7 +21,7 @@
                         <h1>Створити показники</h1>
                         <tr>
                             <form th:action="@{'/indicator/add'}" method="post">
-                                <td><input type="date" th:value="" name="dat" th:maxlength="20" required="true"/></td>
+                                <td><input type="date" th:value="${datee}" name="dat" required="true"/></td>
                                 <td><input type="number" name="indicator" th:maxlength="20" required="true"/></td>
                                 <td hidden="hidden">
                                     <select name="counterId" >

@@ -4,6 +4,7 @@ import com.konex.elektrik.Config.SecurityConfig;
 import com.konex.elektrik.Entity.*;
 import com.konex.elektrik.Service.Assignment.AssignmentService;
 import com.konex.elektrik.Service.Buttons.ButtonsService;
+import com.konex.elektrik.Service.City.CityService;
 import com.konex.elektrik.Service.ConnectionLog.ConnectionLogService;
 import com.konex.elektrik.Service.Counter.CounterService;
 import com.konex.elektrik.Service.Indicators.IndicatorsService;
@@ -11,6 +12,7 @@ import com.konex.elektrik.Service.Order.OrderService;
 import com.konex.elektrik.Service.Role.RoleService;
 import com.konex.elektrik.Service.Status.StatusService;
 import com.konex.elektrik.Service.Subdivision.SubdivisionService;
+import com.konex.elektrik.Service.TypeSubdivision.TypeSubdivisionService;
 import com.konex.elektrik.Service.User.UserService;
 import com.konex.elektrik.filter.ConnectionLogFilter;
 import com.konex.elektrik.filter.OrderFilter;
@@ -54,6 +56,10 @@ public class AdminController {
     private ButtonsService buttonsService;
     @Autowired
     private ConnectionLogService connectionLogService;
+    @Autowired
+    private TypeSubdivisionService typeSubdivisionService;
+    @Autowired
+    private CityService cityService;
     final static Logger log = Logger.getLogger(SecurityConfig.class.getName());
 
 //*************************************************************************************
@@ -187,6 +193,8 @@ public class AdminController {
         Long currUserId = (Long)session.getAttribute("currUserId");
         User user = userService.getById(currUserId);
         model.addAttribute("userLogo", user.getName());
+        model.addAttribute("typeSubdivisions", typeSubdivisionService.getAll(new Sort(Sort.Direction.ASC, "type")));
+        model.addAttribute("cities", cityService.getAll(new Sort(Sort.Direction.ASC, "city")));
 
         return "/subdivision/create";
     }
@@ -198,14 +206,10 @@ public class AdminController {
         model.addAttribute("buttons", buttons);
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
-        model.addAttribute("h1name", "Створити підрозділ");
-        model.addAttribute("active", "active");
-        Long currUserId = (Long)session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
 
         subdivisionService.addSubdivision(subdivision);
-        return "/subdivision/create";
+
+        return "redirect:/subdivision/create";
     }
 
     @RequestMapping(value = "/subdivision/edit/{subdivision.id}", method = RequestMethod.GET)
@@ -218,7 +222,9 @@ public class AdminController {
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Редагувати підрозділи");
-        model.addAttribute("subdivisions", subdivisionService.getById(id));
+        model.addAttribute("subdivision", subdivisionService.getById(id));
+        model.addAttribute("typeSubdivisions", typeSubdivisionService.getAll(new Sort(Sort.Direction.ASC, "type")));
+        model.addAttribute("cities", cityService.getAll(new Sort(Sort.Direction.ASC, "city")));
         Long currUserId = (Long)session.getAttribute("currUserId");
         User user = userService.getById(currUserId);
         model.addAttribute("userLogo", user.getName());

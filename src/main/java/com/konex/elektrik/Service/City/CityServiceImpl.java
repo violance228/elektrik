@@ -3,6 +3,7 @@ package com.konex.elektrik.Service.City;
 import com.konex.elektrik.Entity.City;
 import com.konex.elektrik.Repository.CityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,8 +40,8 @@ public class CityServiceImpl implements CityService {
     }
 
     @Transactional(readOnly = true)
-    public List<City> getAll() {
+    public List<City> getAll(Sort sort) {
 
-        return cityRepository.findAll();
+        return cityRepository.findAll(sort);
     }
 }

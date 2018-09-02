@@ -39,14 +39,17 @@
                         <span th:each="assign : ${assignment.citiesTravels}" th:text="${assign.cities.city + ' '}"></span>
                     </div>
                     <div class="divTableCell">
-                        <a class="btn btn-success btn-sm" th:if="${assignment.transportOrder == null}" th:href="@{'/transportOrder/addTransportOrder/'+ ${assignment.id}}"><input type="button"  value="Видати машину" /></a>
+                        <a class="btn btn-success btn-sm" th:if="${assignment.transportOrder == null}" th:href="@{'/transportOrder/addTransportOrder/'+ ${assignment.id}}">Видати машину</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <br/>
+    <br/>
+    <div th:replace="/fragments/footer :: footer"></div>
 </div>
-<div th:replace="/fragments/footer :: footer"></div>
+
 
 </body>
 </html>

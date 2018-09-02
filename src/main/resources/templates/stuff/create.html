@@ -10,77 +10,99 @@
 <head th:replace="/fragments/header :: head">
 </head>
 <body>
-<div class="wrapper container">
+<div class="container">
     <div th:replace="/fragments/top :: top"></div>
-    <div class="heading">
-        <h2 th:text="${h1name}"></h2>
-    </div>
-    <section class="col-md-17">
-        <div class="table-responsive">
-            <table class="table table-hover table-condensed table-bordered">
-                <form th:action="@{'/stuff/create'}" name="stuff" method="post">
-                    <tr>
-                        <td>Інвентарний номер:</td>
-                        <td><input type="number" name="number" required="true"/></td>
-                    </tr>
-                    <tr>
-                        <td>Дата виготовлення:</td>
-                        <td><input type="date" name="dateOfManufactu" required="true"/></td>
-                    </tr>
-                    <tr>
-                        <td>Виробник/модель:</td>
-                        <td><input type="text" name="model" required="true"/></td>
-                    </tr>
+    <div class="row">
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4>Редагувати предмет</h4>
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form th:action="@{'/stuff/create'}" name="stuff" method="post">
+                                <div class="form-group row">
+                                    <label for="number" class="col-4 col-form-label">Інвентарний номер*</label>
+                                    <div class="col-8">
+                                        <span style="color: red;" th:text="${err}"></span>
+                                        <input id="number" type="number" name="number" placeholder="Username" class="form-control here" required="required"/>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="dateOfManufactu" class="col-4 col-form-label">Дата виготовлення:</label>
+                                    <div class="col-8">
+                                        <input id="dateOfManufactu" type="date" name="dateOfManufactu" class="form-control here" />
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="model" class="col-4 col-form-label">Виробник/модель*</label>
+                                    <div class="col-8">
+                                        <input id="model"  class="form-control here" placeholder="виробник/модель" required="required" type="text" name="model" />
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="dateOfReceiv" class="col-4 col-form-label">Дата отримання відділом</label>
+                                    <div class="col-8">
+                                        <input id="dateOfReceiv" type="date" name="dateOfReceiv" class="form-control here">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="comment" class="col-4 col-form-label">Коментар(переміщення)</label>
+                                    <div class="col-8">
+                                        <textarea id="comment" name="comment" placeholder="коментар" class="form-control here" type="text"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="stuffTypes" class="col-4 col-form-label">Тип предмета</label>
+                                    <div class="col-8">
+                                        <select name="stuffTypes" id="stuffTypes">
+                                            <option
+                                                    th:each="stuffType : ${stuffTypes}"
+                                                    th:text="${stuffType.type}"
+                                                    th:value="${stuffType.id}">
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="subdivision" class="col-4 col-form-label">Відділ*</label>
+                                    <div class="col-8">
+                                        <select name="subdivisions" id="subdivision">
+                                            <option
+                                                    th:each="subdivision : ${subdivisions}"
+                                                    th:value="${subdivision.id}">
 
-                    <tr>
-                        <td>Дата отримання відділом:</td>
-                        <td><input type="date" name="dateOfReceiv" required="true"/></td>
-                    </tr>
+                                                <span th:text="${subdivision.typeSubdivisions?.type}"></span>
+                                                <span th:if="${subdivision.name != null }">
+                                                    <span th:if="${subdivision.name != 9999}" th:text="'- ' + ${subdivision.name}"></span>
+                                                </span>
+                                                <span th:if="${subdivision.cities?.id != 1}" th:text="'- ' + ${subdivision.cities?.city}"></span>
 
-                    <tr>
-                        <td>Тип предмета:</td>
-                        <td>
-                            <div class="styled-select">
-                                <select name="stuffTypes" required="true">
-                                    <option
-                                            th:each="stuffType : ${stuffTypes}"
-                                            th:text="${stuffType.type}"
-                                            th:value="${stuffType.id}">
-                                    </option>
-                                </select>
-                            </div>
-                        </td>
-                    </tr>
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
 
-                    <tr>
-                        <td>Відділ</td>
-                        <td>
-                            <div class="styled-select">
-                                <select name="subdivisions" required="true">
-                                    <option
-                                            th:each="subdivision : ${subdivisions}"
-                                            th:value="${subdivision.id}">
-                                        <span th:text="${subdivision.typeSubdivisions?.type}"></span>
-                                        <span th:if="${subdivision.name != null }">
-                                            <span th:if="${subdivision.name != 9999}" th:text="'- ' + ${subdivision.name}"></span>
-                                        </span>
-                                        <span th:if="${subdivision.cities?.id != 1}" th:text="'- ' + ${subdivision.cities?.city}"></span>
-                                    </option>
-                                </select>
-                            </div>
-                        </td>
-                    </tr>
+                                <div class="form-group row">
+                                    <div class="offset-4 col-8">
+                                        <button name="submit" type="submit" class="btn btn-primary">Обновити лічильник</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
 
-                    <tr>
-                        <td>
-                            <input type="submit" class="btn btn-success btn-sm"/>
-                        </td>
-                    </tr>
-                </form>
-            </table>
+                </div>
+            </div>
         </div>
-    </section>
+    </div>
+    <br/>
+    <br/>
+    <div th:replace="/fragments/footer :: footer"></div>
 </div>
-<div th:replace="/fragments/footer :: footer"></div>
 </body>
 </html>

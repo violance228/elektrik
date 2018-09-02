@@ -96,7 +96,8 @@ public class IndicatorsController {
         Calendar this_year = Calendar.getInstance();
         this_year.setTime(date1);
         int thisYear = this_year.get(Calendar.YEAR);
-        model.addAttribute("dat", "01-" + thisMonthStr + "-" + thisYear);
+        String htmlTodayDate = thisYear + "-" + thisMonthStr + "-01";
+        model.addAttribute("datee", htmlTodayDate);
 
         Calendar calendar2 = Calendar.getInstance();
         Calendar cal = Calendar.getInstance();

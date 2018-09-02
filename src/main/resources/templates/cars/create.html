@@ -4,54 +4,67 @@
 <head th:replace="/fragments/header :: head">
 </head>
 <body>
-<div class="wrapper container">
+<div class="container">
     <div th:replace="/fragments/top :: top"></div>
-    <div class="heading">
-        <h2 th:text="${h1name}"></h2>
-    </div>
-    <div class="col-md-17">
-        <form th:action="@{'/transportOrder/addCar'}" method="post">
-            <div class="table-responsive">
-                <table class="table table-hover table-condensed table-bordered">
-                    <tr>
-                        <td>Номер машини</td>
-                        <td>
-                            <input type="text" name="carNumber" placeholder="Великими буквами на укр"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Категорія машини</td>
-                        <td>
-                            <select name="vehicleCategory">
-                                <option value="A">A</option>
-                                <option value="B">B</option>
-                                <option value="C" selected="true">C</option>
-                                <option value="D">D</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Бренд</td>
-                        <td>
-                            <input type="text" name="brand" placeholder="маленькими англ" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Модель</td>
-                        <td>
-                            <input type="text" name="model" placeholder="маленькими англ" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input class="btn btn-success btn-sm" type="submit"/>
-                        </td>
-                    </tr>
-                </table>
+    <div class="row">
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4>Додати авто</h4>
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form th:action="@{'/transportOrder/addCar'}" name="editUser" method="post">
+                                <div class="form-group row">
+                                    <label for="carNumber" class="col-4 col-form-label">Номер машини*</label>
+                                    <div class="col-8">
+                                        <input id="carNumber" name="carNumber"  placeholder="Великими буквами на укр" class="form-control here" required="required" type="text"/>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="brand" class="col-4 col-form-label">Бренд</label>
+                                    <div class="col-8">
+                                        <input id="brand" name="brand" placeholder="маленькими англ" class="form-control here" type="text"/>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="model" class="col-4 col-form-label">Модель</label>
+                                    <div class="col-8">
+                                        <input id="model" name="model" placeholder="маленькими англ"  class="form-control here" type="text"/>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="vehicleCategory" class="col-4 col-form-label">Категорія автомобіля*</label>
+                                    <div class="col-8">
+                                        <select id="vehicleCategory" name="vehicleCategory">
+                                            <option value="A">A</option>
+                                            <option value="B">B</option>
+                                            <option value="C">C</option>
+                                            <option value="D">D</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="offset-4 col-8">
+                                        <button name="submit" type="submit" th:minlength="4" class="btn btn-primary">Додати авто</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
             </div>
-        </form>
+        </div>
     </div>
+    <br/>
+    <br/>
+    <div th:replace="/fragments/footer :: footer"></div>
 </div>
-<div th:replace="/fragments/footer :: footer"></div>
+
 </body>
 </html>
