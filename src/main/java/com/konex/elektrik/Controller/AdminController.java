@@ -80,7 +80,7 @@ public class AdminController {
 
 
         try {
-            if (userService.findByUsername(user.getUsername()) == null && userService.findUserByTelephone(user.getTelephone()) == null) {
+            if (userService.findByUsername(user.getUsername()) == null && userService.findUserByTelephone(user.getTelephone()) == null && user.getSubdivisions() != null && user.getRoles() != null) {
                 Subdivision subdivisions = subdivisionService.getById(subdivisionId);
                 userService.addUser(user, subdivisions, roleId);
             }
@@ -133,10 +133,6 @@ public class AdminController {
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Переглянути всіх користувачів");
-        model.addAttribute("active", "active");
-        Long currUserId = (Long)session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
         model.addAttribute("users", userService.findByCriteriaQuery(userFilter));
         model.addAttribute("roles", roleService.getAll());
         model.addAttribute("users", userService.findByCriteriaQuery(userFilter));
@@ -149,13 +145,11 @@ public class AdminController {
         System.out.println("====== editUserGetFromTrackAll ======");
         Long currUserId = (Long)session.getAttribute("currUserId");
         User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
         List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
         model.addAttribute("buttons", buttons);
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Редагувати коритсувачів");
-        model.addAttribute("active", "active");
         model.addAttribute("users", userService.getById(userId));
         model.addAttribute("subdivisions", subdivisionService.getAll(new Sort(Sort.Direction.ASC, "id")));
         model.addAttribute("roles", roleService.getAll());
@@ -195,10 +189,6 @@ public class AdminController {
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Створити підрозділ");
-        model.addAttribute("active", "active");
-        Long currUserId = (Long)session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
         model.addAttribute("typeSubdivisions", typeSubdivisionService.getAll(new Sort(Sort.Direction.ASC, "type")));
         model.addAttribute("cities", cityService.getAll(new Sort(Sort.Direction.ASC, "city")));
 
@@ -231,9 +221,6 @@ public class AdminController {
         model.addAttribute("subdivision", subdivisionService.getById(id));
         model.addAttribute("typeSubdivisions", typeSubdivisionService.getAll(new Sort(Sort.Direction.ASC, "type")));
         model.addAttribute("cities", cityService.getAll(new Sort(Sort.Direction.ASC, "city")));
-        Long currUserId = (Long)session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
 
         return "/subdivision/edit";
     }
@@ -247,6 +234,7 @@ public class AdminController {
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Редагувати підрозділи");
         subdivision = subdivisionService.editSubdivision(subdivision);
+
         return "redirect:/subdivision/track/" + subdivision.getId();
     }
 
@@ -258,11 +246,9 @@ public class AdminController {
         model.addAttribute("buttons", buttons);
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
-        Long currUserId = (Long)session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
         model.addAttribute("h1name", "Відділ - "+subdivisionService.getById(subdivisionId).getName());
         model.addAttribute("subdivision", subdivisionService.getById(subdivisionId));
+
         return "/subdivision/track";
     }
 
@@ -278,9 +264,6 @@ public class AdminController {
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Переглянути всі замовлення ");
-        Long currUserId = (Long)session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
         model.addAttribute("orders", orderService.getAll(new Sort(Sort.Direction.DESC, "dateOfApplication")));
         model.addAttribute("subdivisions", subdivisionService.getAll(new Sort(Sort.Direction.ASC, "id")));
         model.addAttribute("status", statusService.getAll());
@@ -296,14 +279,11 @@ public class AdminController {
         model.addAttribute("h1name", "Переглянути всі замовлення ");
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
-        Long currUserId = (Long)session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
         try {
             orderFilter.setUsername(userService.findByUsername(orderFilter.getUsername()).getId().toString());
         } catch (NullPointerException e) {
             System.out.println("error");
         }
-        model.addAttribute("userLogo", user.getName());
         List<Order> orders = orderService.getByCriteria(orderFilter, new Sort(Sort.Direction.DESC, "dateOfApplication"));
         model.addAttribute("subdivisions", subdivisionService.getAll(new Sort(Sort.Direction.ASC, "id")));
         model.addAttribute("orders", orders);
@@ -324,12 +304,8 @@ public class AdminController {
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Переглянути всі відрядження");
-
-        Long currUserId = (Long)session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
-
         model.addAttribute("assignments", assignmentService.getAll(new Sort(Sort.Direction.DESC, "id")));
+
         return "/assignment/trackAll";
     }
 
@@ -349,14 +325,11 @@ public class AdminController {
         Date date3 = new Date();
         System.err.println("------------------------------------333"+date3);
         model.addAttribute("h1name", "Лог підключень");
-        model.addAttribute("active", "active");
-        Long currUserId = (Long)session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
         Date date4 = new Date();
         System.err.println("------------------------------------444"+date4);
         Date date = new Date();
         System.err.println("------------------------------------55"+date);
-        model.addAttribute("connectionLogs", connectionLogService.getAll(new Sort(Sort.Direction.DESC, "date")));
+        model.addAttribute("connectionLogs", connectionLogService.getAllByJdbc());
         Date date1 = new Date();
         System.err.println("------------------------------------66"+date1);
         return "/connectionLog";
@@ -372,10 +345,8 @@ public class AdminController {
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Лог підключень");
         model.addAttribute("active", "active");
-        Long currUserId = (Long)session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
         model.addAttribute("connectionLogs", connectionLogService.findConnectionLogByCriteria(connectionLogFilter, new Sort(Sort.Direction.DESC, "date")));
+
         return "/connectionLog";
 
     }

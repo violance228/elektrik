@@ -157,9 +157,8 @@ public class IndicatorsServiceImpl implements IndicatorsService {
 
         String sql = "select i.indicators_id from indicators i where date_part('year', i.date) = " + year + "";
         List<Long> indicatorIdList = jdbcTemplate.queryForList(sql, Long.class);
-        List<Indicators> indicatorList = indicatorsService.findByIdInOrderByCountersAscDateAsc(indicatorIdList);
 
-        return indicatorList;
+        return indicatorsService.findByIdInOrderByCountersAscDateAsc(indicatorIdList);
     }
 
     @Transactional(readOnly = true)

@@ -8,6 +8,7 @@ import com.konex.elektrik.filter.ConnectionLogFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +20,9 @@ public class ConnectionLogServiceImpl implements ConnectionLogService {
 
     @Autowired
     private ConnectionLogRepository connectionLogRepository;
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     @Transactional
     public ConnectionLog addConnectionLog(ConnectionLog connectionLog, User user) {
@@ -51,5 +55,14 @@ public class ConnectionLogServiceImpl implements ConnectionLogService {
     public List<ConnectionLog> findConnectionLogByCriteria(ConnectionLogFilter connectionLogFilter, Sort sort) {
         Specification<ConnectionLog> connectionLogSpecs = ConnectionLogSpecs.connectionLogSpecsByFilter(connectionLogFilter);
         return connectionLogRepository.findAll(connectionLogSpecs, sort);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ConnectionLog> getAllByJdbc() {
+
+        String sql = "select * from connection_log cl order by cl.date desc";
+        List<ConnectionLog> connectionLogList = jdbcTemplate.queryForList(sql, ConnectionLog.class);
+
+        return connectionLogList;
     }
 }

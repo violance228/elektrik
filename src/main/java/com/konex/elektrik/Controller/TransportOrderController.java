@@ -43,34 +43,25 @@ public class TransportOrderController {
     private CityService cityService;
 
     @RequestMapping( value = "/addCar", method = RequestMethod.GET)
-    public String addCarGet(Model model, HttpSession session) {
+    public String addCarGet(Model model) {
 
         List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
         model.addAttribute("buttons", buttons);
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Створити Відрядження");
-        model.addAttribute("active", "active");
-        Long currUserId = (Long)session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
 
         return "/cars/create";
     }
 
     @RequestMapping( value = "/addCar", method = RequestMethod.POST)
-    public String addCarPost(@ModelAttribute("cars") Cars cars, Model model,
-                             HttpSession session) {
+    public String addCarPost(@ModelAttribute("cars") Cars cars, Model model) {
 
         List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
         model.addAttribute("buttons", buttons);
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Створити Відрядження");
-        model.addAttribute("active", "active");
-        Long currUserId = (Long)session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
         try {
             carsService.addCars(cars);
             log.info("addCars");
@@ -81,7 +72,7 @@ public class TransportOrderController {
     }
 
     @RequestMapping(value = "/editCar/{car.id}", method = RequestMethod.GET)
-    public String editCarGet(Model model, HttpSession session,
+    public String editCarGet(Model model,
                              @PathVariable(name = "car.id") Long carId) {
 
         List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
@@ -89,35 +80,27 @@ public class TransportOrderController {
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Створити Відрядження");
-        model.addAttribute("active", "active");
-        Long currUserId = (Long)session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
-
         model.addAttribute("car", carsService.getById(carId));
 
         return "/cars/edit";
     }
 
     @RequestMapping(value = "/editCar", method = RequestMethod.POST)
-    public String editCarGet(HttpSession session, Cars car) {
+    public String editCarGet(Cars car) {
 
         return "/cars/edit/" + carsService.editCars(car).getId();
     }
 
     @RequestMapping( value = "/trackCar/{car.id}", method = RequestMethod.GET)
-    public String trackCarGet(Model model, HttpSession session, @PathVariable(name = "car.id") Long carId) {
+    public String trackCarGet(Model model, @PathVariable(name = "car.id") Long carId) {
 
         List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
         model.addAttribute("buttons", buttons);
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Створити Відрядження");
-        model.addAttribute("active", "active");
-        Long currUserId = (Long)session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
         model.addAttribute("car", carsService.getById(carId));
+
         log.info("trackCar");
 
         return "/cars/track";
@@ -131,11 +114,8 @@ public class TransportOrderController {
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Створити Відрядження");
-        model.addAttribute("active", "active");
-        Long currUserId = (Long)session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
         model.addAttribute("cars", carsService.getAll());
+
         log.info("trackAllCar");
 
         return "/cars/trackAll";
@@ -150,30 +130,21 @@ public class TransportOrderController {
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Створити Відрядження");
-        model.addAttribute("active", "active");
-        Long currUserId = (Long)session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
         model.addAttribute("cars", carsService.getAll());
         model.addAttribute("assignments", assignmentService.getById(assignmentId));
+
         log.info("addTransportOrder");
+
         return "/transportOrder/create";
     }
 
     @RequestMapping( value = "/addTransportOrder", method = RequestMethod.POST)
-    public String addTransportOrderGet(@ModelAttribute("transportOrder") TransportOrder transportOrder, Model model, HttpSession session,
+    public String addTransportOrderGet(@ModelAttribute("transportOrder") TransportOrder transportOrder, HttpSession session,
                                        @RequestParam(name = "car") Long carId,
                                        @RequestParam(name = "assignmentId") Long assignmentId) {
 
-        List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
-        model.addAttribute("buttons", buttons);
-        List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
-        model.addAttribute("button", button);
-        model.addAttribute("h1name", "Створити Відрядження");
-        model.addAttribute("active", "active");
         Long currUserId = (Long)session.getAttribute("currUserId");
         User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
         Cars cars = carsService.getById(carId);
         Assignment assignment = assignmentService.getById(assignmentId);
         Date localDate = new Date();
@@ -190,46 +161,38 @@ public class TransportOrderController {
     }
 
     @RequestMapping( value = "/trackTransportOrder/{transportOrder.id}", method = RequestMethod.GET)
-    public String trackTransportOrderGet(Model model, HttpSession session,
-                                         @PathVariable("transportOrder.id") Long transportOrderId) {
+    public String trackTransportOrderGet(Model model, @PathVariable("transportOrder.id") Long transportOrderId) {
 
         List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
         model.addAttribute("buttons", buttons);
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Створити Відрядження");
-        model.addAttribute("active", "active");
-        Long currUserId = (Long)session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
         model.addAttribute("transportOrder", transportOrderService.getById(transportOrderId));
+
         log.info("trackTransportOrder");
 
         return "/transportOrder/track";
     }
 
     @RequestMapping( value = "/trackAllTransportOrder", method = RequestMethod.GET)
-    public String trackAllTransportOrderGet(Model model, HttpSession session) {
+    public String trackAllTransportOrderGet(Model model) {
 
         List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
         model.addAttribute("buttons", buttons);
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
-        model.addAttribute("h1name", "Створити Відрядження");
-        model.addAttribute("active", "active");
-        Long currUserId = (Long)session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
+        model.addAttribute("h1name", "Всі відрядження");
         List<TransportOrder> transportOrder = transportOrderService.getAllWhereAssignmentIsNotNull();
         model.addAttribute("transportOrder", transportOrder);
-        Set<Passenger> passengerSet;
+
         log.info("trackTransportOrder");
 
         return "/transportOrder/trackAll";
     }
 
     @RequestMapping( value = "/addToTravel/{trOrder.id}", method = RequestMethod.GET)
-    public String addToTravelGet(Model model, HttpSession session,
+    public String addToTravelGet(Model model,
                                  @PathVariable("trOrder.id") Long transportOrderId) {
 
         List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
@@ -237,19 +200,17 @@ public class TransportOrderController {
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Створити Відрядження");
-        model.addAttribute("active", "active");
-        Long currUserId = (Long)session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
         model.addAttribute("transportOrderId", transportOrderId);
         model.addAttribute("city", transportOrderService.getById(transportOrderId).getAssignments().getCitiesTravels());
+
         log.info("addToTravel");
+
         return "/transportOrder/addToTravel";
     }
 
     @RequestMapping( value = "/addToTravel", method = RequestMethod.POST)
     public String addToTravelPost(@ModelAttribute("passenger") Passenger passenger,
-                                  Model model, HttpSession session,
+                                  HttpSession session,
                                   @RequestParam(value="transportOrderId", required = false) Long transportOrderId,
                                   @RequestParam(value="cityId", required = false) Long cityId) {
 

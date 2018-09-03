@@ -48,11 +48,7 @@ public class CounterController {
         model.addAttribute("buttons", buttons);
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
-        Long currUserId = (Long) session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
         model.addAttribute("h1name", "Створити лічильник");
-        model.addAttribute("active", "active");
         model.addAttribute("subdivisions", subdivisionService.getAll(new Sort(Sort.Direction.ASC, "name")));
 
         return "/counter/create";
@@ -64,26 +60,17 @@ public class CounterController {
                                  @RequestParam(value = "manufacturer") Long manufacturerId,
                                  HttpSession session) {
 
-        List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
-        model.addAttribute("buttons", buttons);
-        List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
-        model.addAttribute("button", button);
-        model.addAttribute("h1name", "Створити лічильник");
-        model.addAttribute("active", "active");
-        Long currUserId = (Long) session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
+
+
         Subdivision subdivision = subdivisionService.getById(subdivisionId);
-//        Manufacturer manufacturer = manufacturerService.getById(manufacturerId);
-        counterService.addCounter(counter, subdivision
-//                , manufacturer
-        );
+        counterService.addCounter(counter, subdivision);
 
         Indicators indicators = new Indicators();
         indicators.setIndicator(0);
         indicators.setConsumption(0);
         indicatorsService.addIndicators(indicators, counter);
-        return "/counter/create";
+
+        return "redirect:/counter/create";
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
@@ -92,10 +79,8 @@ public class CounterController {
                                   @RequestParam(name = "manufacturer") Long manufacturerId) {
 
         Subdivision subdivision = subdivisionService.getById(subdivisionId);
-//        Manufacturer manufacturer = manufacturerService.getById(manufacturerId);
-        counterService.editCounter(counter, subdivision
-//                , manufacturer
-        );
+        counterService.editCounter(counter, subdivision);
+
         return "redirect:/counter/trackAll";
     }
 
@@ -110,10 +95,6 @@ public class CounterController {
         Counter counter = counterService.getById(counterId);
         model.addAttribute("h1name", "Редагувати лічильник: " + counter.getNumber());
         model.addAttribute("counters", counter);
-        model.addAttribute("active", "active");
-        Long currUserId = (Long) session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
         model.addAttribute("subdivisions", subdivisionService.getAll(new Sort(Sort.Direction.ASC, "id")));
 
         return "/counter/edit";
@@ -136,10 +117,6 @@ public class CounterController {
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Переглянути всі лічильники");
-        model.addAttribute("active", "active");
-        Long currUserId = (Long) session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
         model.addAttribute("counters", counterService.getAll(new Sort(Sort.Direction.ASC, "subdivisions.name")));
         model.addAttribute("subdivisions", subdivisionService.getAll(new Sort(Sort.Direction.ASC, "name")));
         
@@ -147,17 +124,13 @@ public class CounterController {
     }
 
     @RequestMapping(value = "/trackAll", method = RequestMethod.POST)
-    public String findCounterByParamPost(Model model, CounterFilter counterFilter, HttpSession session) {
+    public String findCounterByParamPost(Model model, CounterFilter counterFilter) {
 
         List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
         model.addAttribute("buttons", buttons);
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Переглянути всі лічильники");
-        model.addAttribute("active", "active");
-        Long currUserId = (Long) session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
         model.addAttribute("counters", counterService.findCounterByCriteria(counterFilter));
         model.addAttribute("subdivisions", subdivisionService.getAll(new Sort(Sort.Direction.ASC, "name")));
 
@@ -172,10 +145,7 @@ public class CounterController {
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Переглянути всі лічильники");
-        model.addAttribute("active", "active");
-        Long currUserId = (Long) session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
+
         List<Counter> counter = counterService.getAll(new Sort(Sort.Direction.ASC, "subdivisions"));
 
         List<Counter> counterList = new ArrayList<Counter>();
@@ -211,10 +181,6 @@ public class CounterController {
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Переглянути всі лічильники");
-        model.addAttribute("active", "active");
-        Long currUserId = (Long) session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
 
         if (subdivisionId != 0) {
             Subdivision subdivision = subdivisionService.getById(subdivisionId);
@@ -243,10 +209,8 @@ public class CounterController {
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Переглянути всі лічильники");
-        model.addAttribute("active", "active");
         Long currUserId = (Long) session.getAttribute("currUserId");
         User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
 
         Date date = new Date();
         Calendar calendarThisYear = Calendar.getInstance();
@@ -287,10 +251,6 @@ public class CounterController {
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Переглянути всі лічильники");
-        model.addAttribute("active", "active");
-        Long currUserId = (Long) session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
 
         Subdivision subdivision = subdivisionService.getById(subdivisionId);
         List<Counter> counterBySubdivList = counterService.getAllCountersBySubdivision(subdivision);
@@ -307,24 +267,6 @@ public class CounterController {
 
             }
         }
-//IndicatorsController controller = new IndicatorsController();
-//
-//        if (counterBySubdivList.get(0) != null) {
-//            model.addAttribute("data1", controller.getIndicatorsByCounterAndYear(year, counterBySubdivList.get(0).getId()));
-//            model.addAttribute("counter1", counterBySubdivList.get(0).getNumber());
-//        } if (counterBySubdivList.get(1) != null) {
-//            model.addAttribute("data2", controller.getIndicatorsByCounterAndYear(year, counterBySubdivList.get(1).getId()));
-//            model.addAttribute("counter2", counterBySubdivList.get(1).getNumber());
-//        } if (counterBySubdivList.get(2) != null) {
-//            model.addAttribute("data3", controller.getIndicatorsByCounterAndYear(year, counterBySubdivList.get(2).getId()));
-//            model.addAttribute("counter3", counterBySubdivList.get(2).getNumber());
-//        } if (counterBySubdivList.get(3) != null) {
-//            model.addAttribute("data4", controller.getIndicatorsByCounterAndYear(year, counterBySubdivList.get(3).getId()));
-//            model.addAttribute("counter4", counterBySubdivList.get(3).getNumber());
-//        } if (counterBySubdivList.get(4) != null) {
-//            model.addAttribute("data5", controller.getIndicatorsByCounterAndYear(year, counterBySubdivList.get(4).getId()));
-//            model.addAttribute("counter5", counterBySubdivList.get(4).getNumber());
-//        }
 
         model.addAttribute("counters", counterListMap);
         model.addAttribute("year", year);
@@ -344,7 +286,6 @@ public class CounterController {
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Переглянути всі лічильники");
-        model.addAttribute("active", "active");
         Year year = new Year();
         model.addAttribute("years", year.getArrayYear());
 

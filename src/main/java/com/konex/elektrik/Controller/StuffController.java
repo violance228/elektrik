@@ -39,8 +39,6 @@ public class StuffController {
     private UserService userService;
     @Autowired
     private ButtonsService buttonsService;
-//    @Autowired
-//    private AmountService amountService;
     @Autowired
     private StuffService stuffService;
     @Autowired
@@ -52,20 +50,17 @@ public class StuffController {
     private Date docDate = null;
 
     @RequestMapping( value = "/create", method = RequestMethod.GET)
-    public String addStuffGet(@ModelAttribute("stuff") Stuff stuff, Model model, HttpSession session) {
+    public String addStuffGet(@ModelAttribute("stuff") Stuff stuff, Model model) {
 
         List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
         model.addAttribute("buttons", buttons);
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Створити Предмет");
-        model.addAttribute("active", "active");
-        Long currUserId = (Long)session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
         model.addAttribute("subdivisions", subdivisionService.getAll(new Sort(Sort.Direction.ASC, "id")));
         model.addAttribute("stuffTypes", stuffTypeService.getAll(new Sort(Sort.Direction.ASC, "id")));
         log.info("stuffCreateGet");
+
         return "/stuff/create";
     }
 
@@ -82,7 +77,6 @@ public class StuffController {
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Створити Предмет");
-        model.addAttribute("active", "active");
         StuffComment stuffComment = new StuffComment();
         Long currUserId = (Long)session.getAttribute("currUserId");
         User user = userService.getById(currUserId);
@@ -126,22 +120,18 @@ public class StuffController {
 
     @RequestMapping( value = "/edit/{stuff.id}", method = RequestMethod.GET)
     public String editStuffGet(Model model,
-                                @PathVariable("stuff.id") Long stuffId,
-                               HttpSession session) {
+                                @PathVariable("stuff.id") Long stuffId) {
 
         List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
         model.addAttribute("buttons", buttons);
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Редагувати предмет");
-        model.addAttribute("active", "active");
-        Long currUserId = (Long)session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
         model.addAttribute("subdivisions", subdivisionService.getAll(new Sort(Sort.Direction.ASC, "id")));
         model.addAttribute("stuffTypes", stuffTypeService.getAll(new Sort(Sort.Direction.ASC, "id")));
         model.addAttribute("stuffs", stuffService.getById(stuffId));
         log.info("stuffEditGet");
+
         return "/stuff/edit";
     }
 
@@ -157,7 +147,6 @@ public class StuffController {
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Редагувати предмет");
-        model.addAttribute("active", "active");
         StuffComment stuffComment = new StuffComment();
         Long currUserId = (Long)session.getAttribute("currUserId");
         User user = userService.getById(currUserId);
@@ -218,38 +207,30 @@ public class StuffController {
     }
 
     @RequestMapping( value = "/track/{stuff.id}", method = RequestMethod.GET)
-    public String trackStuff(Model model, @PathVariable("stuff.id") Long stuffId, HttpSession session) {
+    public String trackStuff(Model model, @PathVariable("stuff.id") Long stuffId) {
 
         List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
         model.addAttribute("buttons", buttons);
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Переглянути всі предмети");
-        model.addAttribute("active", "active");
         model.addAttribute("stuffs", stuffService.getById(stuffId));
-        Long currUserId = (Long)session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
 
         return "/stuff/track";
     }
 
     @RequestMapping( value = "/trackAllStuffBySubdivision/{subdivision.id}", method = RequestMethod.GET)
     public String trackAllStuffBySubdivision(Model model,
-                                             @PathVariable("subdivision.id") Long subdivisionId,
-                                             HttpSession session) {
+                                             @PathVariable("subdivision.id") Long subdivisionId) {
 
         List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
         model.addAttribute("buttons", buttons);
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
-        model.addAttribute("active", "active");
-        Long currUserId = (Long)session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
         Subdivision subdivision = subdivisionService.getById(subdivisionId);
         model.addAttribute("h1name", "Переглянути всі предмети для відділа - "+ subdivision.getName());
         model.addAttribute("stuffBySubdv",stuffService.findAllStuffBySubdivision(subdivision));
+
         return "/stuff/trackAllBySubdivision";
     }
 
@@ -261,11 +242,8 @@ public class StuffController {
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Переглянути всі предмети");
-        model.addAttribute("active", "active");
-        Long currUserId = (Long)session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
         model.addAttribute("stuffBySubdv",stuffService.getAll(new Sort(Sort.Direction.DESC, "dateOfReceiving")));
+
         return "/stuff/trackAll";
     }
 
@@ -278,10 +256,6 @@ public class StuffController {
         model.addAttribute("buttons", buttons);
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
-        model.addAttribute("active", "active");
-        Long currUserId = (Long)session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
         StuffType stuffType = stuffTypeService.getById(stuffTypeId);
         model.addAttribute("h1name", "Переглянути всі  - "+ stuffType.getType());
         model.addAttribute("stuffBySubdv",stuffService.findAllStuffByStuffType(stuffType));

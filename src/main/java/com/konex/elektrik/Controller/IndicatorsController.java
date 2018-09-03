@@ -57,11 +57,8 @@ public class IndicatorsController {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-        Long currUserId = (Long)session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
         indicatorsService.addIndicators(indicators, counter);
+
         return "redirect:/indicator/edit/" + counterId;
     }
 
@@ -74,9 +71,6 @@ public class IndicatorsController {
         model.addAttribute("buttons", buttons);
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
-        Long currUserId = (Long)session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
 
         String str = new String();
         String st = new String();
@@ -133,34 +127,28 @@ public class IndicatorsController {
     public String editIndicatorsPost(Indicators indicators, Model model,
                                      @RequestParam("dat") String date) {
 
-
-        List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
-        model.addAttribute("buttons", buttons);
-        model.addAttribute("h1name", "Редагувати показники");
-        model.addAttribute("active", "active");
         try {
             indicators.setDate(docDate = format.parse(date));
         } catch (ParseException e) {
             e.printStackTrace();
         }
         Indicators indicator = indicatorsService.editIndicators(indicators);
+
         return "redirect:/indicator/edit/" + indicator.getCounters().getId();
     }
 
     @RequestMapping( value = "/compareIndicators", method = RequestMethod.GET)
     public String trackAllIndicatorsGET(Model model, HttpSession session) {
+
         List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
         model.addAttribute("buttons", buttons);
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Порівняти показники");
-        model.addAttribute("active", "active");
         model.addAttribute("date", 2018);
         model.addAttribute("counter1", "Лічильник 1");
         model.addAttribute("counter2", "Лічильник 2");
-        Long currUserId = (Long)session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
+
         model.addAttribute("counters", counterService.getAll(new Sort(Sort.Direction.ASC, "id")));
 
         return "/indicators/trackAll";
@@ -172,16 +160,14 @@ public class IndicatorsController {
                                          @RequestParam("counterId2") Long counterId2,
                                          @RequestParam("date") int year,
                                          HttpSession session) {
+
         List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
         model.addAttribute("buttons", buttons);
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Порівняти показники");
-        model.addAttribute("active", "active");
         model.addAttribute("counters", counterService.getAll(new Sort(Sort.Direction.ASC, "id")));
-        Long currUserId = (Long)session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
+
         Date today = new Date();
 
         String strIndicatorsCounter1 = new String();
@@ -395,9 +381,7 @@ public class IndicatorsController {
         model.addAttribute("buttons", buttons);
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
-        Long currUserId = (Long)session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
+
         Year year = new Year();
         model.addAttribute("years", year.getArrayYear());
         Counter counter = counterService.getById(counterId);
@@ -469,9 +453,7 @@ public class IndicatorsController {
         model.addAttribute("buttons", buttons);
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
-        Long currUserId = (Long)session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
+
         Year year = new Year();
         model.addAttribute("years", year.getArrayYear());
         Counter counter = counterService.getById(counterId);

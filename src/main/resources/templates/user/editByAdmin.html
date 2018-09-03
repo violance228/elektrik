@@ -61,7 +61,13 @@
                             <td>Відділ:</td>
                             <td>
                                 <select name="subdivision">
-                                    <option th:text="${users.subdivisions?.name}" th:value="${users.subdivisions?.id}" selected="true"></option>
+                                    <option  th:value="${users.subdivisions?.id}" selected="true">
+                                        <span th:text="${users.subdivisions?.typeSubdivisions?.type}"></span>
+                                        <span th:if="${users.subdivisions?.name != null }">
+                                            <span th:if="${users.subdivisions?.name != 9999}" th:text="'- ' + ${users.subdivisions?.name}"></span>
+                                        </span>
+                                        <span th:if="${users.subdivisions?.cities?.id != 1}" th:text="'- ' + ${users.subdivisions?.cities?.city}"></span>
+                                    </option>
                                     <option
                                             th:each="subdivision : ${subdivisions}"
                                             th:value="${subdivision.id}">
@@ -79,6 +85,11 @@
                             <td>Роль:</td>
                             <td>
                                 <select name="role">
+                                    <option selected="true"
+                                            th:each="role : ${users.roles}"
+                                            th:text="${role.name}"
+                                            th:value="${role.id}">
+                                    </option>
                                     <option
                                             th:each="role : ${roles}"
                                             th:text="${role.name}"

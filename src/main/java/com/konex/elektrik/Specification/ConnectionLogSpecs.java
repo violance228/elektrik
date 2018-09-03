@@ -7,6 +7,7 @@
 package com.konex.elektrik.Specification;
 
 import com.konex.elektrik.Entity.ConnectionLog;
+import com.konex.elektrik.Entity.ConnectionLog_;
 import com.konex.elektrik.Service.ConnectionLog.ConnectionLogService;
 import com.konex.elektrik.Service.User.UserService;
 import com.konex.elektrik.filter.ConnectionLogFilter;
@@ -47,6 +48,17 @@ public class ConnectionLogSpecs implements Specification<ConnectionLog> {
             SingularAttribute attribute = null;
             String param;
             String day, month, year;
+
+            if (connectionLogFilter.getUserUsername() != null) {
+                System.out.println("********************************** counterSpecGetSubdivisionId"+ connectionLogFilter.getUserUsername());
+                attribute = ConnectionLog_.users;
+                String search = null;
+                search = connectionLogFilter.getUserUsername();
+                predicate= SpecsMethods.getSpecForNestedTextField(attribute, "username", search, root, cb);
+                if (predicate != null) {
+                    predicates.add(predicate);
+                }
+            }
 
             System.out.println("------------------------------------------------------\npredicates_cnt: " + predicates.size());
             return cb.and(predicates.toArray(new Predicate[]{}));

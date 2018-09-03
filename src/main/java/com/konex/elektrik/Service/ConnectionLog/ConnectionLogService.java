@@ -14,4 +14,5 @@ public interface ConnectionLogService {
     List<ConnectionLog> getAll(Sort sort);
     ConnectionLog findByUser(User user);
     List<ConnectionLog> findConnectionLogByCriteria(ConnectionLogFilter connectionLogFilter, Sort sort);
+    List<ConnectionLog> getAllByJdbc();
 }

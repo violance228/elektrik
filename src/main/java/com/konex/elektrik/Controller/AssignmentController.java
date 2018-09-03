@@ -57,15 +57,12 @@ public class AssignmentController {
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Створити Відрядження");
-        model.addAttribute("active", "active");
-        Long currUserId = (Long)session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
         Date date = new Date();
         SimpleDateFormat formatForDateNow = new SimpleDateFormat("yyyy-MM-dd");
-        model.addAttribute("userLogo", user.getName());
         model.addAttribute("subdivisions", subdivisionService.getAll(new Sort(Sort.Direction.ASC, "name")));
         model.addAttribute("cities", cityService.getAll(new Sort(Sort.Direction.ASC, "city")));
         model.addAttribute("minDate", formatForDateNow.format(date));
+
         return "/assignment/create";
     }
 
@@ -82,14 +79,12 @@ public class AssignmentController {
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Створити Відрядження");
-        model.addAttribute("active", "active");
         Long currUserId = (Long)session.getAttribute("currUserId");
         User user = userService.getById(currUserId);
         date += "T" + time + ":00.00";
         assignment.setDate$TimeOfDeparture(Timestamp.valueOf(date.replace("T"," ")));
         Date localDate = new Date();
         assignment.setDateOfCreating(localDate);
-        model.addAttribute("userLogo", user.getName());
         Subdivision subdivision = subdivisionService.getById(subdivisionId);
         assignmentService.addAssignment(assignment, subdivision, user);
 
@@ -97,7 +92,7 @@ public class AssignmentController {
             CitiesTravel citiesTravel = new CitiesTravel();
             citiesTravelService.addCitiesTravel(citiesTravel, assignment, cityService.getById(citysId.get(i)));
         }
-        Assignment assignment1 = assignmentService.getById(4L);
+
         return "redirect:/assignment/create";
     }
 
@@ -109,10 +104,6 @@ public class AssignmentController {
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Редагувати відрядження");
-        model.addAttribute("active", "active");
-        Long currUserId = (Long)session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
         model.addAttribute("id", assignment.getId());
         model.addAttribute("comment", assignment.getComment());
         model.addAttribute("subdivision",assignment.getSubdivisions().getName());
@@ -129,12 +120,8 @@ public class AssignmentController {
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Редагувати відрядження");
-        model.addAttribute("active", "active");
-        Status status = new Status();
-        Long currUserId = (Long)session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
         assignmentService.editAssignment(assignment);
+
         return "/assignment/edit";
     }
 
@@ -146,11 +133,8 @@ public class AssignmentController {
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Переглянути всі відрядженння");
-        model.addAttribute("active", "active");
-        Long currUserId = (Long)session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
         model.addAttribute("assignments",assignmentService.getAll(new Sort(Sort.Direction.DESC, "date")));
+
         return "/assignment/trackAll";
     }
 
@@ -162,12 +146,11 @@ public class AssignmentController {
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Переглянути всі відрядженння");
-        model.addAttribute("active", "active");
         Long currUserId = (Long)session.getAttribute("currUserId");
         User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
         Set<Assignment> assignment = user.getSubdivisions().getAssignments();
         model.addAttribute("assignments", assignment);
+
         return "/assignment/trackAssignmentsSubmForMySubdivision";
     }
 

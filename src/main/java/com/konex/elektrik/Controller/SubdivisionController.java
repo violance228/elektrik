@@ -30,19 +30,16 @@ public class SubdivisionController {
     private UserService userService;
 
     @RequestMapping(value = "/trackAll", method = RequestMethod.GET)
-    public String trackSubdivision(Subdivision subdivision, Model model, HttpSession session) {
+    public String trackSubdivision(Model model) {
 
         List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
         model.addAttribute("buttons", buttons);
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Всі підрозділи");
-        model.addAttribute("active", "active");
         model.addAttribute("subdivisions", subdivisionService.getAll(new Sort(Sort.Direction.ASC, "name")));
-        Long currUserId = (Long)session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
         log.info("trackAll");
+
         return "/subdivision/trackAll";
     }
 }

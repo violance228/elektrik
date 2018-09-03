@@ -39,26 +39,28 @@ public class UserController {
 
         return "/user/login";
     }
-//    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+
+    @RequestMapping( value = "/access-denied", method = RequestMethod.GET)
+    public String accessDenied() {
+
+        return "/404";
+    }
+
     @RequestMapping( value = "/edit", method = RequestMethod.GET)
     public String editUserGet(HttpSession session, Model model) {
-//        System.out.println("====== editUserGet ======");
 
         List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
         model.addAttribute("buttons", buttons);
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
-
         Long currUserId = (Long)session.getAttribute("currUserId");
         User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
         model.addAttribute("h1name", "Редагувати користувача");
-        model.addAttribute("active", "active");
         model.addAttribute("users", user);
 
         return "/user/edit";
     }
-//    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+
     @RequestMapping( value = "/edit", method = RequestMethod.POST)
     public String editUserPost(Model model, User user, HttpSession session) {
 
@@ -88,7 +90,6 @@ public class UserController {
         return "/user/edit";
     }
 
-//    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @RequestMapping(value = "/personalInform", method = RequestMethod.GET)
     public String trackUser(HttpSession session , Model modelAtt) {
 
@@ -96,7 +97,6 @@ public class UserController {
         modelAtt.addAttribute("buttons", buttons);
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         modelAtt.addAttribute("button", button);
-        modelAtt.addAttribute("h1name", "Особистий кабінет");
         Long currUserId = (Long)session.getAttribute("currUserId");
         User user = userService.getById(currUserId);
         modelAtt.addAttribute("users", user);

@@ -37,33 +37,25 @@ public class StuffTypeController {
     private UserService userService;
 
     @RequestMapping( value = "/create", method = RequestMethod.GET)
-    public String addStuffTypeGet(Model model, HttpSession session) {
+    public String addStuffTypeGet(Model model) {
 
         List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
         model.addAttribute("buttons", buttons);
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Створити Відрядження");
-        model.addAttribute("active", "active");
-        Long currUserId = (Long)session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
         log.info("stuffTypeCreateGet");
         return "/stuffType/create";
     }
 
     @RequestMapping( value = "/edit/{stuffs.id}", method = RequestMethod.GET)
-    public String editStuffTypeGet(Model model, HttpSession session,
+    public String editStuffTypeGet(Model model,
                                   @PathVariable(name = "stuffs.id") Long stuffTypeId) {
 
         List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
         model.addAttribute("buttons", buttons);
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
-        Long currUserId = (Long)session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
-
         model.addAttribute("stuffType", stuffTypeService.getById(stuffTypeId));
         log.info("stuffTypeCreateGet");
 
@@ -95,7 +87,6 @@ public class StuffTypeController {
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Створити Відрядження");
-        model.addAttribute("active", "active");
         try {
             stuffTypeService.addStuffType(stuffType);
             log.info("stuffTypeCreatePostOk");
@@ -104,27 +95,21 @@ public class StuffTypeController {
             log.info("stuffTypeCreatePostFail");
         }
 
-        Long currUserId = (Long)session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
-
         return "/stuffType/create";
     }
 
     @RequestMapping( value = "/trackAll", method = RequestMethod.GET)
-    public String trackAllStuffTypeGET(Model model, StuffType stuffType, HttpSession session) {
+    public String trackAllStuffTypeGET(Model model) {
 
         List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
         model.addAttribute("buttons", buttons);
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Створити Відрядження");
-        model.addAttribute("active", "active");
         model.addAttribute("stuffTypes", stuffTypeService.getAll(new Sort(Sort.Direction.ASC, "id")));
-        Long currUserId = (Long)session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
+
         log.info("stuffTypeTrackAllGet");
+
         return "/stuffType/trackAll";
     }
 }

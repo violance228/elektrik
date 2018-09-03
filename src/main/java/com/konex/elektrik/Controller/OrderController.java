@@ -46,10 +46,8 @@ public class OrderController {
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Переглянути замовлення");
-        model.addAttribute("active", "active");
         Long currUserId = (Long)session.getAttribute("currUserId");
         User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
 
         order = orderService.getById(orderId);
         if(user.getSubdivisions().getName() == order.getSubdivisions().getName() || user.getId() == order.getUsers().getId()) {
@@ -65,19 +63,16 @@ public class OrderController {
     }
 
     @RequestMapping( value = "/create", method = RequestMethod.GET)
-    public String addOrderGet(Model model, HttpSession session) {
+    public String addOrderGet(Model model) {
 
         List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
         model.addAttribute("buttons", buttons);
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Створити замовлення");
-        model.addAttribute("active", "active");
-        Long currUserId = (Long)session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
         model.addAttribute("subdivisions", subdivisionService.getAll(new Sort(Sort.Direction.DESC, "name")));
         log.info("orderCreateGet");
+
         return "/order/create";
     }
 
@@ -90,10 +85,8 @@ public class OrderController {
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Створити замовлення");
-        model.addAttribute("active", "active");
         Long currUserId = (Long)session.getAttribute("currUserId");
         User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
         model.addAttribute("subdivisions", subdivisionService.getAll(new Sort(Sort.Direction.DESC, "name")));
         Subdivision subdivision = subdivisionService.getById(id);
         try {
@@ -116,10 +109,8 @@ public class OrderController {
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Редагувати замовлення");
-        model.addAttribute("active", "active");
         Long currUserId = (Long)session.getAttribute("currUserId");
         User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
         Order order = orderService.getById(orderId);
 
         if(user.getId() == order.getUsers().getId()) {
@@ -127,8 +118,7 @@ public class OrderController {
             model.addAttribute("subdivisions", subdivisionService.getAll(new Sort(Sort.Direction.DESC, "name")));
             log.info("orderEditGet");
             return "/order/edit";
-        }
-        else {
+        } else {
             log.info("404Edit");
             return "/404";
         }
@@ -178,10 +168,6 @@ public class OrderController {
                                @RequestParam(value="id", required = false) Long id,
                                @RequestParam(value = "status", required = false) Long status) {
 
-        List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
-        model.addAttribute("buttons", buttons);
-        model.addAttribute("h1name", "Редагувати замовлення");
-        model.addAttribute("active", "active");
         System.out.println(id);
         System.out.println(status);
         Long currUserId = (Long)session.getAttribute("currUserId");
@@ -212,9 +198,6 @@ public class OrderController {
         }
 
         return order1.getStatus().getName();
-
-//        model.addAttribute("close", order1.getStatus().getName());
-
     }
 
     @RequestMapping( value = "/trackOrdersSubmByMe", method = RequestMethod.GET)
@@ -225,11 +208,8 @@ public class OrderController {
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Замовлення поданні мною");
-        model.addAttribute("active", "active");
         Long currUserId = (Long)session.getAttribute("currUserId");
         User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
-//        Set<Order> userOrders = user.getOrders();
         Set<Order> userOrders = orderService.getAllByUser(user);
         model.addAttribute("userOrders", userOrders);
         log.info("ordertrackOrdersSubmByMe");
@@ -245,14 +225,13 @@ public class OrderController {
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Замовлення для мого відділу");
-        model.addAttribute("active", "active");
         Long currUserId = (Long)session.getAttribute("currUserId");
         User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
-//        Set<Order> subDivision = user.getSubdivisions().getOrders();
         Set<Order> subDivision = orderService.getAllBySubdivision(user.getSubdivisions());
         model.addAttribute("subDivision", subDivision);
+
         log.info("ordertrackOrdersSubmForMyDivision");
+
         return "/order/trackOrdersSubmForMyDivision";
     }
 
@@ -272,7 +251,6 @@ public class OrderController {
         if(user.getSubdivisions().getName() == order.getSubdivisions().getName() || user.getId() == order.getUsers().getId()) {
             model.addAttribute("order", order);
             model.addAttribute("subdivisions", subdivisionService.getAll(new Sort(Sort.Direction.ASC, "id")));
-            model.addAttribute("userLogo", user.getName());
             log.info("redirectOrderToSubdivisionOk");
             return "/order/redirect";
         }
@@ -316,14 +294,13 @@ public class OrderController {
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Замовлення для мого відділу");
-        model.addAttribute("active", "active");
         Long currUserId = (Long)session.getAttribute("currUserId");
         User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
-
         Set<Order> subDivision = orderService.getAllBySubdivision(user.getSubdivisions());
         model.addAttribute("subDivision", subDivision);
+
         log.info("trackOrdersArchiveSubmForMyDivision");
+
         return "/order/archive";
     }
 }

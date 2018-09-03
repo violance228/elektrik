@@ -44,7 +44,7 @@ public class Subdivision {
     @JoinColumn(name = "cities")
     private City cities;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "typeSubdivisions")
     private TypeSubdivision typeSubdivisions;
 

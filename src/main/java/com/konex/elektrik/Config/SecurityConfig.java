@@ -80,7 +80,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/user/login?logout")
                 .permitAll();
         http.exceptionHandling()
-                .accessDeniedPage("/access-denied?error");
+                .accessDeniedPage("/user/access-denied?error");
     }
 
     @Override
