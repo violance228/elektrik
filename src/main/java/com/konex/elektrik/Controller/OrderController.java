@@ -136,16 +136,18 @@ public class OrderController {
 
 
     @RequestMapping( value = "/edit", method = RequestMethod.POST)
-    public String editOrderPost(Model model, Order order, HttpSession session) {
+    public String editOrderPost(Model model, Order order, HttpSession session,
+                                @RequestParam(name = "subdivision") Long subdivisionId) {
 
         Long currUserId = (Long)session.getAttribute("currUserId");
         User user = userService.getById(currUserId);
         Order orders = orderService.getById(order.getId());
-        if (orders.getUsers().equals(user)) {
+        if (orders.getUsers().getId() == user.getId()) {
             order.setUsers(user);
             order.setStatus(statusService.getById(3L));
             order.setDateOfApplication(orders.getDateOfApplication());
             order.setOrderComments(orders.getOrderComments());
+            order.setSubdivisions(subdivisionService.getById(subdivisionId));
 
             OrderComment orderComment = new OrderComment();
             Date date = new Date();

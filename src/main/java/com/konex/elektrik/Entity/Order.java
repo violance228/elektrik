@@ -26,7 +26,7 @@ public class Order {
     @Column(name = "surname")
     private String surname;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subdivisions")
     private Subdivision subdivisions;
 
@@ -34,10 +34,10 @@ public class Order {
     @JoinColumn(name = "users")
     private User users;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "orders")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "orders")
     private Set<OrderComment> orderComments;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "status")
     private Status status;
 

@@ -19,7 +19,7 @@ public class TypeSubdivision {
     @Column(name = "type")
     private String type;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "typeSubdivisions")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "typeSubdivisions")
     private Set<Subdivision> subdivisions;
 
     public Long getId() {

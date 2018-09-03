@@ -19,13 +19,13 @@ public class City {
     @Column(name = "city")
     private String city;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "cities")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "cities")
     private Set<Subdivision> subdivisions;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "cities")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "cities")
     private Set<CitiesTravel> citiesTravels;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "cities")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "cities")
     private Set<Passenger> passengers;
 
     public Long getId() {

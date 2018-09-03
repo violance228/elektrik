@@ -25,10 +25,10 @@ public class Counter {
     @Column(name = "manufacturer")
     private String manufacturer;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "counters")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "counters")
     private Set<Indicators> indicators;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subdivisions")
     private Subdivision subdivisions;
 

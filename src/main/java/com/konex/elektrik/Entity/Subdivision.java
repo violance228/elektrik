@@ -34,13 +34,13 @@ public class Subdivision {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "subdivisions")
     private Set<Assignment> assignments;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "subdivisions")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "subdivisions")
     private Set<Counter> counters;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "subdivisions")
     private Set<Stuff> stuffs;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cities")
     private City cities;
 

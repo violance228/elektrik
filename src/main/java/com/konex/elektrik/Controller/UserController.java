@@ -97,11 +97,9 @@ public class UserController {
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         modelAtt.addAttribute("button", button);
         modelAtt.addAttribute("h1name", "Особистий кабінет");
-        modelAtt.addAttribute("active", "active");
         Long currUserId = (Long)session.getAttribute("currUserId");
         User user = userService.getById(currUserId);
         modelAtt.addAttribute("users", user);
-        modelAtt.addAttribute("userLogo", SessionListener.getNumberOfUsersOnline());
 
         return "/user/personalOffice";
     }

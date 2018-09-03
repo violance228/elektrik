@@ -24,11 +24,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
-
-//import com.konex.elektrik.Service.Manufacturer.ManufacturerService;
 
 @Controller
 @RequestMapping("/admin")
@@ -102,19 +101,26 @@ public class AdminController {
     @RequestMapping(value = "/user/trackAll", method = RequestMethod.GET)
     public String trackUserAllAdmin(Model model, UserFilter userFilter, HttpSession session) {
 
+        Date date = new Date();
+        System.err.println("------------------------------------"+date);
         List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
         model.addAttribute("buttons", buttons);
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
+        Date date1 = new Date();
+        System.err.println("------------------------------------"+date1);
         model.addAttribute("h1name", "Переглянути всіх користувачів");
-        model.addAttribute("active", "active");
         model.addAttribute("users", userService.getAll(new Sort(Sort.Direction.ASC, "surname")));
+        Date date2 = new Date();
+        System.err.println("------------------------------------"+date2);
         model.addAttribute("subdivisions", subdivisionService.getAll(new Sort(Sort.Direction.ASC, "id")));
+        Date date3 = new Date();
+        System.err.println("------------------------------------"+date3);
         model.addAttribute("roles", roleService.getAll());
-        Long currUserId = (Long)session.getAttribute("currUserId");
-        User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
         model.addAttribute("users", userService.findByCriteriaQuery(userFilter));
+        Date date4 = new Date();
+        System.err.println("------------------------------------"+date4);
+
         return "/user/trackAll";
     }
 
@@ -334,16 +340,25 @@ public class AdminController {
     @RequestMapping( value = "/connectionLog", method = RequestMethod.GET)
     public String trackConnectionLogAll(ConnectionLog connectionLog, Model model, HttpSession session) {
 
+        Date date2 = new Date();
+        System.err.println("------------------------------------222"+date2);
         List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
         model.addAttribute("buttons", buttons);
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
+        Date date3 = new Date();
+        System.err.println("------------------------------------333"+date3);
         model.addAttribute("h1name", "Лог підключень");
         model.addAttribute("active", "active");
         Long currUserId = (Long)session.getAttribute("currUserId");
         User user = userService.getById(currUserId);
-        model.addAttribute("userLogo", user.getName());
+        Date date4 = new Date();
+        System.err.println("------------------------------------444"+date4);
+        Date date = new Date();
+        System.err.println("------------------------------------55"+date);
         model.addAttribute("connectionLogs", connectionLogService.getAll(new Sort(Sort.Direction.DESC, "date")));
+        Date date1 = new Date();
+        System.err.println("------------------------------------66"+date1);
         return "/connectionLog";
     }
 

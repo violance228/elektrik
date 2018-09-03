@@ -1,7 +1,7 @@
 function orderEditStatus (orderId, status) {
     $.ajax({
         type: 'POST',
-        url: 'http://192.200.100.221:8080/elektrik-online/order/status',
+        url: 'http://192.200.100.117:8080/elektrik-online/order/status',
         data: {'id': orderId, 'status': status},
         success: function (data) {
             console.log(data);

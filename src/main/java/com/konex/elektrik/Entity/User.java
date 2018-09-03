@@ -40,11 +40,11 @@ public class User {
     @Column(name = "longitude")
     private Float longitude;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subdivisions")
     private Subdivision subdivisions;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "users")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "users")
     private Set<Order> orders;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "users")

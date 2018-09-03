@@ -27,7 +27,6 @@
                                     <option value="">Відділ</option>
                                     <option
                                             th:each="subdivision : ${subdivisions}"
-                                            th:text="${subdivision.name}"
                                             th:value="${subdivision.id}">
                                         <span th:text="${subdivision.typeSubdivisions?.type}"></span>
                                         <span th:if="${subdivision.name != null }">
@@ -89,7 +88,7 @@
 
 <script type="text/javascript">
     function userEdit(userId) {
-window.location.href='http://192.200.100.221:8080/elektrik-online/admin/user/editFromAll?id=' + userId;
+window.location.href='http://192.200.100.117:8080/elektrik-online/admin/user/editFromAll?id=' + userId;
 }
 </script>
 <script type="text/javascript" th:src="@{'/js/js.js'}"></script>

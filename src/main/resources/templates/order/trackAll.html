@@ -107,7 +107,7 @@
                                     </span>
                         <span th:if="${order.users?.subdivisions.cities?.id != 1}" th:text="'- ' + ${order.users?.subdivisions.cities?.city}"></span>
                     </div>
-                    <div class="divTableCell">
+                    <div class="divTableCell" th:if="${order.subdivisions != null}">
                         <span th:text="${order.subdivisions.typeSubdivisions?.type}"></span>
                         <span th:if="${order.subdivisions.name != null }">
                                         <span th:if="${order.subdivisions.name != 9999}" th:text="'- ' + ${order.subdivisions.name}"></span>

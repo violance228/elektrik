@@ -34,7 +34,7 @@
                 <div class="divTableCell">
                     <span th:if="${userOrder.dateOfCompletion} != null" th:text="${#calendars.format(userOrder?.dateOfCompletion,'dd-MM-yyyy')}"></span>
                 </div>
-                <div class="divTableCell">
+                <div class="divTableCell" th:if="${userOrder.subdivisions != null}">
                     <span th:text="${userOrder.subdivisions.typeSubdivisions?.type}"></span>
                     <span th:if="${userOrder.subdivisions.name != null }">
                         <span th:if="${userOrder.subdivisions.name != 9999}" th:text="'- ' + ${userOrder.subdivisions.name}"></span>
