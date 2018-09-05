@@ -25,7 +25,7 @@ public class Subdivision {
     @Column(name = "telephone")
     private String telephone;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "subdivisions")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "subdivisions")
     private Set<User> users;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "subdivisions")

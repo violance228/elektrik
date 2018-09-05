@@ -25,6 +25,8 @@ public class Order {
     private String applicationText;
     @Column(name = "surname")
     private String surname;
+    @Column(name = "execute_before_date")
+    private String executeBeforeDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subdivisions")
@@ -101,6 +103,10 @@ public class Order {
 
     public void setSurname(String surname) { this.surname = surname; }
 
+    public String getExecuteBeforeDate() { return executeBeforeDate; }
+
+    public void setExecuteBeforeDate(String executeBeforeDate) { this.executeBeforeDate = executeBeforeDate; }
+
     @Override
     public String toString() {
         return "Order{" +
@@ -109,9 +115,9 @@ public class Order {
                 ", dateOfCompletion=" + dateOfCompletion +
                 ", applicationText='" + applicationText + '\'' +
                 ", surname='" + surname + '\'' +
+                ", executeBeforeDate='" + executeBeforeDate + '\'' +
                 ", subdivisions=" + subdivisions +
                 ", users=" + users +
-                ", orderComments=" + orderComments +
                 ", status=" + status +
                 '}';
     }
@@ -125,6 +131,8 @@ public class Order {
                 Objects.equals(dateOfApplication, order.dateOfApplication) &&
                 Objects.equals(dateOfCompletion, order.dateOfCompletion) &&
                 Objects.equals(applicationText, order.applicationText) &&
+                Objects.equals(surname, order.surname) &&
+                Objects.equals(executeBeforeDate, order.executeBeforeDate) &&
                 Objects.equals(subdivisions, order.subdivisions) &&
                 Objects.equals(users, order.users) &&
                 Objects.equals(status, order.status);
@@ -133,6 +141,6 @@ public class Order {
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, dateOfApplication, dateOfCompletion, applicationText, subdivisions, users, status);
+        return Objects.hash(id, dateOfApplication, dateOfCompletion, applicationText, surname, executeBeforeDate, subdivisions, users, status);
     }
 }

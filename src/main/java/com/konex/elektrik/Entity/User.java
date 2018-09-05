@@ -40,7 +40,7 @@ public class User {
     @Column(name = "longitude")
     private Float longitude;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "subdivisions")
     private Subdivision subdivisions;
 

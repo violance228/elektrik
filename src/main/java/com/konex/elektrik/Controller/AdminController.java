@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -78,14 +79,15 @@ public class AdminController {
                                    @RequestParam(value = "subdivision") Long subdivisionId,
                                    @RequestParam(value = "role") Long roleId) {
 
-
+        user.setSubdivisions(subdivisionService.getById(subdivisionId));
+        Set<Role> roles = new HashSet<>();
+        roles.add(roleService.getById(roleId));
+        user.setRoles(roles);
         try {
             if (userService.findByUsername(user.getUsername()) == null && userService.findUserByTelephone(user.getTelephone()) == null && user.getSubdivisions() != null && user.getRoles() != null) {
                 Subdivision subdivisions = subdivisionService.getById(subdivisionId);
                 userService.addUser(user, subdivisions, roleId);
-            }
-
-            else {
+            } else {
                 model.addAttribute("err", "Логін/телефон занятий");
             }
         }
@@ -329,7 +331,7 @@ public class AdminController {
         System.err.println("------------------------------------444"+date4);
         Date date = new Date();
         System.err.println("------------------------------------55"+date);
-        model.addAttribute("connectionLogs", connectionLogService.getAllByJdbc());
+        model.addAttribute("connectionLogs", connectionLogService.getAll(new Sort(Sort.Direction.DESC, "date")));
         Date date1 = new Date();
         System.err.println("------------------------------------66"+date1);
         return "/connectionLog";

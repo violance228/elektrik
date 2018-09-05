@@ -8,6 +8,7 @@ import com.konex.elektrik.Service.OrderComment.OrderCommentService;
 import com.konex.elektrik.Service.Status.StatusService;
 import com.konex.elektrik.Service.Subdivision.SubdivisionService;
 import com.konex.elektrik.Service.User.UserService;
+import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -113,7 +114,7 @@ public class OrderController {
         User user = userService.getById(currUserId);
         Order order = orderService.getById(orderId);
 
-        if(user.getId() == order.getUsers().getId()) {
+        if(AopUtils.isAopProxy(user.getId()) == AopUtils.isAopProxy(order.getUsers().getId())) {
             model.addAttribute("order", order);
             model.addAttribute("subdivisions", subdivisionService.getAll(new Sort(Sort.Direction.DESC, "name")));
             log.info("orderEditGet");
@@ -162,9 +163,35 @@ public class OrderController {
         return "redirect:/order/trackOrdersSubmByMe";
     }
 
+    @RequestMapping( value = "/delete/{orders.id}", method = RequestMethod.GET)
+    public String deleteOrderPost(@PathVariable(value="orders.id") Long orderId,
+                                                        HttpSession session) {
+
+        Long currUserId = (Long)session.getAttribute("currUserId");
+        User user = userService.getById(currUserId);
+        Order order = orderService.getById(orderId);
+        try {
+            if (AopUtils.isAopProxy(order.getUsers().getId()) == AopUtils.isAopProxy(user.getId())) {
+                List<OrderComment> commentList = orderCommentService.getOrderCommentByOrder(order);
+                for (OrderComment orderComment : commentList) {
+                    orderCommentService.delete(orderComment.getId());
+                }
+                orderService.delete(orderId);
+                log.info("orderDeleteOrderPostOk");
+//                return "ok";
+            } else {
+//                return "fail";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.info("orderDeleteOrderPostFail");
+//            return "error";
+        }
+        return "redirect:/order/trackOrdersSubmByMe";
+    }
+
     @RequestMapping( value = "/status", method = RequestMethod.POST)
-    public @ResponseBody
-    String editOrderStatusPost(Model model, HttpSession session,
+    public @ResponseBody String editOrderStatusPost(HttpSession session,
                                @RequestParam(value="id", required = false) Long id,
                                @RequestParam(value = "status", required = false) Long status) {
 

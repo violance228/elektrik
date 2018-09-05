@@ -13,6 +13,21 @@ function orderEditStatus (orderId, status) {
     //  $.post('http://localhost:8080/order/edit', {id:""+inputText+""});
 }
 
+function deleteOrder (orderId) {
+    $.ajax({
+        type: 'POST',
+        // url: 'http://192.200.100.117:8080/elektrik-online/order/status',
+        url: 'http://localhost:8000/order/delete',
+        data: {'id': orderId},
+        success: function (data) {
+            console.log(data);
+
+            window.location.href=('http://localhost:8000/order/trackOrdersSubmByMe');
+        }
+    });
+    //  $.post('http://localhost:8080/order/edit', {id:""+inputText+""});
+}
+
 function sortBySubdivision(subdivision) {
     console.log("hello");
     $.ajax({
