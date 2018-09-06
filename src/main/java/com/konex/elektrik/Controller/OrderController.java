@@ -16,6 +16,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -37,6 +39,9 @@ public class OrderController {
     private ButtonsService buttonsService;
     @Autowired
     private OrderCommentService orderCommentService;
+
+    private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    private Date docDate = null;
 
     @RequestMapping(value = "/track/{orders.id}", method = RequestMethod.GET)
     public String trackOrder(Order order, Model model, HttpSession session,
@@ -79,26 +84,28 @@ public class OrderController {
 
     @RequestMapping( value = "/create", method = RequestMethod.POST)
     public String addOrderPost(@ModelAttribute("order") Order order, HttpSession session,
-                               @RequestParam("subdivision")Long id, Model model) {
+                               @RequestParam("subdivision")Long id,
+                               @RequestParam("executeDate")String executeDate) {
 
-        List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
-        model.addAttribute("buttons", buttons);
-        List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
-        model.addAttribute("button", button);
-        model.addAttribute("h1name", "Створити замовлення");
         Long currUserId = (Long)session.getAttribute("currUserId");
         User user = userService.getById(currUserId);
-        model.addAttribute("subdivisions", subdivisionService.getAll(new Sort(Sort.Direction.DESC, "name")));
+        if (executeDate != null && executeDate != "") {
+            try {
+                order.setExecuteBeforeDate(docDate = format.parse(executeDate));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
         Subdivision subdivision = subdivisionService.getById(id);
         try {
             orderService.addOrder(order, subdivision, user);
             log.info("orderCreatePostOk");
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             log.info("orderCreatePostFail");
         }
-
-        return "/order/create";
+        return "redirect:/order/create";
     }
 
     @RequestMapping( value = "/edit/{userOrder.id}", method = RequestMethod.GET)

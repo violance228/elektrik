@@ -82,6 +82,7 @@
                 <div class="divTableRow">
                     <div class="divTableHead">Текст заявки</div>
                     <div class="divTableHead">Дата подачі</div>
+                    <div class="divTableHead">Дата до якої потрібно виконати</div>
                     <div class="divTableHead">Дата виконання</div>
                     <div class="divTableHead">Автор</div>
                     <div class="divTableHead">Подана відділом</div>
@@ -95,6 +96,9 @@
                     <div th:text="${order.applicationText}" class="divTableCell">cell5_1</div>
                     <div class="divTableCell">
                         <span th:if="${order.dateOfApplication} != null" th:text="${#calendars.format(order.dateOfApplication,'dd-MM-yyyy')}"></span>
+                    </div>
+                    <div class="divTableCell">
+                        <span th:if="${order.executeBeforeDate != null || order.executeBeforeDate != ''}" th:text="${#calendars.format(order.executeBeforeDate,'dd-MM-yyyy')}"></span>
                     </div>
                     <div class="divTableCell">
                         <span th:if="${order.dateOfCompletion} != null" th:text="${#calendars.format(order.dateOfCompletion,'dd-MM-yyyy')}"></span>

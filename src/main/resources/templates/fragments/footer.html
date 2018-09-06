@@ -3,7 +3,9 @@
         <div class="row">
 
             <div class="col-sm-4">
-                <h3 class="footer_h3">Особистий кабінет</h3>
+                <a th:href="@{'/user/personalInform'}">
+                    <h3 class="footer_h3">Особистий кабінет</h3>
+                </a>
             </div>
 
             <div class="col-sm-4">
@@ -29,7 +31,12 @@
     <div class="copyright">
         <div class="container">
             <div class="row">
-                <p>© Copyright   2018. All rights reserved</p>
+                <p>Copyright &copy;
+                    <script>
+                        document.write(new Date().getFullYear());
+                    </script>
+                    All rights reserved || Created By Violence
+                </p>
             </div>
         </div>
     </div>
@@ -37,9 +44,5 @@
     <script th:src="@{'/js/jquery.js'}" ></script>
     <script th:src="@{'/js/js.js'}" ></script>
     <script th:src="@{'/js/bootstrap.min.js'}"></script>
-    <!--<script th:src="@{'/js/bootstrap.bundle.min.js'}"></script>-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 </footer>
-
-
-<!--</footer>-->

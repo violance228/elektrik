@@ -21,4 +21,5 @@ public interface OrderService {
     Set<Order> getAllByUser(User user);
     Set<Order> getAllBySubdivision(Subdivision subdivision);
     List<Order> getByCriteria(OrderFilter orderFilter, Sort sort);
+    List<Order> getAllByStatusAndSubdivisionsAndExecuteBeforeDateIsNotNullOrderByDateOfApplicationAsc(Status status, Subdivision subdivision);
 }

@@ -22,6 +22,12 @@
                         </h4>
                     </td>
                 </tr>
+                <tr th:if="${orders.executeBeforeDate != null || orders.executeBeforeDate != ''}">
+                    <td>Дата до якої потрібно виконати замовлення:</td>
+                    <td>
+                        <span th:text="${#dates.format(orders.executeBeforeDate, 'yyyy-MM-dd')}"></span>
+                    </td>
+                </tr>
                 <tr>
                     <td>Коментар:</td>
                     <td>

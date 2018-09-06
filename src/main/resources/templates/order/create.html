@@ -46,6 +46,13 @@
                                 </div>
 
                                 <div class="form-group row">
+                                    <label for="executeBeforeDate" class="col-4 col-form-label">Дата до якої потрібно виконати(не обов'язково)*</label>
+                                    <div class="col-8">
+                                        <input type="date" name="executeDate" id="executeBeforeDate" class="form-control here"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
                                     <div class="offset-4 col-8">
                                         <button name="submit" type="submit" th:minlength="4" class="btn btn-primary">Створити замовлення</button>
                                     </div>
@@ -53,7 +60,6 @@
                             </form>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>

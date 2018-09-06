@@ -15,6 +15,7 @@
                 <div class="divTableRow">
                     <div class="divTableHead">Текст Заявки</div>
                     <div class="divTableHead">Дата подачі</div>
+                    <div class="divTableHead">Дата до якої потрібно віконати</div>
                     <div class="divTableHead">Виконано</div>
                     <div class="divTableHead">Від відділу</div>
                     <div class="divTableHead">Автор</div>
@@ -26,6 +27,9 @@
                     <div th:text="${orders.applicationText}" class="divTableCell">cell2_1</div>
                     <div class="divTableCell">
                         <span th:if="${orders.dateOfApplication} != null" th:text="${#calendars.format(orders.dateOfApplication,'dd-MM-yyyy')}"></span>
+                    </div>
+                    <div class="divTableCell">
+                        <span th:if="${orders.executeBeforeDate != null || orders.executeBeforeDate != ''}" th:text="${#calendars.format(orders.executeBeforeDate,'dd-MM-yyyy')}"></span>
                     </div>
                     <div class="divTableCell">
                         <span th:if="${orders.dateOfCompletion} != null" th:text="${#calendars.format(orders.dateOfCompletion,'dd-MM-yyyy')}"></span>

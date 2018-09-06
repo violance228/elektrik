@@ -94,4 +94,11 @@ public class OrderServiceImpl implements OrderService {
         Specification<Order> orderSpec = OrderSpecs.orderSpecsByFilter(orderFilter);
         return orderRepository.findAll(orderSpec, sort);
     }
+
+    @Transactional(readOnly = true)
+    public  List<Order> getAllByStatusAndSubdivisionsAndExecuteBeforeDateIsNotNullOrderByDateOfApplicationAsc(Status status, Subdivision subdivision) {
+
+        return orderRepository.getAllByStatusAndSubdivisionsAndExecuteBeforeDateIsNotNullOrderByDateOfApplicationAsc(status, subdivision);
+    }
+
 }

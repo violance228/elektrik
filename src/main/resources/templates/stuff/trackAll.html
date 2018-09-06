@@ -20,8 +20,6 @@
             <div class="divTableHeading">
                 <div class="divTableRow">
                     <div class="divTableHead">Інвент. номер</div>
-                    <div class="divTableHead">Виготовленно</div>
-                    <div class="divTableHead">Отриманно</div>
                     <div class="divTableHead">Виробник</div>
                     <div class="divTableHead">Відділ</div>
                     <div class="divTableHead">Тип предмету</div>
@@ -32,12 +30,12 @@
                     <div  class="divTableCell">
                         <a class="btn btn-link btn-sm" th:text="${stuffs.number}" th:href="@{'/stuff/track/'+ ${stuffs.id}}"></a>
                     </div>
-                    <div class="divTableCell">
-                        <span th:if="${stuffs.dateOfManufacture} != null" th:text="${#calendars.format(stuffs.dateOfManufacture,'dd-MM-yyyy')}"></span>
-                    </div>
-                    <div class="divTableCell">
-                        <span th:if="${stuffs.dateOfReceiving} != null" th:text="${#calendars.format(stuffs.dateOfReceiving,'dd-MM-yyyy')}"></span>
-                    </div>
+                    <!--<div class="divTableCell">-->
+                        <!--<span th:if="${stuffs.dateOfManufacture} != null" th:text="${#calendars.format(stuffs.dateOfManufacture,'dd-MM-yyyy')}"></span>-->
+                    <!--</div>-->
+                    <!--<div class="divTableCell">-->
+                        <!--<span th:if="${stuffs.dateOfReceiving} != null" th:text="${#calendars.format(stuffs.dateOfReceiving,'dd-MM-yyyy')}"></span>-->
+                    <!--</div>-->
                     <div th:text="${stuffs.model}" class="divTableCell">cell4_1</div>
                     <div class="divTableCell">
                         <span th:text="${stuffs.subdivisions.typeSubdivisions?.type}"></span>

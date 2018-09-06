@@ -26,7 +26,7 @@ public class Order {
     @Column(name = "surname")
     private String surname;
     @Column(name = "execute_before_date")
-    private String executeBeforeDate;
+    private Date executeBeforeDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subdivisions")
@@ -103,9 +103,9 @@ public class Order {
 
     public void setSurname(String surname) { this.surname = surname; }
 
-    public String getExecuteBeforeDate() { return executeBeforeDate; }
+    public Date getExecuteBeforeDate() { return executeBeforeDate; }
 
-    public void setExecuteBeforeDate(String executeBeforeDate) { this.executeBeforeDate = executeBeforeDate; }
+    public void setExecuteBeforeDate(Date executeBeforeDate) { this.executeBeforeDate = executeBeforeDate; }
 
     @Override
     public String toString() {

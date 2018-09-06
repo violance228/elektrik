@@ -103,4 +103,10 @@ public class UserController {
 
         return "/user/personalOffice";
     }
+
+    @RequestMapping(value = "/push", method = RequestMethod.GET)
+    public String pushUser() {
+
+        return "/pushNotification";
+    }
 }

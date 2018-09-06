@@ -3,57 +3,7 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head th:replace="/fragments/header :: head">
 </head>
-<body>
-<!--<div class="wrapper container">-->
-
-    <!--<div class="heading">-->
-        <!--<h2 th:text="${h1name}"></h2>-->
-    <!--</div>-->
-    <!--<section class="col-md-17">-->
-        <!--<div class="table-responsive">-->
-            <!--<table class="table table-hover table-condensed table-bordered">-->
-            <!--<tr>-->
-                <!--<label>-->
-                    <!--<td>Логін:</td>-->
-                    <!--<td th:text="${users.username}"></td>-->
-                <!--</label>-->
-            <!--</tr>-->
-
-            <!--<tr>-->
-                <!--<label>-->
-                    <!--<td>Ім'я:</td>-->
-                    <!--<td th:text="${users.name}"></td>-->
-                <!--</label>-->
-            <!--</tr>-->
-
-            <!--<tr>-->
-                <!--<label>-->
-                    <!--<td>Прізвище:</td>-->
-                    <!--<td th:text="${users.surname}"></td>-->
-                <!--</label>-->
-            <!--</tr>-->
-
-            <!--<tr>-->
-                <!--<label>-->
-                    <!--<td>Телефон:</td>-->
-                    <!--<td th:text="${users.telephone}"></td>-->
-                <!--</label>-->
-            <!--</tr>-->
-
-            <!--<tr>-->
-                <!--<td>Відділ:</td>-->
-                <!--<td>-->
-                    <!--<span th:text="${users.subdivisions.typeSubdivisions?.type}"></span>-->
-                    <!--<span th:if="${users.subdivisions.name != null }">-->
-                                <!--<span th:if="${users.subdivisions.name != 9999}" th:text="'- ' + ${users.subdivisions.name}"></span>-->
-                            <!--</span>-->
-                    <!--<span th:if="${users.subdivisions.cities?.id != 1}" th:text="'- ' + ${users.subdivisions.cities?.city}"></span>-->
-                <!--</td>-->
-            <!--</tr>-->
-        <!--</table>-->
-        <!--</div>-->
-    <!--</section>-->
-<!--</div>-->
+<body onload="notifSet ()">
 <div class="container">
     <div th:replace="/fragments/top :: top"></div>
     <div class="row">
@@ -114,5 +64,30 @@
     <br/>
     <div th:replace="/fragments/footer :: footer"></div>
 </div>
+<script>
+    function notifyMe () {
+        var notification = new Notification ("Все еще работаешь?", {
+            tag : "ache-mail",
+            body : "ІФВІФВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВ",
+            icon : "http://opt-1217140.ssl.1c-bitrix-cdn.ru/upload/iblock/ea5/ea527e14ee72508e22fe8a88271f8e97.jpg?1525800011267804"
+        });
+    }
+
+    function notifSet () {
+        if (!("Notification" in window))
+            alert ("Ваш браузер не поддерживает уведомления.");
+        else if (Notification.permission === "granted")
+            setTimeout(notifyMe, 2000);
+        else if (Notification.permission !== "denied") {
+            Notification.requestPermission (function (permission) {
+                if (!('permission' in Notification))
+                    Notification.permission = permission;
+                if (permission === "granted")
+                    setTimeout(notifyMe, 2000);
+            });
+        }
+    }
+
+</script>
 </body>
 </html>
