@@ -64,13 +64,19 @@
     <br/>
     <div th:replace="/fragments/footer :: footer"></div>
 </div>
-<script>
+<script th:inline="javascript">
     function notifyMe () {
+        /*<![CDATA[*/
+        var data = [[${pushStr}]];
+        console.log(data);
+        /*]]>*/
+        // }
         var notification = new Notification ("Все еще работаешь?", {
             tag : "ache-mail",
-            body : "ІФВІФВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВ",
+            body : data,
             icon : "http://opt-1217140.ssl.1c-bitrix-cdn.ru/upload/iblock/ea5/ea527e14ee72508e22fe8a88271f8e97.jpg?1525800011267804"
         });
+
     }
 
     function notifSet () {

@@ -13,7 +13,7 @@ public class bpp implements BeanPostProcessor {
 
     @Override
     public Object postProcessAfterInitialization(Object o, String s) throws BeansException {
-        if(s.equalsIgnoreCase("KonexBotTest")){
+        if(s.equalsIgnoreCase("PushNotification")){
             System.err.println("=======>"+s);
         }
 
