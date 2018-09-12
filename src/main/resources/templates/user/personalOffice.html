@@ -71,25 +71,27 @@
         console.log(data);
         /*]]>*/
         // }
-        var notification = new Notification ("Все еще работаешь?", {
-            tag : "ache-mail",
-            body : data,
-            icon : "http://opt-1217140.ssl.1c-bitrix-cdn.ru/upload/iblock/ea5/ea527e14ee72508e22fe8a88271f8e97.jpg?1525800011267804"
-        });
 
+        if (data.length > 1) {
+            var notification = new Notification("Все еще работаешь?", {
+                tag: "ache-mail",
+                body: data,
+                icon: "http://opt-1217140.ssl.1c-bitrix-cdn.ru/upload/iblock/ea5/ea527e14ee72508e22fe8a88271f8e97.jpg?1525800011267804"
+            });
+        }
     }
 
     function notifSet () {
         if (!("Notification" in window))
             alert ("Ваш браузер не поддерживает уведомления.");
         else if (Notification.permission === "granted")
-            setTimeout(notifyMe, 2000);
+            setTimeout(notifyMe, 1000);
         else if (Notification.permission !== "denied") {
             Notification.requestPermission (function (permission) {
                 if (!('permission' in Notification))
                     Notification.permission = permission;
                 if (permission === "granted")
-                    setTimeout(notifyMe, 2000);
+                    setTimeout(notifyMe, 1000);
             });
         }
     }

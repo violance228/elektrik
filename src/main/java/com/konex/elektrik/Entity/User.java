@@ -65,8 +65,8 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "users")
     private Set<TransportOrder> transportOrders;
 
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "users")
-//    private Set<Amount> amounts;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "users")
+    private Set<OrderForPerson> orderForPersons;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -191,6 +191,14 @@ public class User {
 
     public void setLongitude(Float longitude) {
         this.longitude = longitude;
+    }
+
+    public Set<OrderForPerson> getOrderForPersons() {
+        return orderForPersons;
+    }
+
+    public void setOrderForPersons(Set<OrderForPerson> orderForPersons) {
+        this.orderForPersons = orderForPersons;
     }
 
     @Override

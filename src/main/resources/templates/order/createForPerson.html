@@ -18,7 +18,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <form th:action="@{'/order/create'}" name="editCounter" method="post">
+                            <form th:action="@{'/order/createForPerson'}" name="editCounter" method="post">
                                 <div class="form-group row">
                                     <label for="applicationText" class="col-4 col-form-label">Текст заявки:</label>
                                     <div class="col-8">
@@ -27,20 +27,12 @@
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="subdivision" class="col-4 col-form-label">Відділ*</label>
+                                    <label for="user" class="col-4 col-form-label">Співробітник*</label>
                                     <div class="col-8">
-                                        <select name="subdivision" id="subdivision">
-
-                                            <option th:each="subdivision : ${subdivisions}"
-                                                    th:value="${subdivision.id}">
-
-                                                <span th:text="${subdivision.typeSubdivisions?.type}"></span>
-                                                <span th:if="${subdivision.name != null }">
-                                                    <span th:if="${subdivision.name != 9999}" th:text="'- ' + ${subdivision.name}"></span>
-                                                </span>
-                                                <span th:if="${subdivision.cities?.id != 1}" th:text="'- ' + ${subdivision.cities?.city}"></span>
-
-                                            </option>
+                                        <select name="usersId" id="user" multiple="true" size="10">
+                                            <optgroup th:each="subdivision : ${subdivisions}" th:label="${subdivision.typeSubdivisions?.type + '- ' + subdivision.name + '- ' + subdivision.cities?.city}">
+                                                <option th:each="user : ${subdivision.users}" th:text="${user.surname + ' ' + user.name}" th:value="${user.id}"></option>
+                                            </optgroup>
                                         </select>
                                     </div>
                                 </div>

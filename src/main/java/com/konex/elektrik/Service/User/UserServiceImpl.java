@@ -153,4 +153,10 @@ public class UserServiceImpl implements UserService {
 
         return userRepository.getAllByUsername(username);
     }
+
+    @Transactional(readOnly = true)
+    public List<User> findByIdIn(List<Long> idList) {
+
+        return userRepository.findByIdIn(idList);
+    }
 }

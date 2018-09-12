@@ -25,6 +25,8 @@ public class OrderServiceImpl implements OrderService {
     private OrderRepository orderRepository;
     @Autowired
     private StatusService statusService;
+    @Autowired
+    private OrderService orderService;
 
     private Date date = new Date();
 
@@ -101,4 +103,29 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.getAllByStatusAndSubdivisionsAndExecuteBeforeDateIsNotNullOrderByDateOfApplicationAsc(status, subdivision);
     }
 
+    @Transactional(readOnly = true)
+    public String getExecuteBeforeDatePushNotification(Subdivision subdivision, Status status) {
+
+        StringBuilder pushNotificationMessege = new StringBuilder("\"Для виконання заявки для відділа(ів): ");
+        List<Order> orderList = orderService.getAllByStatusAndSubdivisionsAndExecuteBeforeDateIsNotNullOrderByDateOfApplicationAsc(status, subdivision);
+        Date todayDate = new Date();
+        for (Order order : orderList) {
+
+            long millisecond = order.getExecuteBeforeDate().getTime() - todayDate.getTime();
+
+            if ((millisecond <= 86400000) && (millisecond > 0)) {
+                pushNotificationMessege
+                        .append(order.getSubdivisions().getTypeSubdivisions().getType())
+                        .append("-")
+                        .append(order.getSubdivisions().getName())
+                        .append("-")
+                        .append(order.getSubdivisions().getCities().getCity())
+                        .append(", ");
+            }
+        }
+
+        pushNotificationMessege.append("залишилось меньше доби\"");
+
+        return pushNotificationMessege.toString();
+    }
 }

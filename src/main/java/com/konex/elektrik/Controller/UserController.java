@@ -1,9 +1,6 @@
 package com.konex.elektrik.Controller;
 
 import com.konex.elektrik.Config.SecurityConfig;
-import com.konex.elektrik.Config.SessionListener;
-import com.konex.elektrik.Const.ProjectVersion;
-import com.konex.elektrik.Const.PushNotification;
 import com.konex.elektrik.Entity.*;
 import com.konex.elektrik.Service.Buttons.ButtonsService;
 import com.konex.elektrik.Service.Order.OrderService;
@@ -19,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpSession;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -109,25 +105,8 @@ public class UserController {
         modelAtt.addAttribute("users", user);
         Status status = statusService.getById(3L);
 
-//        List<Order> orderList = orderService.getAllByStatusAndSubdivisionsAndExecuteBeforeDateIsNotNullOrderByDateOfApplicationAsc(status, user.getSubdivisions());
-
-        modelAtt.addAttribute("pushStr", getExecuteBeforeDatePushNotification(user.getSubdivisions(), status));
+        modelAtt.addAttribute("pushStr", orderService.getExecuteBeforeDatePushNotification(user.getSubdivisions(), status));
 
         return "/user/personalOffice";
-    }
-
-    public String getExecuteBeforeDatePushNotification(Subdivision subdivision, Status status) {
-
-        StringBuilder pushNotificationMessege = new StringBuilder("\"Для виконання заявки для відділа(ів): ");
-        List<Order> orderList = orderService.getAllByStatusAndSubdivisionsAndExecuteBeforeDateIsNotNullOrderByDateOfApplicationAsc(status, subdivision);
-        Date todayDate = new Date();
-        for (Order order : orderList) {
-            if ((order.getExecuteBeforeDate().getTime() - todayDate.getTime()) <= 86400000) {
-                pushNotificationMessege.append(order.getSubdivisions().getTypeSubdivisions().getType()).append("-").append(order.getSubdivisions().getName()).append("-").append(order.getSubdivisions().getCities().getCity()).append(", ");
-            }
-        }
-
-        pushNotificationMessege.append("залишилось меньше доби\"");
-        return pushNotificationMessege.toString();
     }
 }

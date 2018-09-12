@@ -15,4 +15,5 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
     User findUserByTelegramChatId(Long chatId);
     List<User> getAllByUsername(String username);
     List<User> getAllByTelephone(String username);
+    List<User> findByIdIn(List<Long> idList);
 }

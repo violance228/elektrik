@@ -5,6 +5,7 @@ import com.konex.elektrik.Entity.*;
 import com.konex.elektrik.Service.Buttons.ButtonsService;
 import com.konex.elektrik.Service.Order.OrderService;
 import com.konex.elektrik.Service.OrderComment.OrderCommentService;
+import com.konex.elektrik.Service.OrderForPerson.OrderForPersonService;
 import com.konex.elektrik.Service.Status.StatusService;
 import com.konex.elektrik.Service.Subdivision.SubdivisionService;
 import com.konex.elektrik.Service.User.UserService;
@@ -39,6 +40,8 @@ public class OrderController {
     private ButtonsService buttonsService;
     @Autowired
     private OrderCommentService orderCommentService;
+    @Autowired
+    private OrderForPersonService orderForPersonService;
 
     private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
     private Date docDate = null;
@@ -68,8 +71,8 @@ public class OrderController {
         }
     }
 
-    @RequestMapping( value = "/create", method = RequestMethod.GET)
-    public String addOrderGet(Model model) {
+    @RequestMapping( value = "/createForSubdivision", method = RequestMethod.GET)
+    public String addOrderForSubdivisionGet(Model model) {
 
         List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
         model.addAttribute("buttons", buttons);
@@ -79,33 +82,97 @@ public class OrderController {
         model.addAttribute("subdivisions", subdivisionService.getAll(new Sort(Sort.Direction.DESC, "name")));
         log.info("orderCreateGet");
 
-        return "/order/create";
+        return "/order/createForSubdivision";
     }
 
-    @RequestMapping( value = "/create", method = RequestMethod.POST)
-    public String addOrderPost(@ModelAttribute("order") Order order, HttpSession session,
+    @RequestMapping( value = "/createForSubdivision", method = RequestMethod.POST)
+    public String addOrderForSubdivisionPost(@ModelAttribute("order") Order order, HttpSession session,
                                @RequestParam("subdivision")Long id,
                                @RequestParam("executeDate")String executeDate) {
 
         Long currUserId = (Long)session.getAttribute("currUserId");
         User user = userService.getById(currUserId);
+        if (executeDate != null && !executeDate.equals("")) {
+            try {
+                order.setExecuteBeforeDate(docDate = format.parse(executeDate));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Date todayDate = new Date();
+            todayDate.setTime(todayDate.getTime() + 2592000000L);
+            order.setExecuteBeforeDate(todayDate);
+        }
+
+        Subdivision subdivision = subdivisionService.getById(id);
+        try {
+            orderService.addOrder(order, subdivision, user);
+            log.info("addOrderForSubdivisionPostPostOk");
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.info("addOrderForSubdivisionPostPostFail");
+        }
+        return "redirect:/order/createForSubdivision";
+    }
+
+    @RequestMapping( value = "/createForPerson", method = RequestMethod.GET)
+    public String addOrderForPersonGet(Model model) {
+
+        List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
+        model.addAttribute("buttons", buttons);
+        List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
+        model.addAttribute("button", button);
+        model.addAttribute("h1name", "Створити замовлення для певної людини");
+
+        model.addAttribute("subdivisions", subdivisionService.getAll(new Sort(Sort.Direction.DESC, "name")));
+
+        log.info("addOrderForPersonGet");
+
+        return "/order/createForPerson";
+    }
+
+    @RequestMapping( value = "/createForPerson", method = RequestMethod.POST)
+    public String addOrderForPersonPost(@ModelAttribute("order") Order order, HttpSession session,
+                                        @RequestParam(name = "usersId") List<Long> usersId,
+                                        @RequestParam(name = "executeDate") String executeDate) {
+
+        Long currUserId = (Long)session.getAttribute("currUserId");
+        User user = userService.getById(currUserId);
+
         if (executeDate != null && executeDate != "") {
             try {
                 order.setExecuteBeforeDate(docDate = format.parse(executeDate));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+        } else {
+            Date todayDate = new Date();
+            todayDate.setTime(todayDate.getTime() + 2592000000L);
+            order.setExecuteBeforeDate(todayDate);
         }
 
-        Subdivision subdivision = subdivisionService.getById(id);
+        Subdivision subdivision = subdivisionService.getById(200L);
+
         try {
-            orderService.addOrder(order, subdivision, user);
-            log.info("orderCreatePostOk");
+            Order savedOrder = orderService.addOrder(order, subdivision, user);
+            List<User> usersOrderForPerson = userService.findByIdIn(usersId);
+
+            for (User person : usersOrderForPerson) {
+                OrderForPerson orderForPerson = new OrderForPerson();
+                orderForPerson.setOrders(savedOrder);
+                orderForPerson.setUsers(person);
+                orderForPersonService.addOrderForPerson(orderForPerson);
+            }
+
+            log.info("addOrderForPersonPostOk");
         } catch (Exception e) {
             e.printStackTrace();
-            log.info("orderCreatePostFail");
+            log.info("addOrderForPersonPostFail");
         }
-        return "redirect:/order/create";
+
+        log.info("addOrderForPersonPost");
+
+        return "redirect:/order/createForPerson";
     }
 
     @RequestMapping( value = "/edit/{userOrder.id}", method = RequestMethod.GET)
@@ -131,7 +198,6 @@ public class OrderController {
             return "/404";
         }
     }
-
 
     @RequestMapping( value = "/edit", method = RequestMethod.POST)
     public String editOrderPost(Model model, Order order, HttpSession session,
@@ -262,6 +328,12 @@ public class OrderController {
         Long currUserId = (Long)session.getAttribute("currUserId");
         User user = userService.getById(currUserId);
         Set<Order> subDivision = orderService.getAllBySubdivision(user.getSubdivisions());
+        List<OrderForPerson> orderForPersonList = orderForPersonService.getAllByUsers(user);
+
+        for (OrderForPerson orderForPerson : orderForPersonList) {
+            subDivision.add(orderForPerson.getOrders());
+        }
+
         model.addAttribute("subDivision", subDivision);
 
         log.info("ordertrackOrdersSubmForMyDivision");

@@ -22,4 +22,5 @@ public interface OrderService {
     Set<Order> getAllBySubdivision(Subdivision subdivision);
     List<Order> getByCriteria(OrderFilter orderFilter, Sort sort);
     List<Order> getAllByStatusAndSubdivisionsAndExecuteBeforeDateIsNotNullOrderByDateOfApplicationAsc(Status status, Subdivision subdivision);
+    String getExecuteBeforeDatePushNotification(Subdivision subdivision, Status status);
 }

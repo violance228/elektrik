@@ -43,6 +43,9 @@ public class Order {
     @JoinColumn(name = "status")
     private Status status;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "orders")
+    private Set<OrderForPerson> orderForPersons;
+
     public Long getId() {
         return id;
     }
@@ -106,6 +109,14 @@ public class Order {
     public Date getExecuteBeforeDate() { return executeBeforeDate; }
 
     public void setExecuteBeforeDate(Date executeBeforeDate) { this.executeBeforeDate = executeBeforeDate; }
+
+    public Set<OrderForPerson> getOrderForPersons() {
+        return orderForPersons;
+    }
+
+    public void setOrderForPersons(Set<OrderForPerson> orderForPersons) {
+        this.orderForPersons = orderForPersons;
+    }
 
     @Override
     public String toString() {

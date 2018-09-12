@@ -26,4 +26,5 @@ public interface UserService {
     User editParsePasswords(User user);
     List<User> getAllByTelephone(String username);
     List<User> getAllByUsername(String username);
+    List<User> findByIdIn(List<Long> idList);
 }
