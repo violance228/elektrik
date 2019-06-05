@@ -42,8 +42,6 @@ public class AdminController {
     private CounterService counterService;
     @Autowired
     private IndicatorsService indicatorsService;
-//    @Autowired
-//    private ManufacturerService manufacturerService;
     @Autowired
     private OrderService orderService;
     @Autowired
@@ -60,13 +58,14 @@ public class AdminController {
     private TypeSubdivisionService typeSubdivisionService;
     @Autowired
     private CityService cityService;
+
     final static Logger log = Logger.getLogger(SecurityConfig.class.getName());
 
 //*************************************************************************************
 //*************************************USER*******************************************
 //*************************************************************************************
 
-    @RequestMapping( value = "/user/registration", method = RequestMethod.GET)
+    @RequestMapping(value = "/user/registration", method = RequestMethod.GET)
     public String registration(Model model) {
 
         model.addAttribute("subdivisions", subdivisionService.getAll(new Sort(Sort.Direction.DESC, "name")));
@@ -74,7 +73,7 @@ public class AdminController {
         return "/user/registration";
     }
 
-    @RequestMapping( value = "/user/registration", method = RequestMethod.POST)
+    @RequestMapping(value = "/user/registration", method = RequestMethod.POST)
     public String saveRegistration(@ModelAttribute("user") User user, Model model,
                                    @RequestParam(value = "subdivision") Long subdivisionId,
                                    @RequestParam(value = "role") Long roleId) {
@@ -90,8 +89,7 @@ public class AdminController {
             } else {
                 model.addAttribute("err", "Логін/телефон занятий");
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.err.println("Err registration");
             model.addAttribute("err", "Логін/телефон занятий");
         }
@@ -104,24 +102,24 @@ public class AdminController {
     public String trackUserAllAdmin(Model model, UserFilter userFilter, HttpSession session) {
 
         Date date = new Date();
-        System.err.println("------------------------------------"+date);
+        System.err.println("------------------------------------" + date.getTime());
         List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
         model.addAttribute("buttons", buttons);
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         Date date1 = new Date();
-        System.err.println("------------------------------------"+date1);
+        System.err.println("------------------------------------" + date1.getTime());
         model.addAttribute("h1name", "Переглянути всіх користувачів");
         model.addAttribute("users", userService.getAll(new Sort(Sort.Direction.ASC, "surname")));
         Date date2 = new Date();
-        System.err.println("------------------------------------"+date2);
+        System.err.println("------------------------------------" + date2.getTime());
         model.addAttribute("subdivisions", subdivisionService.getAll(new Sort(Sort.Direction.ASC, "id")));
         Date date3 = new Date();
-        System.err.println("------------------------------------"+date3);
+        System.err.println("------------------------------------" + date3.getTime());
         model.addAttribute("roles", roleService.getAll());
         model.addAttribute("users", userService.findByCriteriaQuery(userFilter));
         Date date4 = new Date();
-        System.err.println("------------------------------------"+date4);
+        System.err.println("------------------------------------" + date4.getTime());
 
         return "/user/trackAll";
     }
@@ -141,11 +139,11 @@ public class AdminController {
         return "/user/trackAll";
     }
 
-    @RequestMapping( value = "/user/editFromAll", method = RequestMethod.GET)
+    @RequestMapping(value = "/user/editFromAll", method = RequestMethod.GET)
     public String editUserGetFromTrackAll(Model model, HttpSession session,
                                           @RequestParam("id") Long userId) {
         System.out.println("====== editUserGetFromTrackAll ======");
-        Long currUserId = (Long)session.getAttribute("currUserId");
+        Long currUserId = (Long) session.getAttribute("currUserId");
         User user = userService.getById(currUserId);
         List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
         model.addAttribute("buttons", buttons);
@@ -161,8 +159,8 @@ public class AdminController {
         return "/user/editByAdmin";
     }
 
-    @RequestMapping( value = "/user/editFromAll", method = RequestMethod.POST)
-    public String editUserPostFromTrackAll(Model model,User user, HttpSession session,
+    @RequestMapping(value = "/user/editFromAll", method = RequestMethod.POST)
+    public String editUserPostFromTrackAll(Model model, User user, HttpSession session,
                                            @RequestParam("id") Long userId,
                                            @RequestParam("role") Long roleId,
                                            @RequestParam("subdivision") Long subdivisionId) {
@@ -170,7 +168,7 @@ public class AdminController {
         Role role = roleService.getById(roleId);
         Subdivision subdivision = subdivisionService.getById(subdivisionId);
 
-            userService.editUserByAdmin(user, subdivision, role);
+        userService.editUserByAdmin(user, subdivision, role);
 //        } else {
 //            model.addAttribute("err", "Логін/телефон занятий");
 //        }
@@ -212,7 +210,7 @@ public class AdminController {
 
     @RequestMapping(value = "/subdivision/edit/{subdivision.id}", method = RequestMethod.GET)
     public String editSubdivisionGet(Model model,
-                                     @PathVariable("subdivision.id")Long id,
+                                     @PathVariable("subdivision.id") Long id,
                                      HttpSession session) {
 
         List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
@@ -248,7 +246,7 @@ public class AdminController {
         model.addAttribute("buttons", buttons);
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
-        model.addAttribute("h1name", "Відділ - "+subdivisionService.getById(subdivisionId).getName());
+        model.addAttribute("h1name", "Відділ - " + subdivisionService.getById(subdivisionId).getName());
         model.addAttribute("subdivision", subdivisionService.getById(subdivisionId));
 
         return "/subdivision/track";
@@ -267,13 +265,13 @@ public class AdminController {
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Переглянути всі замовлення ");
         model.addAttribute("orders", orderService.getAll(new Sort(Sort.Direction.DESC, "dateOfApplication")));
-        model.addAttribute("subdivisions", subdivisionService.getAll(new Sort(Sort.Direction.ASC, "id")));
+        model.addAttribute("subdivisions", subdivisionService.getAll(new Sort(Sort.Direction.ASC, "name")));
         model.addAttribute("status", statusService.getAll());
 
         return "/order/trackAll";
     }
 
-    @RequestMapping( value = "/order/trackAll", method = RequestMethod.POST)
+    @RequestMapping(value = "/order/trackAll", method = RequestMethod.POST)
     public String findOrderParamPost(OrderFilter orderFilter, Model model, HttpSession session) {
 
         List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
@@ -298,7 +296,7 @@ public class AdminController {
 //*************************************ASSIGNMENTS*******************************************
 //*************************************************************************************
 
-    @RequestMapping( value = "/assignment/trackAll", method = RequestMethod.GET)
+    @RequestMapping(value = "/assignment/trackAll", method = RequestMethod.GET)
     public String trackAssignmentAll(Assignment assignment, Model model, HttpSession session) {
 
         List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
@@ -315,29 +313,29 @@ public class AdminController {
 //*************************************ConnectionLog*******************************************
 //*************************************************************************************
 
-    @RequestMapping( value = "/connectionLog", method = RequestMethod.GET)
+    @RequestMapping(value = "/connectionLog", method = RequestMethod.GET)
     public String trackConnectionLogAll(ConnectionLog connectionLog, Model model, HttpSession session) {
 
         Date date2 = new Date();
-        System.err.println("------------------------------------222"+date2);
+        System.err.println("------------------------------------222" + date2);
         List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
         model.addAttribute("buttons", buttons);
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         Date date3 = new Date();
-        System.err.println("------------------------------------333"+date3);
+        System.err.println("------------------------------------333" + date3);
         model.addAttribute("h1name", "Лог підключень");
         Date date4 = new Date();
-        System.err.println("------------------------------------444"+date4);
+        System.err.println("------------------------------------444" + date4);
         Date date = new Date();
-        System.err.println("------------------------------------55"+date);
+        System.err.println("------------------------------------55" + date);
         model.addAttribute("connectionLogs", connectionLogService.getAll(new Sort(Sort.Direction.DESC, "date")));
         Date date1 = new Date();
-        System.err.println("------------------------------------66"+date1);
+        System.err.println("------------------------------------66" + date1);
         return "/connectionLog";
     }
 
-    @RequestMapping( value = "/connectionLog", method = RequestMethod.POST)
+    @RequestMapping(value = "/connectionLog", method = RequestMethod.POST)
     public String trackConnectionLogAllByCriteria(ConnectionLogFilter connectionLogFilter, HttpSession session,
                                                   Model model) {
 
@@ -357,7 +355,7 @@ public class AdminController {
 //*************************************************PORT_LISTENER**********************************************************************************
 //************************************************************************************************************************************************
 
-    @RequestMapping( value = "/portListener", method = RequestMethod.GET)
+    @RequestMapping(value = "/portListener", method = RequestMethod.GET)
     public void portListener() {
 
     }

@@ -6,7 +6,7 @@
     <title>Title</title>
 </head>
 <body>
-<form action="/user/findByParam" method="post">
+<form th:action="@{/user/findByParam}" method="post">
     Surname: <input type="text" name="userSurname"/>
     Login: <input type="text" name="userName"/>
     <tr>

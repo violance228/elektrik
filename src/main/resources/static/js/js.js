@@ -1,7 +1,7 @@
 function orderEditStatus (orderId, status) {
     $.ajax({
         type: 'POST',
-        url: 'http://192.200.100.117:8080/elektrik-online/order/status',
+        url: 'http://192.200.100.117:8000/order/status',
         // url: 'http://localhost:8090/order/status',
         data: {'id': orderId, 'status': status},
         success: function (data) {
@@ -17,12 +17,12 @@ function deleteOrder (orderId) {
     $.ajax({
         type: 'POST',
         // url: 'http://192.200.100.117:8080/elektrik-online/order/status',
-        url: 'http://localhost:8000/order/delete',
+        url: 'http://192.200.100.160:8080/elektrik/order/delete',
         data: {'id': orderId},
         success: function (data) {
             console.log(data);
 
-            window.location.href=('http://localhost:8000/order/trackOrdersSubmByMe');
+            window.location.href=('http://192.200.100.160:8080/elektrik/order/trackOrdersSubmByMe');
         }
     });
     //  $.post('http://localhost:8080/order/edit', {id:""+inputText+""});
@@ -32,7 +32,7 @@ function sortBySubdivision(subdivision) {
     console.log("hello");
     $.ajax({
         type: 'POST',
-        url: 'http://localhost:8080/counter/statistics',
+        url: 'http://192.200.100.160:8080/elektrik/counter/statistics',
         data: {'subdivisionId': subdivision},
         success: function (data) {
             console.log(data);
@@ -72,7 +72,7 @@ function sortBySubdivision(subdivision) {
 function orderComment(orderId) {
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/orderComment/trackSingleComment',
+        url: 'http://192.200.100.160:8080/elektrik/orderComment/trackSingleComment',
         data: {'orderId': orderId},
     });
 }

@@ -18,7 +18,7 @@
                 </div>
                 <div class="divTableBody">
                     <div class="divTableRow">
-                        <form action="/admin/user/trackAll" method="post">
+                        <form th:action="@{'/admin/user/trackAll'}" method="post">
                         <div class="divTableCell"><input type="text" name="userSurname" placeholder="Фамілія"/></div>
                         <div class="divTableCell"><input type="text" name="userName" placeholder="Логін"/></div>
                         <div class="divTableCell">
@@ -88,7 +88,7 @@
 
 <script type="text/javascript">
     function userEdit(userId) {
-window.location.href='http://192.200.100.117:8080/elektrik-online/admin/user/editFromAll?id=' + userId;
+window.location.href='http://192.200.100.160:8080/elektrik/admin/user/editFromAll?id=' + userId;
 }
 </script>
 <script type="text/javascript" th:src="@{'/js/js.js'}"></script>

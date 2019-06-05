@@ -10,16 +10,58 @@
         <h2 th:text="${h1name}"></h2>
     </div>
         <section class="col-md-17">
+            <div class="table-responsive">
+                <table class="table table-hover table-condensed table-bordered">
+                    <form th:action="@{'/order/trackOrdersSubmByMe'}" method="post">
+                        <tr>
+                            <th>Для відділу</th>
+                            <th>Статус</th>
+                            <th>Сортувати</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="styled-select">
+                                    <select name ="subdivisionId">
+                                        <option value=""></option>
+                                        <option
+                                                th:each="subdivision : ${subdivisions}"
+                                                th:value="${subdivision.id}">
+                                            <span th:text="${subdivision.typeSubdivisions?.type}"></span>
+                                            <span th:if="${subdivision.name != null }">
+                                            <span th:if="${subdivision.name != 9999}" th:text="'- ' + ${subdivision.name}"></span>
+                                        </span>
+                                            <span th:if="${subdivision.cities?.id != 1}" th:text="'- ' + ${subdivision.cities?.city}"></span>
+                                        </option>
+                                    </select>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="styled-select">
+                                    <select name ="statusId">
+                                        <option value=""></option>
+                                        <option
+                                                th:each="statu : ${status}"
+                                                th:text="${statu.name}"
+                                                th:value="${statu.id}">
+                                        </option>
+                                    </select>
+                                </div>
+                            </td>
+                            <td><input type="submit" class="btn btn-success btn-sm" value="Сорт"/></td>
+                        </tr>
+                    </form>
+                </table>
+            </div>
         <div class="divTable redTable">
         <div class="divTableHeading">
             <div class="divTableRow">
                 <div class="divTableHead">Текст Заявки</div>
                 <div class="divTableHead">Дата подачі</div>
+                <div class="divTableHead">Дата до якої потрібно виконати</div>
                 <div class="divTableHead">Виконано</div>
                 <div class="divTableHead">Для відділу</div>
                 <div class="divTableHead">Виконав</div>
                 <div class="divTableHead">Статус</div>
-
             </div>
         </div>
         <div class="divTableBody">
@@ -31,6 +73,9 @@
                     <!--</div>-->
                 <!--</div>-->
                 <div th:text="${#calendars.format(userOrder.dateOfApplication,'dd-MM-yyyy')}"  class="divTableCell"></div>
+                <div class="divTableCell">
+                    <span th:if="${userOrder.executeBeforeDate != null || userOrder.executeBeforeDate != ''}" th:text="${#calendars.format(userOrder.executeBeforeDate,'dd-MM-yyyy')}"></span>
+                </div>
                 <div class="divTableCell">
                     <span th:if="${userOrder.dateOfCompletion} != null" th:text="${#calendars.format(userOrder?.dateOfCompletion,'dd-MM-yyyy')}"></span>
                 </div>

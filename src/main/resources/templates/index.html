@@ -1,20 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="/fragments/header :: head">
-    <script type="text/javascript" th:src="@{'/js/Chart.min.js'}"></script>
+<head>
 </head>
 <body>
-<div class="wrapper container">
-    <div th:replace="/fragments/top :: top"></div>
-    <div class="heading">
-        <h1></h1>
-    </div>
-    <div class="row">
-        <!--<div th:replace="/fragments/leftnavbar :: left_panel"></div>-->
-        <section class="col-md-17">
-        </section>
-    </div>
-</div>
-<div th:replace="/fragments/footer :: footer"></div>
+<div id="root"></div>
+<script type="text/javascript" th:src="@{'/js/bundle.js'}"></script>
 </body>
 </html>

@@ -101,8 +101,7 @@ public class CounterController {
     }
 
     @RequestMapping(value = "/delete/{counter.id}", method = RequestMethod.GET)
-    public String deleteCounterGet(Model model,
-                                   @PathVariable("counter.id") Long counterId) {
+    public String deleteCounterGet(@PathVariable("counter.id") Long counterId) {
 
         counterService.delete(counterId);
 
@@ -110,7 +109,7 @@ public class CounterController {
     }
 
     @RequestMapping(value = "/trackAll", method = RequestMethod.GET)
-    public String trackAllCounter(Counter counter, Model model, HttpSession session) {
+    public String trackAllCounter(Model model) {
 
         List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
         model.addAttribute("buttons", buttons);

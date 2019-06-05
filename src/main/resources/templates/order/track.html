@@ -67,20 +67,20 @@
                     <td>
                         <div th:switch="${orders.status?.id}">
                             <span th:case="1" th:id="${orders.id}" >
-                                <button th:id="${orders.id}" class="btn btn-success btn-sm" th:onclick="${'orderEditStatus('+ orders.id + ',' + 2 +')'}">
+                                <a th:id="${orders.id}" class="btn btn-success btn-sm" th:href="@{'/order/status/'+ ${orders.id} + '/2'}">
                                     <span>Відновити</span>
-                                </button>
+                                </a>
                             </span>
                             <span th:case="2">
-                                <button  th:id="${orders.id}" class="btn btn-primary btn-sm" th:onclick="${'orderEditStatus('+ orders.id + ',' + 1 +')'}">
+                                <a th:id="${orders.id}" class="btn btn-primary btn-sm" th:href="@{'/order/status/'+ ${orders.id} + '/1'}">
                                     <span>Закрити</span>
-                                </button>
+                                </a>
                                  <a class="btn btn-success btn-sm" th:href="@{'/order/redirectOrderToSubdivision/'+ ${orders.id}}">Перенаправити</a>
                             </span>
                             <span th:case="3">
-                                <button th:id="${orders.id}" class="btn btn-success btn-sm" th:onclick="${'orderEditStatus('+ orders.id + ',' + 2 +')'}">
+                                <a th:id="${orders.id}" class="btn btn-success btn-sm" th:href="@{'/order/status/'+ ${orders.id} + '/2'}">
                                     <span>В роботу</span>
-                                </button>
+                                </a>
                                 <a class="btn btn-success btn-sm" th:href="@{'/order/redirectOrderToSubdivision/'+ ${orders.id}}">Перенаправити</a>
                             </span>
                         </div>
@@ -92,9 +92,9 @@
                         <div th:switch="${orders.status?.id}">
                             <span th:case="1" th:id="${orders.id}" >
                                 <span class="btn btn-warning btn-sm">Закрито</span>
-                                <button th:id="${orders.id}" class="btn btn-success btn-sm" th:onclick="${'orderEditStatus('+ orders.id + ',' + 2 +')'}">
+                                <a th:id="${orders.id}" class="btn btn-success btn-sm" th:href="@{'/order/status/'+ ${orders.id} + '/2'}">
                                     <span>Відновити</span>
-                                </button>
+                                </a>
                             </span>
                             <a th:case="2" th:id="${orders.id}" class="btn btn-primary btn-sm" th:href="@{'/order/edit/'+${orders.id}}">
                                 <span>Редагувати</span></a>
@@ -107,7 +107,7 @@
                         </div>
                     </td>
                 </tr>
-                <form action="/orderComment/create" method="post">
+                <form th:action="@{/orderComment/create}" method="post">
                     <tr>
                         <td>Коментар:</td>
                         <td>

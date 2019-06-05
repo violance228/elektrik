@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+>
 <head th:replace="/fragments/header :: head">
 </head>
 <body onload="notifSet ()">
@@ -21,36 +21,42 @@
                             <div class="form-group row">
                                 <label for="username" class="col-4 col-form-label">Логін*</label>
                                 <div class="col-8">
-                                    <span id="username" th:text="${users.username}" name="username" class="form-control here" ></span>
+                                    <span id="username" th:text="${users.username}" name="username"
+                                          class="form-control here"></span>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="name" class="col-4 col-form-label">Ім'я*</label>
                                 <div class="col-8">
-                                    <span id="name" name="name" th:text="${users.name}" class="form-control here" ></span>
+                                    <span id="name" name="name" th:text="${users.name}"
+                                          class="form-control here"></span>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="surname" class="col-4 col-form-label">Прізвище*</label>
                                 <div class="col-8">
-                                    <span id="surname" name="surname" th:text="${users.surname}" class="form-control here" ></span>
+                                    <span id="surname" name="surname" th:text="${users.surname}"
+                                          class="form-control here"></span>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="telephone" class="col-4 col-form-label">Телефон*</label>
                                 <div class="col-8">
-                                    <span id="telephone" name="telephone" th:text="${users.telephone}" class="form-control here" ></span>
+                                    <span id="telephone" name="telephone" th:text="${users.telephone}"
+                                          class="form-control here"></span>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="subdivision" class="col-4 col-form-label">Відділ*</label>
                                 <div class="col-8">
-                                    <span id="subdivision" name="subdivision" class="form-control here" >
+                                    <span id="subdivision" name="subdivision" class="form-control here">
                                         <span th:text="${users.subdivisions.typeSubdivisions?.type}"></span>
                                         <span th:if="${users.subdivisions.name != null }">
-                                            <span th:if="${users.subdivisions.name != 9999}" th:text="'- ' + ${users.subdivisions.name}"></span>
+                                            <span th:if="${users.subdivisions.name != 9999}"
+                                                  th:text="'- ' + ${users.subdivisions.name}"></span>
                                         </span>
-                                        <span th:if="${users.subdivisions.cities?.id != 1}" th:text="'- ' + ${users.subdivisions.cities?.city}"></span>
+                                        <span th:if="${users.subdivisions.cities?.id != 1}"
+                                              th:text="'- ' + ${users.subdivisions.cities?.city}"></span>
                                     </span>
                                 </div>
                             </div>
@@ -65,29 +71,34 @@
     <div th:replace="/fragments/footer :: footer"></div>
 </div>
 <script th:inline="javascript">
-    function notifyMe () {
+    function notifyMe() {
         /*<![CDATA[*/
         var data = [[${pushStr}]];
         console.log(data);
         /*]]>*/
         // }
 
-        if (data.length > 1) {
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open( "GET", "http://localhost:8080/user/all", false ); // false for synchronous request
+        xmlHttp.send();
+        var result =  xmlHttp.responseText;
+
+        if (data != null) {
             var notification = new Notification("Все еще работаешь?", {
                 tag: "ache-mail",
-                body: data,
+                body: data + '<a href="http://localhost:8000/order/trackOrdersSubmForMyDivision">Замовлення для мене</a>',
                 icon: "http://opt-1217140.ssl.1c-bitrix-cdn.ru/upload/iblock/ea5/ea527e14ee72508e22fe8a88271f8e97.jpg?1525800011267804"
             });
         }
     }
 
-    function notifSet () {
+    function notifSet() {
         if (!("Notification" in window))
-            alert ("Ваш браузер не поддерживает уведомления.");
+            alert("Ваш браузер не поддерживает уведомления.");
         else if (Notification.permission === "granted")
             setTimeout(notifyMe, 1000);
         else if (Notification.permission !== "denied") {
-            Notification.requestPermission (function (permission) {
+            Notification.requestPermission(function (permission) {
                 if (!('permission' in Notification))
                     Notification.permission = permission;
                 if (permission === "granted")
@@ -95,7 +106,6 @@
             });
         }
     }
-
 </script>
 </body>
 </html>

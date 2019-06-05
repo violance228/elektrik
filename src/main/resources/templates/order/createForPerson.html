@@ -22,14 +22,14 @@
                                 <div class="form-group row">
                                     <label for="applicationText" class="col-4 col-form-label">Текст заявки:</label>
                                     <div class="col-8">
-                                        <textarea id="applicationText" name="applicationText" placeholder="текст заявки" class="form-control here" ></textarea>
+                                        <textarea id="applicationText" name="applicationText" placeholder="текст заявки" class="form-control here" required="required" ></textarea>
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label for="user" class="col-4 col-form-label">Співробітник*</label>
                                     <div class="col-8">
-                                        <select name="usersId" id="user" multiple="true" size="10">
+                                        <select name="usersId" id="user" multiple="true" size="10" required="required">
                                             <optgroup th:each="subdivision : ${subdivisions}" th:label="${subdivision.typeSubdivisions?.type + '- ' + subdivision.name + '- ' + subdivision.cities?.city}">
                                                 <option th:each="user : ${subdivision.users}" th:text="${user.surname + ' ' + user.name}" th:value="${user.id}"></option>
                                             </optgroup>
@@ -41,6 +41,7 @@
                                     <label for="executeBeforeDate" class="col-4 col-form-label">Дата до якої потрібно виконати(не обов'язково)*</label>
                                     <div class="col-8">
                                         <input type="date" name="executeDate" id="executeBeforeDate" class="form-control here"/>
+                                        <input type="time" name="executeTime" class="form-control here"/>
                                     </div>
                                 </div>
 

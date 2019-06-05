@@ -9,6 +9,7 @@ import com.konex.elektrik.Service.OrderForPerson.OrderForPersonService;
 import com.konex.elektrik.Service.Status.StatusService;
 import com.konex.elektrik.Service.Subdivision.SubdivisionService;
 import com.konex.elektrik.Service.User.UserService;
+import com.konex.elektrik.filter.OrderFilter;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -17,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -55,23 +57,23 @@ public class OrderController {
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Переглянути замовлення");
-        Long currUserId = (Long)session.getAttribute("currUserId");
+        Long currUserId = (Long) session.getAttribute("currUserId");
         User user = userService.getById(currUserId);
 
         order = orderService.getById(orderId);
-        if(user.getSubdivisions().getName() == order.getSubdivisions().getName() || user.getId() == order.getUsers().getId()) {
-            model.addAttribute("orders", order);
-            model.addAttribute("orderComments", orderCommentService.getOrderCommentByOrder(order));
-            log.info("orderTrack");
-            return "/order/track";
-        }
-        else {
-            log.info("orderTrackFail");
-            return "/404";
-        }
+//        if(user.getSubdivisions().getName() == order.getSubdivisions().getName() || user.getId() == order.getUsers().getId()) {
+        model.addAttribute("orders", order);
+        model.addAttribute("orderComments", orderCommentService.getOrderCommentByOrder(order));
+        log.info("orderTrack");
+        return "/order/track";
+//        }
+//        else {
+//            log.info("orderTrackFail");
+//            return "/404";
+//        }
     }
 
-    @RequestMapping( value = "/createForSubdivision", method = RequestMethod.GET)
+    @RequestMapping(value = "/createForSubdivision", method = RequestMethod.GET)
     public String addOrderForSubdivisionGet(Model model) {
 
         List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
@@ -85,12 +87,12 @@ public class OrderController {
         return "/order/createForSubdivision";
     }
 
-    @RequestMapping( value = "/createForSubdivision", method = RequestMethod.POST)
+    @RequestMapping(value = "/createForSubdivision", method = RequestMethod.POST)
     public String addOrderForSubdivisionPost(@ModelAttribute("order") Order order, HttpSession session,
-                               @RequestParam("subdivision")Long id,
-                               @RequestParam("executeDate")String executeDate) {
+                                             @RequestParam("subdivision") Long id,
+                                             @RequestParam("executeDate") String executeDate) {
 
-        Long currUserId = (Long)session.getAttribute("currUserId");
+        Long currUserId = (Long) session.getAttribute("currUserId");
         User user = userService.getById(currUserId);
         if (executeDate != null && !executeDate.equals("")) {
             try {
@@ -115,7 +117,7 @@ public class OrderController {
         return "redirect:/order/createForSubdivision";
     }
 
-    @RequestMapping( value = "/createForPerson", method = RequestMethod.GET)
+    @RequestMapping(value = "/createForPerson", method = RequestMethod.GET)
     public String addOrderForPersonGet(Model model) {
 
         List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
@@ -131,17 +133,23 @@ public class OrderController {
         return "/order/createForPerson";
     }
 
-    @RequestMapping( value = "/createForPerson", method = RequestMethod.POST)
+    @RequestMapping(value = "/createForPerson", method = RequestMethod.POST)
     public String addOrderForPersonPost(@ModelAttribute("order") Order order, HttpSession session,
                                         @RequestParam(name = "usersId") List<Long> usersId,
-                                        @RequestParam(name = "executeDate") String executeDate) {
+                                        @RequestParam(name = "executeDate") String executeDate,
+                                        @RequestParam(name = "executeTime") String executeTime) {
 
-        Long currUserId = (Long)session.getAttribute("currUserId");
+        Long currUserId = (Long) session.getAttribute("currUserId");
         User user = userService.getById(currUserId);
 
         if (executeDate != null && executeDate != "") {
             try {
-                order.setExecuteBeforeDate(docDate = format.parse(executeDate));
+                if (executeTime != null && executeDate != "") {
+                    executeDate += "T" + executeTime + ":00.00";
+                    order.setExecuteBeforeDate(Timestamp.valueOf(executeDate.replace("T", " ")));
+                } else {
+                    order.setExecuteBeforeDate(docDate = format.parse(executeDate));
+                }
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -175,7 +183,7 @@ public class OrderController {
         return "redirect:/order/createForPerson";
     }
 
-    @RequestMapping( value = "/edit/{userOrder.id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/edit/{userOrder.id}", method = RequestMethod.GET)
     public String editOrderGet(Model model,
                                @PathVariable("userOrder.id") Long orderId, HttpSession session) {
 
@@ -184,11 +192,11 @@ public class OrderController {
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Редагувати замовлення");
-        Long currUserId = (Long)session.getAttribute("currUserId");
+        Long currUserId = (Long) session.getAttribute("currUserId");
         User user = userService.getById(currUserId);
         Order order = orderService.getById(orderId);
 
-        if(AopUtils.isAopProxy(user.getId()) == AopUtils.isAopProxy(order.getUsers().getId())) {
+        if (AopUtils.isAopProxy(user.getId()) == AopUtils.isAopProxy(order.getUsers().getId())) {
             model.addAttribute("order", order);
             model.addAttribute("subdivisions", subdivisionService.getAll(new Sort(Sort.Direction.DESC, "name")));
             log.info("orderEditGet");
@@ -199,11 +207,11 @@ public class OrderController {
         }
     }
 
-    @RequestMapping( value = "/edit", method = RequestMethod.POST)
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
     public String editOrderPost(Model model, Order order, HttpSession session,
                                 @RequestParam(name = "subdivision") Long subdivisionId) {
 
-        Long currUserId = (Long)session.getAttribute("currUserId");
+        Long currUserId = (Long) session.getAttribute("currUserId");
         User user = userService.getById(currUserId);
         Order orders = orderService.getById(order.getId());
         if (orders.getUsers().getId() == user.getId()) {
@@ -219,12 +227,12 @@ public class OrderController {
                 order.setApplicationText(orderService.getById(order.getId()).getApplicationText() + " -- " + order.getApplicationText());
                 orderService.editOrder(order);
                 log.info("orderEditPostOk");
-            } catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
                 log.info("orderEditPostFail");
             }
-                orderComment.setDate(date);
-                orderComment.setComment("замовлення було відредаговане");
+            orderComment.setDate(date);
+            orderComment.setComment("замовлення було відредаговане");
             try {
                 orderCommentService.addOrderComment(orderComment, user, order);
                 log.info("orderAddOrderCommentPostOk");
@@ -236,11 +244,11 @@ public class OrderController {
         return "redirect:/order/trackOrdersSubmByMe";
     }
 
-    @RequestMapping( value = "/delete/{orders.id}", method = RequestMethod.GET)
-    public String deleteOrderPost(@PathVariable(value="orders.id") Long orderId,
-                                                        HttpSession session) {
+    @RequestMapping(value = "/delete/{orders.id}", method = RequestMethod.GET)
+    public String deleteOrderPost(@PathVariable(value = "orders.id") Long orderId,
+                                  HttpSession session) {
 
-        Long currUserId = (Long)session.getAttribute("currUserId");
+        Long currUserId = (Long) session.getAttribute("currUserId");
         User user = userService.getById(currUserId);
         Order order = orderService.getById(orderId);
         try {
@@ -263,14 +271,14 @@ public class OrderController {
         return "redirect:/order/trackOrdersSubmByMe";
     }
 
-    @RequestMapping( value = "/status", method = RequestMethod.POST)
-    public @ResponseBody String editOrderStatusPost(HttpSession session,
-                               @RequestParam(value="id", required = false) Long id,
-                               @RequestParam(value = "status", required = false) Long status) {
+    @RequestMapping(value = "/status/{id}/{status}", method = RequestMethod.GET)
+    public String editOrderStatusPost(HttpSession session,
+                                      @PathVariable(value = "id") Long id,
+                                      @PathVariable(value = "status") Long status) {
 
         System.out.println(id);
         System.out.println(status);
-        Long currUserId = (Long)session.getAttribute("currUserId");
+        Long currUserId = (Long) session.getAttribute("currUserId");
         User user = userService.getById(currUserId);
         Order order = orderService.getById(id);
         String surname = user.getSurname();
@@ -283,7 +291,7 @@ public class OrderController {
             e.printStackTrace();
             log.info("orderStatusFail");
         }
-        System.out.println("----"+ order1.getStatus().getName());
+        System.out.println("----" + order1.getStatus().getName());
 
         OrderComment orderComment = new OrderComment();
         Date date = new Date();
@@ -297,27 +305,60 @@ public class OrderController {
             log.info("orderAddOrderCommentPostFail");
         }
 
-        return order1.getStatus().getName();
+        return "redirect:/order/track/" + id;
     }
 
-    @RequestMapping( value = "/trackOrdersSubmByMe", method = RequestMethod.GET)
-    public String trackAllOrderSubmByMe(Model model, HttpSession session) {
+    @RequestMapping(value = "/trackOrdersSubmByMe", method = RequestMethod.GET)
+    public String trackAllOrderSubmByMeFilterGet(Model model, HttpSession session) {
 
         List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
         model.addAttribute("buttons", buttons);
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Замовлення поданні мною");
-        Long currUserId = (Long)session.getAttribute("currUserId");
+        Long currUserId = (Long) session.getAttribute("currUserId");
         User user = userService.getById(currUserId);
-        Set<Order> userOrders = orderService.getAllByUser(user);
-        model.addAttribute("userOrders", userOrders);
+//        Set<Order> userOrders = orderService.getAllByUser(user);
+
+        OrderFilter orderFilter = new OrderFilter();
+
+        orderFilter.setUsername(user.getId().toString());
+
+        List<Order> getFilteredOrders = orderService.getByCriteria(orderFilter, new Sort(Sort.Direction.ASC, "executeBeforeDate"));
+
+        model.addAttribute("userOrders", getFilteredOrders);
+        model.addAttribute("subdivisions", subdivisionService.getAll(new Sort(Sort.Direction.ASC, "id")));
+        model.addAttribute("status", statusService.getAll());
         log.info("ordertrackOrdersSubmByMe");
 
         return "/order/trackOrdersSubmByMe";
     }
 
-    @RequestMapping( value = "/trackOrdersSubmForMyDivision", method = RequestMethod.GET)
+    @RequestMapping(value = "/trackOrdersSubmByMe", method = RequestMethod.POST)
+    public String trackAllOrderSubmByMeFilterPost(Model model, HttpSession session, OrderFilter orderFilter) {
+
+        List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
+        model.addAttribute("buttons", buttons);
+        List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
+        model.addAttribute("button", button);
+        model.addAttribute("h1name", "Замовлення поданні мною");
+
+        Long currUserId = (Long) session.getAttribute("currUserId");
+        User user = userService.getById(currUserId);
+
+        orderFilter.setUsername(user.getId().toString());
+
+        List<Order> getFilteredOrders = orderService.getByCriteria(orderFilter, new Sort(Sort.Direction.ASC, "executeBeforeDate"));
+        model.addAttribute("userOrders", getFilteredOrders);
+        model.addAttribute("subdivisions", subdivisionService.getAll(new Sort(Sort.Direction.ASC, "id")));
+        model.addAttribute("status", statusService.getAll());
+
+        log.info("ordertrackOrdersSubmByMe");
+
+        return "/order/trackOrdersSubmByMe";
+    }
+
+    @RequestMapping(value = "/trackOrdersSubmForMyDivision", method = RequestMethod.GET)
     public String trackAllOrderSubmForMyDivision(Model model, HttpSession session) {
 
         List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
@@ -325,23 +366,63 @@ public class OrderController {
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Замовлення для мого відділу");
-        Long currUserId = (Long)session.getAttribute("currUserId");
+
+        Long currUserId = (Long) session.getAttribute("currUserId");
         User user = userService.getById(currUserId);
-        Set<Order> subDivision = orderService.getAllBySubdivision(user.getSubdivisions());
+
+        OrderFilter orderFilter = new OrderFilter();
+        orderFilter.setUsername(user.getId().toString());
+        Set<Order> orderList = orderService.getAllBySubdivision(user.getSubdivisions());
+//                orderService.getByCriteria(orderFilter, new Sort(Sort.Direction.ASC, "executeBeforeDate"));
+
         List<OrderForPerson> orderForPersonList = orderForPersonService.getAllByUsers(user);
 
         for (OrderForPerson orderForPerson : orderForPersonList) {
-            subDivision.add(orderForPerson.getOrders());
+            orderList.add(orderForPerson.getOrders());
         }
 
-        model.addAttribute("subDivision", subDivision);
+        model.addAttribute("subDivision", orderList);
+        model.addAttribute("subdivisions", subdivisionService.getAll(new Sort(Sort.Direction.ASC, "id")));
+        model.addAttribute("status", statusService.getAll());
 
         log.info("ordertrackOrdersSubmForMyDivision");
 
         return "/order/trackOrdersSubmForMyDivision";
     }
 
-    @RequestMapping( value = "/redirectOrderToSubdivision/{orders.id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/trackOrdersSubmForMyDivision", method = RequestMethod.POST)
+    public String trackAllOrderSubmForMyDivision(Model model, HttpSession session, OrderFilter orderFilter) {
+
+        List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
+        model.addAttribute("buttons", buttons);
+        List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
+        model.addAttribute("button", button);
+        model.addAttribute("h1name", "Замовлення для мого відділу");
+
+        Long currUserId = (Long) session.getAttribute("currUserId");
+        User user = userService.getById(currUserId);
+
+
+        orderFilter.setUsername(user.getId().toString());
+        List<Order> orderList = orderService.getByCriteria(orderFilter, new Sort(Sort.Direction.ASC, "executeBeforeDate"));
+//        Set<Order> subDivision = orderService.getAllBySubdivision(user.getSubdivisions());
+
+        List<OrderForPerson> orderForPersonList = orderForPersonService.getAllByUsers(user);
+
+        for (OrderForPerson orderForPerson : orderForPersonList) {
+            orderList.add(orderForPerson.getOrders());
+        }
+
+        model.addAttribute("subDivision", orderList);
+        model.addAttribute("subdivisions", subdivisionService.getAll(new Sort(Sort.Direction.ASC, "id")));
+        model.addAttribute("status", statusService.getAll());
+
+        log.info("ordertrackOrdersSubmForMyDivision");
+
+        return "/order/trackOrdersSubmForMyDivision";
+    }
+
+    @RequestMapping(value = "/redirectOrderToSubdivision/{orders.id}", method = RequestMethod.GET)
     public String redirectOrderGet(Model model, HttpSession session,
                                    @PathVariable("orders.id") Long orderId) {
 
@@ -350,28 +431,27 @@ public class OrderController {
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Перенаправити замовлення");
-        Long currUserId = (Long)session.getAttribute("currUserId");
+        Long currUserId = (Long) session.getAttribute("currUserId");
         User user = userService.getById(currUserId);
         Order order = orderService.getById(orderId);
 
-        if(user.getSubdivisions().getName() == order.getSubdivisions().getName() || user.getId() == order.getUsers().getId()) {
+        if (user.getSubdivisions().getName() == order.getSubdivisions().getName() || user.getId() == order.getUsers().getId()) {
             model.addAttribute("order", order);
             model.addAttribute("subdivisions", subdivisionService.getAll(new Sort(Sort.Direction.ASC, "id")));
             log.info("redirectOrderToSubdivisionOk");
             return "/order/redirect";
-        }
-        else {
+        } else {
             log.info("redirectOrderToSubdivision404");
             return "/404";
         }
     }
 
-    @RequestMapping( value = "/redirectOrderToSubdivision", method = RequestMethod.POST)
+    @RequestMapping(value = "/redirectOrderToSubdivision", method = RequestMethod.POST)
     public String redirectOrderPost(OrderComment orderComment, HttpSession session,
                                     @RequestParam("id") Long id,
                                     @RequestParam("subdivision") Long subdivisionId) {
 
-        Long currUserId = (Long)session.getAttribute("currUserId");
+        Long currUserId = (Long) session.getAttribute("currUserId");
         User user = userService.getById(currUserId);
         Subdivision subdivision = subdivisionService.getById(subdivisionId);
         Order order = orderService.getById(id);
@@ -392,7 +472,7 @@ public class OrderController {
         return "redirect:/order/trackOrdersSubmForMyDivision";
     }
 
-    @RequestMapping( value = "/trackOrdersArchiveSubmForMyDivision", method = RequestMethod.GET)
+    @RequestMapping(value = "/trackOrdersArchiveSubmForMyDivision", method = RequestMethod.GET)
     public String trackAllOrderArchiveSubmForMyDivision(Model model, HttpSession session) {
 
         List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
@@ -400,7 +480,7 @@ public class OrderController {
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Замовлення для мого відділу");
-        Long currUserId = (Long)session.getAttribute("currUserId");
+        Long currUserId = (Long) session.getAttribute("currUserId");
         User user = userService.getById(currUserId);
         Set<Order> subDivision = orderService.getAllBySubdivision(user.getSubdivisions());
         model.addAttribute("subDivision", subDivision);
