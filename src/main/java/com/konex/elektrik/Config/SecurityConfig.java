@@ -111,7 +111,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
             ConnectionLog connectionLog = new ConnectionLog();
             connectionLog.setIp(request.getRemoteAddr());
-            connectionLogService.addConnectionLog(connectionLog, user);
+            try {
+                connectionLogService.addConnectionLog(connectionLog, user);
+            } catch (Exception e) {
+                log.warning("can't add connection " + e + " for user " + user.getUsername());
+            }
 
             response.setStatus(HttpServletResponse.SC_OK);
             log.info(response.getHeaderNames().toString());

@@ -10,7 +10,7 @@
         <h2 th:text="${h1name}"></h2>
     </div>
     <section class="col-md-17">
-        <form th:action="@{'/counter/averageStatisticByYear'}" method="post">
+        <form th:action="@{'/counter/averageStatisticByYear'}" method="get">
             <table>
                 <tr>
                     <td>
@@ -43,7 +43,7 @@
                     </td>
                     <td>
                         <select name="counters" multiple="true" size="10">
-                            <optgroup th:each="subdivision : ${subdivisions}" th:label="${subdivision.typeSubdivisions?.type + '- ' + subdivision.name + '- ' + subdivision.cities?.city}">
+                            <optgroup th:each="subdivision : ${subdivisions}" th:label="${subdivision.typeSubdivisions?.type + '-' + subdivision.name + '-' + subdivision.cities?.city}">
                                 <option th:each="counters : ${subdivision.counters}" th:text="${counters.number + '-' + counters.name}" th:value="${counters.id}"></option>
                             </optgroup>
                         </select>

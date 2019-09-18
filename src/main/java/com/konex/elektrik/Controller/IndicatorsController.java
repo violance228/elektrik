@@ -143,13 +143,15 @@ public class IndicatorsController {
         List<Buttons> buttons = buttonsService.getAllWhereParentIdIsNull(new Sort(Sort.Direction.ASC, "id"));
         model.addAttribute("buttons", buttons);
         List<Buttons> button = buttonsService.getAllWhereParentIdIsNotNull();
+
+        List<Counter> counterList = counterService.getAll(new Sort(Sort.Direction.ASC, "id"));
         model.addAttribute("button", button);
         model.addAttribute("h1name", "Порівняти показники");
         model.addAttribute("date", 2018);
-        model.addAttribute("counter1", "Лічильник 1");
-        model.addAttribute("counter2", "Лічильник 2");
+        model.addAttribute("counter1", counterList.get(0));
+        model.addAttribute("counter2", counterList.get(1));
 
-        model.addAttribute("counters", counterService.getAll(new Sort(Sort.Direction.ASC, "id")));
+        model.addAttribute("counters", counterList);
 
         return "/indicators/trackAll";
     }
@@ -203,8 +205,8 @@ public class IndicatorsController {
         List<Indicators> chartIndicatorsCounter2 = indicatorsService.getAllByCounterSortAsc(counter2);
 
         model.addAttribute("date", year);
-        model.addAttribute("counter1", counter1.getNumber());
-        model.addAttribute("counter2", counter2.getNumber());
+        model.addAttribute("counter1", counter1);
+        model.addAttribute("counter2", counter2);
 //****************************************************************************************************
 //**************************DATE***************************************************************************
 //*****************************************************************************************************
@@ -362,11 +364,7 @@ public class IndicatorsController {
                 model.addAttribute("label2", counter2.getNumber());
             }
         }
-        catch(NullPointerException e) {
-            System.err.println("One of the object is empty");
-            model.addAttribute("err" ,"One of the object is empty");
-        }
-        catch (IndexOutOfBoundsException ex) {
+        catch(NullPointerException | IndexOutOfBoundsException e) {
             System.err.println("One of the object is empty");
             model.addAttribute("err" ,"One of the object is empty");
         }

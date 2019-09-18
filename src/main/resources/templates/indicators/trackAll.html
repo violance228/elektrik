@@ -18,10 +18,11 @@
                             <td>
                                 <div class="styled-select">
                                     <select name ="counterId1">
-                                        <option th:text="${counter1}">Лічильник 1</option>
+                                        <option th:text="${counter1?.name + ' - ' + counter1.subdivisions?.typeSubdivisions?.type + '-' + counter1.subdivisions?.name}"
+                                                th:value="${counter1.id}"></option>
                                         <option
                                                 th:each="counter : ${counters}"
-                                                th:text="${counter.number}"
+                                                th:text="${counter?.name + ' - ' + counter.subdivisions?.typeSubdivisions?.type + '-' + counter.subdivisions?.name}"
                                                 th:value="${counter.id}">
                                         </option>
                                     </select>
@@ -30,9 +31,10 @@
                             <td>
                                 <div class="styled-select">
                                     <select name ="counterId2">
-                                        <option th:text="${counter2}">Лічильник 2</option>
+                                        <option th:text="${counter2?.name + ' - ' + counter2.subdivisions?.typeSubdivisions?.type + '-' + counter2.subdivisions?.name}"
+                                                th:value="${counter2.id}"></option>
                                         <option th:each="counter : ${counters}"
-                                                th:text="${counter.number}"
+                                                th:text="${counter?.name + ' - ' + counter.subdivisions?.typeSubdivisions?.type + '-' + counter.subdivisions?.name}"
                                                 th:value="${counter.id}">
                                         </option>
                                     </select>
